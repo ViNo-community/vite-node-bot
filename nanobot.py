@@ -4,6 +4,9 @@ import sys
 import asyncio
 import websockets
 import json
+import os
+import discord
+from dotenv import load_dotenv
 
 # Nano node RPC document: https://docs.nano.org/commands/rpc-protocol/
 
@@ -44,9 +47,13 @@ async def connect(uri):
             answer = json.loads(answer)
             print(answer)
 
-# Main bot loop
+# Load environmental variables
+load_dotenv()
+discord_token = os.getenv('discord_token')
+print(f"Discord token: {discord_token}")
 # Grab uri from command line
 uri = "wss://ws.mynano.ninja"
 if(len(sys.argv) == 2):
     uri = sys.argv[1]
+# Main bot loop
 asyncio.get_event_loop().run_until_complete(connect(uri))
