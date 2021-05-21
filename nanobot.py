@@ -1,5 +1,6 @@
 # Nano Discord bot
 
+import sys
 import asyncio
 import websockets
 import json
@@ -34,8 +35,7 @@ def subscription():
     } 
     return json.dumps(message)
 
-async def connect():
-    uri = "wss://ws.mynano.ninja"
+async def connect(uri):
     async with websockets.connect(uri) as websocket:
         # Send acknowledgement
         await websocket.send(subscription())
@@ -45,4 +45,8 @@ async def connect():
             print(answer)
 
 # Main bot loop
-asyncio.get_event_loop().run_until_complete(connect())
+# Grab uri from command line
+uri = "wss://ws.mynano.ninja"
+if(len(sys.argv) == 2):
+    uri = sys.argv[1]
+asyncio.get_event_loop().run_until_complete(connect(uri))
