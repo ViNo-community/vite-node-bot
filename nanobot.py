@@ -47,6 +47,21 @@ async def connect(uri):
             answer = json.loads(answer)
             print(answer)
 
+chatbot = discord.Client()
+
+@chatbot.event
+async def on_ready():
+  print('We have logged in as {0.user}'.format(chatbot))
+
+@chatbot.event
+async def on_message(message):
+  if message.author == chatbot.user:
+    return
+
+  if message.content.startswith('$balance'):
+    print("Get balance")
+   # await message.channel.send(quote)
+
 # Load environmental variables
 load_dotenv()
 discord_token = os.getenv('discord_token')
@@ -55,5 +70,6 @@ print(f"Discord token: {discord_token}")
 uri = "wss://ws.mynano.ninja"
 if(len(sys.argv) == 2):
     uri = sys.argv[1]
+
 # Main bot loop
 asyncio.get_event_loop().run_until_complete(connect(uri))
