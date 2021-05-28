@@ -15,7 +15,15 @@ from discord.ext import commands
 
 # Set up logging
 filename = datetime.datetime.now().strftime("%Y%m%d%H%M%S") + "_nano_node_bot.log"
-logfile = Path(__file__).resolve().parent / "logs" / filename
+logdir = Path(__file__).resolve().parent / "logs" 
+# Make directory if it doesn't already exist
+if not os.path.exists(logdir):
+    try:
+        os.makedirs(logdir)
+    except OSError as e:
+        print(f"Error creating {logdir} :", e)
+        exit()
+logfile = logdir / filename
 logging.basicConfig(filename=logfile, format='%(asctime)-10s - %(levelname)s - %(message)s', level=logging.INFO)
 
 # Load discord token from .env file
