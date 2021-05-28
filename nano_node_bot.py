@@ -6,6 +6,8 @@ import json
 import os
 import discord
 import requests
+import logging
+from pathlib import Path
 from dotenv import load_dotenv
 from discord.ext import commands
 
@@ -16,19 +18,37 @@ load_dotenv()
 DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
 DISCORD_GUILD = os.getenv('DISCORD_GUILD')
 RPC_URL = os.getenv('RPC_URL')
-timeout=2.5
 
+# Initiate Discord bot
 bot = commands.Bot(command_prefix='.')
+
+# Set up logging
+logfile = Path(__file__).resolve().parent / "nano_node_bot.log"
+logging.basicConfig(filename=logfile, format='%(name)s - %(asctime)s - %(levelname)s - %(message)s')
 
 # Helper function for getting value from JSON response
 async def get_value(param):
-    r = requests.get(RPC_URL)
-    content = json.loads(r.text)
-    return content[param]
+    answer = ""
+    try:
+        # Log query
+        logging.info(f"Request for: {param}")
+        # Grab response from RPC_URL
+        r = requests.get(RPC_URL, timeout=2.50)
+        # Parse JSON
+        content = json.loads(r.text)
+        # Grab value named param
+        answer = content[param]
+        # Log answer
+        logging.info(f"Answer: {answer}")
+    except Exception as ex:
+        # Log exception with stack trace
+        logging.error("Exception occured", exc_info=True)
+    return answer
 
 @bot.event
 async def on_ready():
-    print(f"Bot connected")
+    logging.info("Bot connected")
+    print(f"Bot connected. Log file: ", logfile)
 
 @bot.command(name='version', help="Displays node version")
 async def version(ctx):
