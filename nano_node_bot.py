@@ -1,17 +1,22 @@
 # Nano Discord bot
 
-import sys
 import asyncio
 import json
 import os
 import discord
 import requests
 import logging
+import datetime
 from pathlib import Path
 from dotenv import load_dotenv
 from discord.ext import commands
 
 # Nano node RPC document: https://docs.nano.org/commands/rpc-protocol/
+
+# Set up logging
+filename = datetime.datetime.now().strftime("%Y%m%d%H%M%S") + "_nano_node_bot.log"
+logfile = Path(__file__).resolve().parent / "logs" / filename
+logging.basicConfig(filename=logfile, format='%(asctime)-15s - %(levelname)s - %(message)s', level=logging.INFO)
 
 # Load discord token from .env file
 load_dotenv()
@@ -22,9 +27,11 @@ RPC_URL = os.getenv('RPC_URL')
 # Initiate Discord bot
 bot = commands.Bot(command_prefix='.')
 
-# Set up logging
-logfile = Path(__file__).resolve().parent / "nano_node_bot.log"
-logging.basicConfig(filename=logfile, format='%(name)s - %(asctime)s - %(levelname)s - %(message)s')
+# Bot is ready
+@bot.event
+async def on_ready():
+    logging.info("Bot connected")
+    print(f"Bot connected. Log file:", logfile)
 
 # Helper function for getting value from JSON response
 async def get_value(param):
@@ -45,17 +52,10 @@ async def get_value(param):
         logging.error("Exception occured", exc_info=True)
     return answer
 
-@bot.event
-async def on_ready():
-    logging.info("Bot connected")
-    print(f"Bot connected. Log file: ", logfile)
-
 @bot.command(name='version', help="Displays node version")
 async def version(ctx):
-    r = requests.get(RPC_URL)
-    content = json.loads(r.text)
-    response = f"Node version is {content['version']}"
-    # response = await get_value('version')
+    value = await get_value('version')
+    response = f"Node version is {value}"
     await ctx.send(response)
 
 @bot.command(name='uptime', help="Displays node uptime")
@@ -76,17 +76,14 @@ async def uptime(ctx):
 
 @bot.command(name='server_uptime', help="Displays server uptime")
 async def server_uptime(ctx):
-    r = requests.get(RPC_URL)
-    content = json.loads(r.text)
-    response = f"System uptime is {content['systemUptime']}"
-    # response = await get_value('systemUptime')
+    value = await get_value('systemUptime')
+    response = f"Server uptime is {value}"
     await ctx.send(response)
 
 @bot.command(name='voting_weight', help="Displays voting weight")
 async def voting_weight(ctx):
-    r = requests.get(RPC_URL)
-    content = json.loads(r.text)
-    response = f"Voting weight is {content['votingWeight']}"
+    value = await get_value('votingWeight')
+    response = f"Voting weight is {value}"
     await ctx.send(response)
 
 @bot.command(name='current_block', help="Displays the current block")
