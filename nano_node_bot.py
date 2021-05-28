@@ -11,13 +11,6 @@ from discord.ext import commands
 
 # Nano node RPC document: https://docs.nano.org/commands/rpc-protocol/
 
-''''
-Current commands:
-- Node Uptime
-- Voting Weight
-- Current Block
-'''
-
 # Load discord token from .env file
 load_dotenv()
 DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
@@ -26,6 +19,12 @@ RPC_URL = os.getenv('RPC_URL')
 timeout=2.5
 
 bot = commands.Bot(command_prefix='.')
+
+# Helper function for getting value from JSON response
+async def get_value(param):
+    r = requests.get(RPC_URL)
+    content = json.loads(r.text)
+    return content[param]
 
 @bot.event
 async def on_ready():
@@ -36,6 +35,7 @@ async def uptime(ctx):
     r = requests.get(RPC_URL)
     content = json.loads(r.text)
     response = f"Node version is {content['version']}"
+    # response = await get_value('version')
     await ctx.send(response)
 
 @bot.command(name='uptime', help="Displays node uptime")
@@ -59,6 +59,7 @@ async def uptime(ctx):
     r = requests.get(RPC_URL)
     content = json.loads(r.text)
     response = f"System uptime is {content['systemUptime']}"
+    # response = await get_value('systemUptime')
     await ctx.send(response)
 
 @bot.command(name='voting_weight', help="Displays voting weight")
