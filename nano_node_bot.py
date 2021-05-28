@@ -16,7 +16,7 @@ from discord.ext import commands
 # Set up logging
 filename = datetime.datetime.now().strftime("%Y%m%d%H%M%S") + "_nano_node_bot.log"
 logfile = Path(__file__).resolve().parent / "logs" / filename
-logging.basicConfig(filename=logfile, format='%(asctime)-15s - %(levelname)s - %(message)s', level=logging.INFO)
+logging.basicConfig(filename=logfile, format='%(asctime)-10s - %(levelname)s - %(message)s', level=logging.INFO)
 
 # Load discord token from .env file
 load_dotenv()
@@ -60,9 +60,8 @@ async def version(ctx):
 
 @bot.command(name='uptime', help="Displays node uptime")
 async def uptime(ctx):
-    r = requests.get(RPC_URL)
-    content = json.loads(r.text)
-    time = int(content['nodeUptimeStartup'])
+    value = await get_value('nodeUptimeStartup')
+    time = int(value)
     # Break down into days, hours, minutes, seconds
     day = time // (24 * 3600)
     time = time % (24 * 3600)
@@ -83,28 +82,25 @@ async def server_uptime(ctx):
 @bot.command(name='voting_weight', help="Displays voting weight")
 async def voting_weight(ctx):
     value = await get_value('votingWeight')
-    response = f"Voting weight is {value}"
+    response = f"Voting weight is {value:.2f} nano"
     await ctx.send(response)
 
 @bot.command(name='current_block', help="Displays the current block")
 async def current_block(ctx):
-    r = requests.get(RPC_URL)
-    content = json.loads(r.text)
-    response = f"Current block is {content['currentBlock']}"
+    value = await get_value('currentBlock')
+    response = f"Current block is {value}"
     await ctx.send(response)
 
 @bot.command(name='cemented_blocks', help="Displays the cemented block count")
 async def cemented_blocks(ctx):
-    r = requests.get(RPC_URL)
-    content = json.loads(r.text)
-    response = f"Cemented blocks is {content['cementedBlocks']}"
+    value = await get_value('cementedBlocks')
+    response = f"Cemented block count is {value}"
     await ctx.send(response)
 
 @bot.command(name='sync', help="Displays block sync")
 async def block_sync(ctx):
-    r = requests.get(RPC_URL)
-    content = json.loads(r.text)
-    response = f"Block sync is {content['blockSync']}%"
+    value = await get_value('blockSync')
+    response = f"Block sync is {value}%"
     await ctx.send(response)
 
 bot.run(DISCORD_TOKEN)
