@@ -42,6 +42,22 @@ async def uptime(ctx):
 async def uptime(ctx):
     r = requests.get(RPC_URL)
     content = json.loads(r.text)
+    time = int(content['nodeUptimeStartup'])
+    # Break down into days, hours, minutes, seconds
+    day = time // (24 * 3600)
+    time = time % (24 * 3600)
+    hours = time // 3600
+    time %= 3600
+    minutes = time // 60
+    time %= 60
+    seconds = time
+    response = f"Node uptime is {day} days, {hours} hours, {minutes} minutes, and {seconds} seconds"
+    await ctx.send(response)
+
+@bot.command(name='server_uptime', help="Displays server uptime")
+async def uptime(ctx):
+    r = requests.get(RPC_URL)
+    content = json.loads(r.text)
     response = f"System uptime is {content['systemUptime']}"
     await ctx.send(response)
 
