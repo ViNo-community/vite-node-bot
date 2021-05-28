@@ -31,6 +31,13 @@ bot = commands.Bot(command_prefix='.')
 async def on_ready():
     print(f"Bot connected")
 
+@bot.command(name='version', help="Displays node version")
+async def uptime(ctx):
+    r = requests.get(RPC_URL)
+    content = json.loads(r.text)
+    response = f"Node version is {content['version']}"
+    await ctx.send(response)
+
 @bot.command(name='uptime', help="Displays node uptime")
 async def uptime(ctx):
     r = requests.get(RPC_URL)
@@ -50,6 +57,20 @@ async def block(ctx):
     r = requests.get(RPC_URL)
     content = json.loads(r.text)
     response = f"Current block is {content['currentBlock']}"
+    await ctx.send(response)
+
+@bot.command(name='cemented_blocks', help="Displays the cemented block count")
+async def block(ctx):
+    r = requests.get(RPC_URL)
+    content = json.loads(r.text)
+    response = f"Cemented blocks is {content['cementedBlocks']}"
+    await ctx.send(response)
+
+@bot.command(name='sync', help="Displays block sync")
+async def block(ctx):
+    r = requests.get(RPC_URL)
+    content = json.loads(r.text)
+    response = f"Block sync is {content['blockSync']}%"
     await ctx.send(response)
 
 bot.run(DISCORD_TOKEN)
