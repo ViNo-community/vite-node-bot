@@ -31,7 +31,7 @@ async def on_ready():
     print(f"Bot connected")
 
 @bot.command(name='version', help="Displays node version")
-async def uptime(ctx):
+async def version(ctx):
     r = requests.get(RPC_URL)
     content = json.loads(r.text)
     response = f"Node version is {content['version']}"
@@ -55,7 +55,7 @@ async def uptime(ctx):
     await ctx.send(response)
 
 @bot.command(name='server_uptime', help="Displays server uptime")
-async def uptime(ctx):
+async def server_uptime(ctx):
     r = requests.get(RPC_URL)
     content = json.loads(r.text)
     response = f"System uptime is {content['systemUptime']}"
@@ -70,21 +70,21 @@ async def voting_weight(ctx):
     await ctx.send(response)
 
 @bot.command(name='current_block', help="Displays the current block")
-async def block(ctx):
+async def current_block(ctx):
     r = requests.get(RPC_URL)
     content = json.loads(r.text)
     response = f"Current block is {content['currentBlock']}"
     await ctx.send(response)
 
 @bot.command(name='cemented_blocks', help="Displays the cemented block count")
-async def block(ctx):
+async def cemented_blocks(ctx):
     r = requests.get(RPC_URL)
     content = json.loads(r.text)
     response = f"Cemented blocks is {content['cementedBlocks']}"
     await ctx.send(response)
 
 @bot.command(name='sync', help="Displays block sync")
-async def block(ctx):
+async def block_sync(ctx):
     r = requests.get(RPC_URL)
     content = json.loads(r.text)
     response = f"Block sync is {content['blockSync']}%"
