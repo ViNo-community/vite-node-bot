@@ -103,13 +103,19 @@ async def voting_weight(ctx):
 @bot.command(name='balance', help="Displays account balance")
 async def balance(ctx):
     value = await get_value(ctx,'accBalanceMnano')
-    response = f"Account balance {value:.2f} nano"
+    response = f"Account balance is {value:.2f} nano"
     await ctx.send(response)
 
 @bot.command(name='representative', help="Displays representative")
 async def representative(ctx):
     value = await get_value(ctx,'repAccount')
     response = f"Representative: {value}"
+    await ctx.send(response)
+
+@bot.command(name='num_peers', help="Displays number of peers")
+async def num_peers(ctx):
+    value = await get_value(ctx,'numPeers')
+    response = f"{value} peers"
     await ctx.send(response)
 
 @bot.command(name='current_block', help="Displays the current block")
