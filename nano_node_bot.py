@@ -67,6 +67,9 @@ async def get_value(ctx, param):
         logging.error("Exception occured", exc_info=True)
     return answer
 
+# TODO: Put into Node cog - version, uptime, server_uptime
+####
+
 @bot.command(name='version', help="Displays node version")
 async def version(ctx):
     value = await get_value(ctx,'version')
@@ -93,12 +96,10 @@ async def server_uptime(ctx):
     value = await get_value(ctx,'systemUptime')
     response = f"Server uptime is {value}"
     await ctx.send(response)
+####
 
-@bot.command(name='voting_weight', help="Displays voting weight")
-async def voting_weight(ctx):
-    value = await get_value(ctx,'votingWeight')
-    response = f"Voting weight is {value:.2f} nano"
-    await ctx.send(response)
+# TODO: Put into Accounts cog - balance, representative, num_peers, voting_weight
+####
 
 @bot.command(name='balance', help="Displays account balance")
 async def balance(ctx):
@@ -118,6 +119,17 @@ async def num_peers(ctx):
     response = f"{value} peers"
     await ctx.send(response)
 
+@bot.command(name='voting_weight', help="Displays voting weight")
+async def voting_weight(ctx):
+    value = await get_value(ctx,'votingWeight')
+    response = f"Voting weight is {value:.2f} nano"
+    await ctx.send(response)
+
+####
+
+#TODO: Put into Blocks cog - current_block, cemented_blocks, unchecked_blocks, sync
+###
+
 @bot.command(name='current_block', help="Displays the current block")
 async def current_block(ctx):
     value = await get_value(ctx,'currentBlock')
@@ -130,13 +142,21 @@ async def cemented_blocks(ctx):
     response = f"Cemented block count is {value}"
     await ctx.send(response)
 
+@bot.command(name='unchecked_blocks', help="Displays the number of unchecked blocks")
+async def unchecked_blocks(ctx):
+    value = await get_value(ctx,'uncheckedBlocks')
+    response = f"{value} unchecked blocks"
+    await ctx.send(response)
+
 @bot.command(name='sync', help="Displays block sync")
 async def block_sync(ctx):
     value = await get_value(ctx,'blockSync')
     response = f"Block sync is {value}%"
     await ctx.send(response)
 
-# Command not found
+###    
+
+# Command not found. Not a big deal, log it and ignore it.
 @bot.event
 async def on_command_error(ctx, error):
     print(f"{ctx.message.author} tried {ctx.invoked_with} Error: ", error)
