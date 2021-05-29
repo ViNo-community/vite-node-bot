@@ -100,6 +100,12 @@ async def voting_weight(ctx):
     response = f"Voting weight is {value:.2f} nano"
     await ctx.send(response)
 
+@bot.command(name='balance', help="Displays account balance")
+async def balance(ctx):
+    value = await get_value(ctx,'accBalanceMnano')
+    response = f"Account balance {value:.2f} nano"
+    await ctx.send(response)
+
 @bot.command(name='current_block', help="Displays the current block")
 async def current_block(ctx):
     value = await get_value(ctx,'currentBlock')
@@ -121,8 +127,8 @@ async def block_sync(ctx):
 # Command not found
 @bot.event
 async def on_command_error(ctx, error):
-    print(f"{ctx.message.author} ", error)
-    logging.info(f"{ctx.message.author} command error {error}")
+    print(f"{ctx.message.author} tried {ctx.invoked_with} Error: ", error)
+    logging.info(f"{ctx.message.author} tried {ctx.invoked_with} Error: {error}")
 
-
+# Run the bot
 bot.run(DISCORD_TOKEN)
