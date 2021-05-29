@@ -1,17 +1,11 @@
 # Nano Discord bot
-import asyncio
-import json
-import os
-import discord
-import requests
-import logging
-import datetime
+from pathlib import Path
+from discord.ext import commands
 from blocks import BlocksCog
 from accounts import AccountsCog
 from nodes import NodesCog
+from server import ServerCog
 from common import Common
-from pathlib import Path
-from discord.ext import commands
 
 # Nano node RPC document: https://docs.nano.org/commands/rpc-protocol/
 
@@ -38,6 +32,7 @@ async def on_command_error(ctx, error):
 bot.add_cog(BlocksCog(bot))
 bot.add_cog(AccountsCog(bot))
 bot.add_cog(NodesCog(bot))
+bot.add_cog(ServerCog(bot))
 
 # Run the bot
 bot.run(DISCORD_TOKEN)
