@@ -12,6 +12,7 @@ class Common():
     discord_token= os.getenv('discord_token')
     rpc_url = os.getenv('rpc_url')
     command_prefix = os.getenv('command_prefix')
+    logging_level = int(os.getenv('logging_level'))
     filename = datetime.datetime.now().strftime("%Y%m%d%H%M%S") + "_nano_node_bot.log"
     logdir = Path(__file__).resolve().parent / "logs" 
     # Make directory if it doesn't already exist
@@ -22,7 +23,7 @@ class Common():
             print(f"Error creating {logdir} :", e)
             exit()
     logfile = logdir / filename
-    logging.basicConfig(filename=logfile, format='%(asctime)-10s - %(levelname)s - %(message)s', level=logging.INFO)
+    logging.basicConfig(filename=logfile, format='%(asctime)-10s - %(levelname)s - %(message)s', level=logging_level)
     logger = logging.getLogger(__name__)
 
     def __init__(self):
