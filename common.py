@@ -42,7 +42,6 @@ class Common():
     # <- {User} : {command}
     @staticmethod
     def logit(ctx):
-        print(f"-> {ctx.message.author} : {ctx.command}")
         Common.logger.info(f"-> {ctx.message.author} : {ctx.command}")
         
     # Helper function for getting value from JSON response
@@ -59,7 +58,6 @@ class Common():
             # Grab value named param
             answer = content[param]
             # Log answer 
-            print(f"<- {answer}")
             Common.logger.info(f"<- {answer}")
         except Exception as ex:
             # Log exception with stack trace. 

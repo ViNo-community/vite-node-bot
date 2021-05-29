@@ -19,12 +19,6 @@ class AccountsCog(commands.Cog, name="Accounts"):
         response = f"Representative: {value}"
         await ctx.send(response)
 
-    @commands.command(name='num_peers', aliases=['numpeers','peers'], help="Displays number of peers")
-    async def num_peers(self,ctx):
-        value = await Common.get_value(ctx,'numPeers')
-        response = f"{value} peers"
-        await ctx.send(response)
-
     @commands.command(name='voting_weight', aliases=['votingweight','weight','voting'], help="Displays voting weight")
     async def voting_weight(self,ctx):
         value = await Common.get_value(ctx,'votingWeight')
