@@ -13,6 +13,12 @@ class AccountsCog(commands.Cog, name="Accounts"):
         response = f"Account balance is {value:.2f} nano"
         await ctx.send(response)
 
+    @commands.command(name='pending', aliases=['show_pending'], help="Displays account pending")
+    async def pending(self,ctx):
+        value = await Common.get_value(ctx,'accPendingMnano')
+        response = f"Account pending is {value:.2f} nano"
+        await ctx.send(response)
+
     @commands.command(name='representative', aliases=['rep','show_rep','show_representative'], help="Displays representative")
     async def representative(self,ctx):
         value = await Common.get_value(ctx,'repAccount')
