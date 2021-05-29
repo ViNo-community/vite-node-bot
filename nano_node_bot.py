@@ -24,6 +24,7 @@ if not os.path.exists(logdir):
         exit()
 logfile = logdir / filename
 logging.basicConfig(filename=logfile, format='%(asctime)-10s - %(levelname)s - %(message)s', level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Load discord token from .env file
 config = Config()
@@ -34,7 +35,7 @@ RPC_URL = config.get_rpc_url()
 # {User} requests {command}
 def logit(ctx):
     print(f"{ctx.message.author} requests {ctx.command}")
-    logging.info(f"{ctx.message.author} requests {ctx.command}")
+    logger.info(f"{ctx.message.author} requests {ctx.command}")
 
 # Initiate Discord bot
 bot = commands.Bot(command_prefix='.')
@@ -43,7 +44,7 @@ bot = commands.Bot(command_prefix='.')
 @bot.event
 async def on_ready():
     # Log successful connection
-    logging.info(f"{bot.user.name} connected")
+    logger.info(f"{bot.user.name} connected")
     print(f"{bot.user.name} connected. Log file:", logfile)
 
 # Helper function for getting value from JSON response
@@ -59,10 +60,10 @@ async def get_value(ctx, param):
         # Grab value named param
         answer = content[param]
         # Log answer
-        logging.info(f"Answer: {answer}")
+        logger.info(f"Answer: {answer}")
     except Exception as ex:
         # Log exception with stack trace
-        logging.error("Exception occured", exc_info=True)
+        logger.error("Exception occured", exc_info=True)
     return answer
 
 # TODO: Put into Node cog - address, version, uptime, server_uptime
@@ -144,7 +145,7 @@ async def num_peers(ctx):
     response = f"{value} peers"
     await ctx.send(response)
 
-@bot.command(name='voting_weight', aliases=['votingweight','weight','vweight'], help="Displays voting weight")
+@bot.command(name='voting_weight', aliases=['votingweight','weight','voting'], help="Displays voting weight")
 async def voting_weight(ctx):
     value = await get_value(ctx,'votingWeight')
     response = f"Voting weight is {value:.2f} nano"
@@ -184,7 +185,7 @@ async def block_sync(ctx):
 @bot.event
 async def on_command_error(ctx, error):
     print(f"{ctx.message.author} tried {ctx.invoked_with} Error: ", error)
-    logging.info(f"{ctx.message.author} tried {ctx.invoked_with} Error: {error}")
+    logger.info(f"{ctx.message.author} tried {ctx.invoked_with} Error: {error}")
 
 # Run the bot
 bot.run(DISCORD_TOKEN)
