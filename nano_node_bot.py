@@ -96,6 +96,26 @@ async def server_uptime(ctx):
     value = await get_value(ctx,'systemUptime')
     response = f"Server uptime is {value}"
     await ctx.send(response)
+
+@bot.command(name='server_load', help="Displays server load")
+async def server_load(ctx):
+    value = await get_value(ctx,'systemLoad')
+    response = f"Server load is {value}"
+    await ctx.send(response)
+
+@bot.command(name='mem_usage', help="Displays memory usage")
+async def mem_usage(ctx):
+    usedMem = await get_value(ctx,'usedMem')
+    totalMem = await get_value(ctx,'totalMem')
+    percent = int(usedMem) / int(totalMem) * 100
+    response = f"Memory usage is {usedMem} / {totalMem} : {percent:.2f}%"
+    await ctx.send(response)
+
+@bot.command(name='node_name', help="Displays node name")
+async def node_name(ctx):
+    value = await get_value(ctx,'nanoNodeName')
+    response = f"Node hostname is {value}"
+    await ctx.send(response)
 ####
 
 # TODO: Put into Accounts cog - balance, representative, num_peers, voting_weight
