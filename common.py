@@ -9,8 +9,9 @@ from pathlib import Path
 class Common():
 
     load_dotenv()
-    discord_token= os.getenv('DISCORD_TOKEN')
-    rpc_url = os.getenv('RPC_URL')
+    discord_token= os.getenv('discord_token')
+    rpc_url = os.getenv('rpc_url')
+    command_prefix = os.getenv('command_prefix')
     filename = datetime.datetime.now().strftime("%Y%m%d%H%M%S") + "_nano_node_bot.log"
     logdir = Path(__file__).resolve().parent / "logs" 
     # Make directory if it doesn't already exist
@@ -26,6 +27,9 @@ class Common():
 
     def __init__(self):
         pass
+
+    def get_command_prefix(self):
+        return self.command_prefix
         
     def get_discord_token(self):
         return self.discord_token

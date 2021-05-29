@@ -12,9 +12,11 @@ from common import Common
 # Load discord token from .env file
 common = Common()
 DISCORD_TOKEN = common.get_discord_token()
+prefix = common.get_command_prefix()
+print("Command prefix ", prefix)
 
 # Initiate Discord bot
-bot = commands.Bot(command_prefix='.')
+bot = commands.Bot(command_prefix=prefix)
 
 # Bot is ready
 @bot.event
