@@ -118,4 +118,11 @@ async def block_sync(ctx):
     response = f"Block sync is {value}%"
     await ctx.send(response)
 
+# Command not found
+@bot.event
+async def on_command_error(ctx, error):
+    print(f"{ctx.message.author} ", error)
+    logging.info(f"{ctx.message.author} command error {error}")
+
+
 bot.run(DISCORD_TOKEN)
