@@ -6,6 +6,7 @@ import discord
 import requests
 import logging
 import datetime
+from blocks import BlocksCog
 from common import Common
 from pathlib import Path
 from discord.ext import commands
@@ -114,29 +115,6 @@ async def voting_weight(ctx):
 #TODO: Put into Blocks cog - current_block, cemented_blocks, unchecked_blocks, sync
 ###
 
-@bot.command(name='current_block', aliases=['currentblock','cur','current'], help="Displays the current block")
-async def current_block(ctx):
-    value = await Common.get_value(ctx,'currentBlock')
-    response = f"Current block is {value}"
-    await ctx.send(response)
-
-@bot.command(name='cemented_blocks', aliases=['cementedblocks','cemented','cem'], help="Displays the cemented block count")
-async def cemented_blocks(ctx):
-    value = await Common.get_value(ctx,'cementedBlocks')
-    response = f"Cemented block count is {value}"
-    await ctx.send(response)
-
-@bot.command(name='unchecked_blocks',  aliases=['uncheckedblocks','unchecked'], help="Displays the number of unchecked blocks")
-async def unchecked_blocks(ctx):
-    value = await Common.get_value(ctx,'uncheckedBlocks')
-    response = f"{value} unchecked blocks"
-    await ctx.send(response)
-
-@bot.command(name='sync', aliases=['blocksync','block_sync','bsync'], help="Displays block sync")
-async def block_sync(ctx):
-    value = await Common.get_value(ctx,'blockSync')
-    response = f"Block sync is {value}%"
-    await ctx.send(response)
 
 ###    
 
@@ -145,6 +123,9 @@ async def block_sync(ctx):
 async def on_command_error(ctx, error):
     print(f"{ctx.message.author} tried {ctx.invoked_with} Error: ", error)
     Common.log(f"{ctx.message.author} tried {ctx.invoked_with} Error: {error}")
+
+# Add cogs
+bot.add_cog(BlocksCog(bot))
 
 # Run the bot
 bot.run(DISCORD_TOKEN)
