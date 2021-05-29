@@ -106,6 +106,12 @@ async def balance(ctx):
     response = f"Account balance {value:.2f} nano"
     await ctx.send(response)
 
+@bot.command(name='representative', help="Displays representative")
+async def representative(ctx):
+    value = await get_value(ctx,'repAccount')
+    response = f"Representative: {value}"
+    await ctx.send(response)
+
 @bot.command(name='current_block', help="Displays the current block")
 async def current_block(ctx):
     value = await get_value(ctx,'currentBlock')
