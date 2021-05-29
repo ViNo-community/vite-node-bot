@@ -65,8 +65,14 @@ async def get_value(ctx, param):
         logging.error("Exception occured", exc_info=True)
     return answer
 
-# TODO: Put into Node cog - version, uptime, server_uptime
+# TODO: Put into Node cog - address, version, uptime, server_uptime
 ####
+
+@bot.command(name='address', aliases=['addr','node_address','nodeaddress'], help="Displays node address")
+async def address(ctx):
+    value = await get_value(ctx,'nanoNodeAccount')
+    response = f"Node address is {value}"
+    await ctx.send(response)
 
 @bot.command(name='version', aliases=['ver'], help="Displays node version")
 async def version(ctx):
