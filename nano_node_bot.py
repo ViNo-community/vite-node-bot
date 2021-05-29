@@ -7,6 +7,7 @@ import requests
 import logging
 import datetime
 from blocks import BlocksCog
+from accounts import AccountsCog
 from common import Common
 from pathlib import Path
 from discord.ext import commands
@@ -84,40 +85,6 @@ async def node_name(ctx):
     await ctx.send(response)
 ####
 
-# TODO: Put into Accounts cog - balance, representative, num_peers, voting_weight
-####
-
-@bot.command(name='balance', aliases=['bal','show_balance'], help="Displays account balance")
-async def balance(ctx):
-    value = await Common.get_value(ctx,'accBalanceMnano')
-    response = f"Account balance is {value:.2f} nano"
-    await ctx.send(response)
-
-@bot.command(name='representative', aliases=['rep','show_rep','show_representative'], help="Displays representative")
-async def representative(ctx):
-    value = await Common.get_value(ctx,'repAccount')
-    response = f"Representative: {value}"
-    await ctx.send(response)
-
-@bot.command(name='num_peers', aliases=['numpeers','peers'], help="Displays number of peers")
-async def num_peers(ctx):
-    value = await Common.get_value(ctx,'numPeers')
-    response = f"{value} peers"
-    await ctx.send(response)
-
-@bot.command(name='voting_weight', aliases=['votingweight','weight','voting'], help="Displays voting weight")
-async def voting_weight(ctx):
-    value = await Common.get_value(ctx,'votingWeight')
-    response = f"Voting weight is {value:.2f} nano"
-    await ctx.send(response)
-
-####
-#TODO: Put into Blocks cog - current_block, cemented_blocks, unchecked_blocks, sync
-###
-
-
-###    
-
 # Command not found. Not a big deal, log it and ignore it.
 @bot.event
 async def on_command_error(ctx, error):
@@ -126,6 +93,7 @@ async def on_command_error(ctx, error):
 
 # Add cogs
 bot.add_cog(BlocksCog(bot))
+bot.add_cog(AccountsCog(bot))
 
 # Run the bot
 bot.run(DISCORD_TOKEN)

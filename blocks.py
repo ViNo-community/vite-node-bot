@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from common import Common
 
-class BlocksCog(commands.Cog):
+class BlocksCog(commands.Cog, name="Blocks"):
 
     def __init__(self, bot):
         self.bot = bot
@@ -31,7 +31,7 @@ class BlocksCog(commands.Cog):
         response = f"Block sync is {value}%"
         await ctx.send(response)
 
-# The setup fucntion below is neccesarry. Remember we give bot.add_cog() the name of the class in this case MembersCog.
+# The setup fucntion below is neccesarry. Remember we give bot.add_cog() the name of the class
 # When we load the cog, we use the name of the file.
 def setup(bot):
     bot.add_cog(BlocksCog(bot))
