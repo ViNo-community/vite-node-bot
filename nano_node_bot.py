@@ -1,5 +1,4 @@
 # Nano Discord bot
-
 import asyncio
 import json
 import os
@@ -7,8 +6,8 @@ import discord
 import requests
 import logging
 import datetime
+from config import Config
 from pathlib import Path
-from dotenv import load_dotenv
 from discord.ext import commands
 
 # Nano node RPC document: https://docs.nano.org/commands/rpc-protocol/
@@ -27,10 +26,9 @@ logfile = logdir / filename
 logging.basicConfig(filename=logfile, format='%(asctime)-10s - %(levelname)s - %(message)s', level=logging.INFO)
 
 # Load discord token from .env file
-load_dotenv()
-DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
-DISCORD_GUILD = os.getenv('DISCORD_GUILD')
-RPC_URL = os.getenv('RPC_URL')
+config = Config()
+DISCORD_TOKEN = config.get_discord_token()
+RPC_URL = config.get_rpc_url()
 
 # Helper function for logging
 # {User} requests {command}
