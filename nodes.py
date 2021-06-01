@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from common import Common
+from common import ERROR_MESSAGE
 
 class NodesCog(commands.Cog, name="Node"):
 

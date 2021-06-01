@@ -16,7 +16,7 @@ class Common():
     rpc_url = os.getenv('rpc_url')
     command_prefix = os.getenv('command_prefix')
     logging_level = int(os.getenv('logging_level'))
-    filename = datetime.datetime.now().strftime("%Y%m%d%H%M%S") + "_nano_node_bot.log"
+    filename = datetime.datetime.now().strftime("%Y%m%d") + "_nano_node_bot.log"
     logdir = Path(__file__).resolve().parent / "logs" 
     # Make directory if it doesn't already exist
     if not os.path.exists(logdir):
