@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from common import Common
+from common import ERROR_MESSAGE
 
 class AccountsCog(commands.Cog, name="Accounts"):
 
@@ -9,27 +10,43 @@ class AccountsCog(commands.Cog, name="Accounts"):
 
     @commands.command(name='balance', aliases=['bal','show_balance'], help="Displays account balance")
     async def balance(self,ctx):
-        value = await Common.get_value(ctx,'accBalanceMnano')
-        response = f"Account balance is {value:.2f} nano"
-        await ctx.send(response)
+        try:
+            value = await Common.get_value(ctx,'accBalanceMnano')
+            response = f"Account balance is {value:.2f} nano"
+            await ctx.send(response)
+        except Exception as e:
+            Common.logger.error("Exception occured processing request", exc_info=True)
+            await ctx.send(ERROR_MESSAGE)      
 
     @commands.command(name='pending', aliases=['show_pending'], help="Displays account pending")
     async def pending(self,ctx):
-        value = await Common.get_value(ctx,'accPendingMnano')
-        response = f"Account pending is {value:.2f} nano"
-        await ctx.send(response)
+        try:
+            value = await Common.get_value(ctx,'accPendingMnano')
+            response = f"Account pending is {value:.2f} nano"
+            await ctx.send(response)
+        except Exception as e:
+            Common.logger.error("Exception occured processing request", exc_info=True)
+            await ctx.send(ERROR_MESSAGE)     
 
     @commands.command(name='representative', aliases=['rep','show_rep','show_representative'], help="Displays representative")
     async def representative(self,ctx):
-        value = await Common.get_value(ctx,'repAccount')
-        response = f"Representative: {value}"
-        await ctx.send(response)
+        try:
+            value = await Common.get_value(ctx,'repAccount')
+            response = f"Representative: {value}"
+            await ctx.send(response)
+        except Exception as e:
+            Common.logger.error("Exception occured processing request", exc_info=True)
+            await ctx.send(ERROR_MESSAGE)      
 
     @commands.command(name='voting_weight', aliases=['votingweight','weight','voting'], help="Displays voting weight")
     async def voting_weight(self,ctx):
-        value = await Common.get_value(ctx,'votingWeight')
-        response = f"Voting weight is {value:.2f} nano"
-        await ctx.send(response)
+        try:
+            value = await Common.get_value(ctx,'votingWeight')
+            response = f"Voting weight is {value:.2f} nano"
+            await ctx.send(response)
+        except Exception as e:
+            Common.logger.error("Exception occured processing request", exc_info=True)
+            await ctx.send(ERROR_MESSAGE)       
 
 def setup(bot):
     bot.add_cog(AccountsCog(bot))

@@ -1,10 +1,13 @@
 import os
+from discord.errors import HTTPException
 from dotenv import load_dotenv
 import requests
 import logging
 import json
 import datetime
 from pathlib import Path
+
+ERROR_MESSAGE = "Could not process request. Please check log files."
 
 class Common():
 
@@ -58,13 +61,15 @@ class Common():
             Common.logit(ctx)
             # Grab response from RPC_URL
             r = requests.get(Common.rpc_url, timeout=2.50)
-            # Parse JSON
-            content = json.loads(r.text)
-            # Grab value named param
-            answer = content[param]
-            # Log answer 
-            Common.logger.info(f"<- {answer}")
+            if r.status_code == 200:
+                # Parse JSON
+                content = json.loads(r.text)
+                # Grab value named param
+                answer = content[param]
+                # Log answer 
+                Common.logger.info(f"<- {answer}")
+            else:
+                raise Exception("Could not connect to API")
         except Exception as ex:
-            # Log exception with stack trace. 
-            Common.logger.error("Exception occured", exc_info=True)
+            raise ex
         return answer
