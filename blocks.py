@@ -8,6 +8,24 @@ class BlocksCog(commands.Cog, name="Blocks"):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command(name='blocks', help="Displays summary of block information")
+    async def block(self,ctx):
+        try:
+            currentBlock = await Common.get_value(ctx,'currentBlock')
+            cementedBlocks = await Common.get_value(ctx,'cementedBlocks')
+            uncheckedBlocks = await Common.get_value(ctx,'uncheckedBlocks')
+            sync = await Common.get_value(ctx,'blockSync')
+            response = (
+                f"**Cemented Blocks:** {cementedBlocks}\n"
+                f"**Current Block:** {currentBlock}\n"
+                f"**Unchecked Blocks:** {uncheckedBlocks}\n"
+                f"**Sync:**: {sync}%\n"
+            )
+            await ctx.send(response)
+        except Exception as e:
+            Common.logger.error("Exception occured processing request", exc_info=True)
+            await ctx.send(ERROR_MESSAGE)      
+
     @commands.command(name='current_block', aliases=['currentblock','cur','current'], help="Displays the current block")
     async def current_block(self,ctx):
         try:

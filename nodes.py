@@ -3,10 +3,28 @@ from discord.ext import commands
 from common import Common
 from common import ERROR_MESSAGE
 
-class NodesCog(commands.Cog, name="Node"):
+class NodesCog(commands.Cog, name="Nodes"):
 
     def __init__(self, bot):
         self.bot = bot
+
+    @commands.command(name='node', help="Displays summary of node information")
+    async def node(self,ctx):
+        try:
+            account = await Common.get_value(ctx,'nanoNodeAccount')
+            version = await Common.get_value(ctx,'version')
+            dbase = await Common.get_value(ctx,'store_vendor')
+            numPeers = await Common.get_value(ctx,'numPeers')
+            response = (
+                f"**Address:** {account}\n"
+                f"**Version:** {version}\n"
+                f"**DBASE:** {dbase}\n"
+                f"**Number of Peers:**: {numPeers}\n"
+            )
+            await ctx.send(response)
+        except Exception as e:
+            Common.logger.error("Exception occured processing request", exc_info=True)
+            await ctx.send(ERROR_MESSAGE)     
 
     @commands.command(name='address', aliases=['addr','node_address','nodeaddress'], help="Displays node address")
     async def address(self,ctx):

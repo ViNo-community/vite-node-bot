@@ -1,4 +1,6 @@
 # Sensitive data
+.env
+ref*
 *.log
 logs/*
 __pycache__*

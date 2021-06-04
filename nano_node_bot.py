@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # Nano Discord bot
 from pathlib import Path
 from discord.ext import commands
