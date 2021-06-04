@@ -8,6 +8,18 @@ class BotCog(commands.Cog, name="Bot"):
     def __init__(self, bot):
         self.bot = bot
 
+    @commands.command(name='show_all', help="Show all information")
+    async def show_all(self,ctx):
+        try:
+            # Show ALL information
+            await ctx.invoke(self.bot.get_command('account'))
+            await ctx.invoke(self.bot.get_command('node'))
+            await ctx.invoke(self.bot.get_command('server'))
+            await ctx.invoke(self.bot.get_command('blocks'))
+        except Exception as e:
+            Common.logger.error("Exception occured processing request", exc_info=True)
+            await ctx.send(ERROR_MESSAGE)  
+
     @commands.command(name='invite', help="Displays invite link")
     async def invite(self,ctx):
         try:
