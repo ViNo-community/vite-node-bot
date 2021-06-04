@@ -51,7 +51,9 @@ class NanoNodeBot(commands.Bot):
         # Toggle online. 
         self.set_online(True)
         self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='Node Online'))
-        #node_name = await Common.get_value(ctx,'nanoNodeName')
+        #node_name = await self.bot.get_value('nanoNodeName')
+        #print("Node Name: ")
+        #value = await self.bot.get_value('repAccount')
         #await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='Nano Online'))
 
     # This is called when the bot sees an unknown command
@@ -71,11 +73,9 @@ class NanoNodeBot(commands.Bot):
         Common.log_error(f"{bot.user.name} disconnected.")
 
     # Helper function for getting value from response
-    async def get_value(self, ctx, param):
+    async def get_value(self, param):
         answer = ""
         try:
-            # Log query
-            Common.logit(ctx)
             # Grab response from API_URL
             r = requests.get(self.get_api_url(), timeout=2.50)
             if r.status_code == 200:

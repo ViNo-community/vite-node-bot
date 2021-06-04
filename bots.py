@@ -8,6 +8,8 @@ class BotCog(commands.Cog, name="Bot"):
     def __init__(self, bot):
         self.bot = bot
 
+    # Shortcut for showing ALL information. Good command for testing.
+    # Same as running !account !node !server !blocks 
     @commands.command(name='show_all', help="Show all information")
     async def show_all(self,ctx):
         try:
@@ -69,5 +71,6 @@ class BotCog(commands.Cog, name="Bot"):
             Common.logger.error("Exception occured processing request", exc_info=True)
             await ctx.send(ERROR_MESSAGE)  
 
+# Plug-in function to add cog
 def setup(bot):
     bot.add_cog(BotCog(bot))
