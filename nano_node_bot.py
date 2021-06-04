@@ -46,15 +46,11 @@ class NanoNodeBot(commands.Bot):
     # This is called when the bot has logged on and set everything up
     async def on_ready(self):
         # Log successful connection
-        print("Bot connected")
-        Common.log(f"{bot.user.name} connected")
-        # Toggle online. 
-        self.set_online(True)
-        self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='Node Online'))
-        #node_name = await self.bot.get_value('nanoNodeName')
-        #print("Node Name: ")
-        #value = await self.bot.get_value('repAccount')
-        #await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='Nano Online'))
+        Common.log(f"{self.user.name} connected")
+        node_name = await self.get_value('nanoNodeName')
+        status = f"{node_name} Online"
+        await self.set_online(True)
+        await self.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
 
     # This is called when the bot sees an unknown command
     async def on_command_error(self, ctx, error):
@@ -70,7 +66,7 @@ class NanoNodeBot(commands.Bot):
     async def on_disconnect(self):
         print("Bot disconnected")
         # Log successful connection
-        Common.log_error(f"{bot.user.name} disconnected.")
+        Common.log_error(f"{self.user.name} disconnected.")
 
     # Helper function for getting value from response
     async def get_value(self, param):

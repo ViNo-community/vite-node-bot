@@ -59,14 +59,17 @@ class BotCog(commands.Cog, name="Bot"):
     async def toggle_online(self,ctx):
         try:
             isOnline = await self.bot.get_online()
+            node_name = await self.bot.get_value('nanoNodeName')
             if(isOnline):
                 await ctx.send(f"Bot is online. Turning offline.")
                 await self.bot.set_online(False)
-                await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='Node Offline'))
+                status = f"{node_name} Offline"
+                await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
             else:
                 await ctx.send(f"Bot is offline. Turning online.")
                 await self.bot.set_online(True)
-                await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='Node Online'))
+                status = f"{node_name} Online"
+                await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
         except Exception as e:
             Common.logger.error("Exception occured processing request", exc_info=True)
             await ctx.send(ERROR_MESSAGE)  

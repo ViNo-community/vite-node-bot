@@ -1,8 +1,6 @@
 import os
-from discord.errors import HTTPException
 from dotenv import load_dotenv
 import logging
-import json
 import datetime
 from pathlib import Path
 
