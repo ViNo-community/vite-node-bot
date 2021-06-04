@@ -7,6 +7,7 @@ from blocks import BlocksCog
 from accounts import AccountsCog
 from nodes import NodesCog
 from server import ServerCog
+from bots import BotCog
 from common import Common
 
 # Nano node RPC document: https://docs.nano.org/commands/rpc-protocol/
@@ -37,6 +38,7 @@ bot.add_cog(BlocksCog(bot))
 bot.add_cog(AccountsCog(bot))
 bot.add_cog(NodesCog(bot))
 bot.add_cog(ServerCog(bot))
+bot.add_cog(BotCog(bot))
 
 # Run the bot
 bot.run(DISCORD_TOKEN)
