@@ -14,6 +14,7 @@ class Common():
     load_dotenv()
     discord_token= os.getenv('discord_token')
     rpc_url = os.getenv('rpc_url')
+    client_id = os.getenv('client_id')
     command_prefix = os.getenv('command_prefix')
     logging_level = int(os.getenv('logging_level'))
     filename = datetime.datetime.now().strftime("%Y%m%d") + "_nano_node_bot.log"
@@ -41,6 +42,9 @@ class Common():
     def get_rpc_url(self):
         return self.rpc_url
 
+    def get_client_id(self):
+        return self.client_id
+
     # Helper function for changing seconds into nice formatted string of 
     # number of days, hours, minutes, and seconds
     @staticmethod
@@ -61,6 +65,10 @@ class Common():
     @staticmethod
     def log(msg):
         Common.logger.info(msg)
+
+    @staticmethod
+    def log_error(msg):
+        Common.logger.error(msg)
 
     # Helper function for logging bot commands
     # <- {User} : {command}

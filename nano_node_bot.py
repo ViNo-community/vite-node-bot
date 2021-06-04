@@ -3,6 +3,7 @@
 # Nano Discord bot
 from pathlib import Path
 from discord.ext import commands
+import discord
 from blocks import BlocksCog
 from accounts import AccountsCog
 from nodes import NodesCog
@@ -21,17 +22,30 @@ print("Command prefix ", prefix)
 # Initiate Discord bot
 bot = commands.Bot(command_prefix=prefix)
 
-# Bot is ready
+# This is called when the bot has logged on and set everything up
 @bot.event
 async def on_ready():
     # Log successful connection
     Common.log(f"{bot.user.name} connected")
+    #node_name = await Common.get_value(ctx,'nanoNodeName')
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='Nano Node'))
 
-# Command not found. Not a big deal, log it and ignore it.
+# Error. Log.
+@bot.event
+async def on_error(ctx, error):
+    Common.log_error("Error: {error}")
+
+# Command not found. Tell user command does not exist and then log it. 
 @bot.event
 async def on_command_error(ctx, error):
-    print(f"{ctx.message.author} tried {ctx.invoked_with} Error: ", error)
-    Common.log(f"{ctx.message.author} tried {ctx.invoked_with} Error: {error}")
+    Common.log_error(f"{ctx.message.author} tried unknown command {ctx.invoked_with} Error: {error}")
+    await ctx.send(f"I do not know what {ctx.invoked_with} means")
+
+@bot.event
+async def on_disconnect():
+    print("Bot disconnected")
+    # Log successful connection
+    Common.log_error(f"{bot.user.name} disconnected.")
 
 # Add cogs
 bot.add_cog(BlocksCog(bot))
