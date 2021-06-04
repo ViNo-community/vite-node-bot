@@ -41,6 +41,22 @@ class Common():
     def get_rpc_url(self):
         return self.rpc_url
 
+    # Helper function for changing seconds into nice formatted string of 
+    # number of days, hours, minutes, and seconds
+    @staticmethod
+    def get_days_from_secs(secs):
+        # Turn seconds into days, hours, minutes, seconds
+        time = int(secs)
+        # Break down into days, hours, minutes, seconds
+        day = time // (24 * 3600)
+        time = time % (24 * 3600)
+        hours = time // 3600
+        time %= 3600
+        minutes = time // 60
+        time %= 60
+        seconds = time
+        return f"{day} days, {hours} hours, {minutes} minutes, and {seconds} seconds"
+
     # Helper function for generic logging
     @staticmethod
     def log(msg):

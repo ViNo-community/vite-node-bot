@@ -60,16 +60,8 @@ class NodesCog(commands.Cog, name="Nodes"):
     async def uptime(self,ctx):
         try:
             value = await Common.get_value(ctx,'nodeUptimeStartup')
-            time = int(value)
-            # Break down into days, hours, minutes, seconds
-            day = time // (24 * 3600)
-            time = time % (24 * 3600)
-            hours = time // 3600
-            time %= 3600
-            minutes = time // 60
-            time %= 60
-            seconds = time
-            response = f"Node uptime is {day} days, {hours} hours, {minutes} minutes, and {seconds} seconds"
+            pretty_node_uptime = Common.get_days_from_secs(value)
+            response = f"Node uptime is {pretty_node_uptime}"
             await ctx.send(response)
         except Exception as e:
             Common.logger.error("Exception occured processing request", exc_info=True)

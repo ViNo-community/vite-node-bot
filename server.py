@@ -18,18 +18,7 @@ class ServerCog(commands.Cog, name="Server"):
             percent = int(usedMem) / int(totalMem) * 100
             server_uptime = await Common.get_value(ctx,'systemUptime')
             node_uptime = await Common.get_value(ctx,'nodeUptimeStartup')
-            # TODO: Put into own function
-            # Turn seconds into days, hours, minutes, seconds
-            time = int(node_uptime)
-            # Break down into days, hours, minutes, seconds
-            day = time // (24 * 3600)
-            time = time % (24 * 3600)
-            hours = time // 3600
-            time %= 3600
-            minutes = time // 60
-            time %= 60
-            seconds = time
-            pretty_node_uptime = f"{day} days, {hours} hours, {minutes} minutes, and {seconds} seconds"
+            pretty_node_uptime = Common.get_days_from_secs(node_uptime)
             response = (
                 f"**Node Name:** {node_name}\n"
                 f"**Server Load:** {server_load}\n"
