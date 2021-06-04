@@ -11,10 +11,10 @@ class NodesCog(commands.Cog, name="Nodes"):
     @commands.command(name='node', help="Displays summary of node information")
     async def node(self,ctx):
         try:
-            account = await Common.get_value(ctx,'nanoNodeAccount')
-            version = await Common.get_value(ctx,'version')
-            dbase = await Common.get_value(ctx,'store_vendor')
-            numPeers = await Common.get_value(ctx,'numPeers')
+            account = await self.bot.get_value(ctx,'nanoNodeAccount')
+            version = await self.bot.get_value(ctx,'version')
+            dbase = await self.bot.get_value(ctx,'store_vendor')
+            numPeers = await self.bot.get_value(ctx,'numPeers')
             response = (
                 f"**Address:** {account}\n"
                 f"**Version:** {version}\n"
@@ -29,7 +29,7 @@ class NodesCog(commands.Cog, name="Nodes"):
     @commands.command(name='address', aliases=['addr','node_address','nodeaddress'], help="Displays node address")
     async def address(self,ctx):
         try:
-            value = await Common.get_value(ctx,'nanoNodeAccount')
+            value = await self.bot.get_value(ctx,'nanoNodeAccount')
             response = f"Node address is {value}"
             await ctx.send(response)
         except Exception as e:
@@ -39,7 +39,7 @@ class NodesCog(commands.Cog, name="Nodes"):
     @commands.command(name='version', aliases=['ver'], help="Displays node version")
     async def version(self,ctx):
         try:
-            value = await Common.get_value(ctx,'version')
+            value = await self.bot.get_value(ctx,'version')
             response = f"Node version is {value}"
             await ctx.send(response)
         except Exception as e:
@@ -49,7 +49,7 @@ class NodesCog(commands.Cog, name="Nodes"):
     @commands.command(name='num_peers', aliases=['numpeers','peers'], help="Displays number of peers")
     async def num_peers(self,ctx):
         try:
-            value = await Common.get_value(ctx,'numPeers')
+            value = await self.bot.get_value(ctx,'numPeers')
             response = f"{value} peers"
             await ctx.send(response)
         except Exception as e:
@@ -59,7 +59,7 @@ class NodesCog(commands.Cog, name="Nodes"):
     @commands.command(name='uptime', aliases=['up','nodeuptime','node_uptime'], help="Displays node uptime")
     async def uptime(self,ctx):
         try:
-            value = await Common.get_value(ctx,'nodeUptimeStartup')
+            value = await self.bot.get_value(ctx,'nodeUptimeStartup')
             pretty_node_uptime = Common.get_days_from_secs(value)
             response = f"Node uptime is {pretty_node_uptime}"
             await ctx.send(response)

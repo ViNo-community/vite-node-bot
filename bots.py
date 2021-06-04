@@ -11,10 +11,8 @@ class BotCog(commands.Cog, name="Bot"):
     @commands.command(name='invite', help="Displays invite link")
     async def invite(self,ctx):
         try:
-            client_id = "850047861315469362"
-            # Permission integer - calculate on https://discord.com/developers/applications/ page
-            # Send Messages & Embed Links & Attach Files & Read Message History & Mention Everybody & Add Reactions
-            permissions = 247872
+            client_id = self.bot.get_client_id()
+            permissions = self.bot.get_permission_int()
             response = f"Open a browser and go to https://discord.com/oauth2/authorize?client_id={client_id}&permissions={permissions}&scope=bot"
             await ctx.send(response)
         except Exception as e:
@@ -38,6 +36,23 @@ class BotCog(commands.Cog, name="Bot"):
             print("Set new logging level: ", new_logging_level)
             Common.logger.setLevel(new_logging_level)
             await ctx.send(f"Set logging level to {new_logging_level}")
+        except Exception as e:
+            Common.logger.error("Exception occured processing request", exc_info=True)
+            await ctx.send(ERROR_MESSAGE)  
+
+    # THIS TEMPORARY COMMAND IS ONLY FOR DEBUGGING. WILL BE REMOVED
+    @commands.command(name='toggle_online', aliases=['toggle'], help="Toggle online status on/off")
+    async def toggle_online(self,ctx):
+        try:
+            isOnline = await self.bot.get_online()
+            if(isOnline):
+                await ctx.send(f"Bot is online. Turning offline.")
+                await self.bot.set_online(False)
+                await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='Node Offline'))
+            else:
+                await ctx.send(f"Bot is offline. Turning online.")
+                await self.bot.set_online(True)
+                await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='Node Online'))
         except Exception as e:
             Common.logger.error("Exception occured processing request", exc_info=True)
             await ctx.send(ERROR_MESSAGE)  
