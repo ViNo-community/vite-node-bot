@@ -58,18 +58,9 @@ class BotCog(commands.Cog, name="Bot"):
     @commands.command(name='toggle_online', aliases=['toggle'], help="Toggle online status on/off")
     async def toggle_online(self,ctx):
         try:
-            isOnline = await self.bot.get_online()
-            node_name = await self.bot.get_value('nanoNodeName')
-            if(isOnline):
-                await ctx.send(f"Bot is online. Turning offline.")
-                await self.bot.set_online(False)
-                status = f"{node_name} Offline"
-                await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
-            else:
-                await ctx.send(f"Bot is offline. Turning online.")
-                await self.bot.set_online(True)
-                status = f"{node_name} Online"
-                await self.bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
+            # Toggle online status.
+            # Test method for now
+            await self.bot.set_online(not await self.bot.get_online())
         except Exception as e:
             Common.logger.error("Exception occured processing request", exc_info=True)
             await ctx.send(ERROR_MESSAGE)  

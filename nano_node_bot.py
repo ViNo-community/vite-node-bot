@@ -40,17 +40,18 @@ class NanoNodeBot(commands.Bot):
         self.add_cog(NodesCog(self))
         self.add_cog(ServerCog(self))
         self.add_cog(BotCog(self))
+
+    def run(self):
         # Run bot
-        self.run(self.discord_token)
+        super().run(self.discord_token)
     
     # This is called when the bot has logged on and set everything up
     async def on_ready(self):
         # Log successful connection
         Common.log(f"{self.user.name} connected")
         node_name = await self.get_value('nanoNodeName')
-        status = f"{node_name} Online"
+        status = f"Online"
         await self.set_online(True)
-        await self.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
 
     # This is called when the bot sees an unknown command
     async def on_command_error(self, ctx, error):
@@ -93,7 +94,16 @@ class NanoNodeBot(commands.Bot):
 
     # Set online status of node
     async def set_online(self, param):
-        self.online = param
+        try:
+            self.online = param
+            if(param == True):
+                status = f"Online"
+            else:
+                status = f"Offline"
+            # Update bot status
+            await self.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
+        except Exception as e:
+            Common.logger.error("Exception occured changing online status", exc_info=True)
 
     def get_api_url(self):
         return self.rpc_url
@@ -107,5 +117,7 @@ class NanoNodeBot(commands.Bot):
     def get_discord_token(self):
         return self.discord_token
 
-# Initiate Discord bot
-bot = NanoNodeBot()
+if __name__=='__main__':
+    # Initiate Discord bot
+    bot = NanoNodeBot()
+    bot.run()
