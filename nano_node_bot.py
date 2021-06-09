@@ -23,6 +23,7 @@ class NanoNodeBot(commands.Bot):
     client_id = ""
     cmd_prefix = ""
     permission = 0
+    timeout = 0
 
     def __init__(self):
         # Load discord token from .env file
@@ -30,8 +31,9 @@ class NanoNodeBot(commands.Bot):
         self.discord_token= os.getenv('discord_token')
         self.rpc_url = os.getenv('api_url')
         self.client_id = os.getenv('client_id')
-        self.cmd_prefix = os.getenv('command_prefix')
-        self.permission = int(os.getenv('permission'))
+        self.cmd_prefix = os.getenv('command_prefix', "!")
+        self.permission = int(os.getenv('permission', 247872))
+        self.timeout = float(os.getenv('timeout', 5.0))
         # Init set command prefix and description
         commands.Bot.__init__(self, command_prefix=self.cmd_prefix,description="Nano Node Bot")
         # Add plug-ins
@@ -74,7 +76,7 @@ class NanoNodeBot(commands.Bot):
         answer = ""
         try:
             # Grab response from API_URL
-            r = requests.get(self.get_api_url(), timeout=2.50)
+            r = requests.get(self.get_api_url(), timeout=self.timeout)
             if r.status_code == 200:
                 # Parse JSON
                 content = json.loads(r.text)
@@ -82,7 +84,13 @@ class NanoNodeBot(commands.Bot):
                 answer = content[param]
                 # Log answer 
                 Common.logger.info(f"<- {answer}")
+                # Update to online
+                online = await self.get_online()
+                if(online== False):
+                    await self.set_online(True)
             else:
+                # Update the status to
+                await self.set_online(False)
                 raise Exception("Could not connect to API")
         except Exception as ex:
             raise ex
