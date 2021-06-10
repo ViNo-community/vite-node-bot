@@ -39,6 +39,7 @@ class BotCog(commands.Cog, name="Bot"):
             print("Set new command prefix: ",new_prefix)
             self.bot.command_prefix = new_prefix
             await ctx.send(f"Set new command prefix to \"{new_prefix}\"")
+            await self.bot.update_status()
         except Exception as e:
             Common.logger.error("Exception occured processing request", exc_info=True)
             await ctx.send(ERROR_MESSAGE)  
@@ -55,7 +56,7 @@ class BotCog(commands.Cog, name="Bot"):
             await ctx.send(ERROR_MESSAGE)  
 
     # THIS TEMPORARY COMMAND IS ONLY FOR DEBUGGING. WILL BE REMOVED
-    @commands.command(name='toggle_online', aliases=['toggle'], help="Toggle online status on/off")
+    @commands.command(name='toggle_online', aliases=['toggle'], help="Toggle online status on/off [ONLY FOR DEBUG WILL BE REMOVED!!]")
     async def toggle_online(self,ctx):
         try:
             # Toggle online status.

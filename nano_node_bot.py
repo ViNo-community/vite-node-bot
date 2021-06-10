@@ -104,14 +104,19 @@ class NanoNodeBot(commands.Bot):
     async def set_online(self, param):
         try:
             self.online = param
-            if(param == True):
-                status = f"Online"
-            else:
-                status = f"Offline"
-            # Update bot status
-            await self.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=status))
         except Exception as e:
-            Common.logger.error("Exception occured changing online status", exc_info=True)
+            Common.logger.error("Exception occured updating online status", exc_info=True)
+        finally:
+            await self.update_status()
+
+    async def update_status(self):
+            online = await self.get_online()
+            if(online):
+                status = f"Online, say {self.command_prefix}help"
+            else:
+                status = f"Offline, say {self.command_prefix}help"
+            # Update bot status
+            await self.change_presence(activity=discord.Activity(type=discord.ActivityType.playing, name=status))
 
     def get_api_url(self):
         return self.rpc_url
