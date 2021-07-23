@@ -1,6 +1,2 @@
-# Sensitive data
-.env
-ref*
-*.log
-logs/*
-__pycache__*
+config.json
+logs*
