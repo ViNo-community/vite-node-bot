@@ -11,7 +11,14 @@ const cooldowns = new Discord.Collection(); // Creates an empty list for storing
 
 // Starts the bot and makes it begin listening to events.
 client.on('ready', () => {
-    console.log('Vite Node Bot Online');
+    // Log successful login
+    console.log("Vite Node Bot Online as " + client.user.username + 
+        " with prefix " + client.botConfig.prefix);
+    let statusMessage = "say " + client.botConfig.prefix + "help | Online";
+    // Set the client user's presence
+    client.user.setPresence({ activity: { name: statusMessage}, status: "online" })
+    .then(console.log)
+    .catch(console.error);
 });
 
 // Dynamically load commands from commands directory
@@ -42,6 +49,7 @@ client.on('message', message => {
 });
 
 // Log the bot in using the token provided in the config file
-client.login(client.botConfig.token).catch((err) => {
-    console.log(`Failed to authenticate with Discord network: "${err.message}"`);
+client.login(client.botConfig.token)
+.catch((err) => {
+    console.log(`Failed to authenticate with Discord network: "${err.message}"`)
 });
