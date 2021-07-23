@@ -1,0 +1,19 @@
+{
+  "name": "vite_node_bot",
+  "version": "1.0.0",
+  "description": "Vite Node Discord bo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ViNo-community/vite-node-bot.git"
+  },
+  "author": "ViNo Community",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/ViNo-community/vite-node-bot/issues"
+  },
+  "homepage": "https://github.com/ViNo-community/vite-node-bot#readme"
+}
