@@ -8,3 +8,4 @@ commands/rewards.js
 viteTypes.js
 common.js
 sbp.js
+account.js

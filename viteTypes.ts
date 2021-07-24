@@ -47,6 +47,19 @@ export interface SBPVoteDetail {
 	addressVoteMap: AddressVoteMap;
 }
 
+export interface AccountInfo {
+	name: string;
+	address: Address;
+	blockCount: Uint64;
+	balanceInfoMap: ReadonlyMap<string, BalanceInfo>;
+}
+
+export interface BalanceInfo {
+	tokenInfo: TokenInfo;
+	balance: BigInt;
+	transactionCount: Uint64;
+}
+
 export interface AddressVoteMap {
 	[key: string]: string;
 }
