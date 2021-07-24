@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ViNo-community/vite-node-bot/issues"
   },
-  "homepage": "https://github.com/ViNo-community/vite-node-bot#readme"
+  "homepage": "https://github.com/ViNo-community/vite-node-bot#readme",
+  "dependencies": {
+    "@vite/vitejs": "^2.3.14"
+  }
 }
