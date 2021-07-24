@@ -56,7 +56,7 @@ const showRewardsPending = async (message, SBP: string) => {
     if(rewards == null) {
         chatMessage = "No information for SBP " + SBP;
     } else {
-        chatMessage = "**\"" + SBP + "\"**" +
+        chatMessage = "**Name:** " + SBP +
             "\n**Block Producing Reward:** " + rawToVite(rewards.blockProducingReward).toFixed(2) +
             "\n**Voting Reward:** " + rawToVite(rewards.votingReward).toFixed(2) +
             "\n**Total Reward:** " + rawToVite(rewards.totalReward).toFixed(2) +
