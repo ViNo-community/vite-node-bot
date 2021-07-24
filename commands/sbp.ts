@@ -7,7 +7,7 @@ import { epochToDate } from "../common";
 // Grab data from .env
 require('dotenv').config();
 
-// Grab files from .env
+// Grab info from .env
 const RPC_NET = process.env.RPC_NET;
 const SBP_NAME = process.env.SBP_NAME || 'ViNo_Community_Node';
 
