@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 
 module.exports = {
     name: 'help',
-    description: 'List all of my commands or info about a specific command.',
+    description: 'Display list of commands',
     aliases: ['commands'],
     usage: '[command name]',
     cooldown: 5,
@@ -12,12 +12,14 @@ module.exports = {
 
             prefix = message.client.botConfig.prefix;
 
-            const embed = new Discord.MessageEmbed()
-               .setTitle('Here\'s a list of all my commands:')
-               .addFields(
-                  { name: '**Commands:**', value: message.client.commands.map(command => command.name).join(', ') },
-                  { name: '\u200B', value: `For help on a specific command send: \`${prefix}help [command name]\``}
-               )
+            const Discord = require('discord.js');
+            const embed = new Discord.MessageEmbed();
+
+            // For each command show "Name -> Description"
+            embed.setTitle("Command List for Vite Node bot:");
+            message.client.commands.forEach(command => {
+                embed.addField(`${prefix}${command.name}`, `${command.description}`, false);
+            });
    
             return message.channel.send({embed: embed})
                .catch(error => {

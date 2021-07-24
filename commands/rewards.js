@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'rewards',
-	description: 'Rewards not claimed!',
+	description: 'Display information about unclaimed rewards',
 	execute(message, args) {
 		message.channel.send('Pong.');
 	},

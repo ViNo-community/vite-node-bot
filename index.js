@@ -17,7 +17,6 @@ client.on('ready', () => {
     let statusMessage = "say " + client.botConfig.prefix + "help | Online";
     // Set the client user's presence
     client.user.setPresence({ activity: { name: statusMessage}, status: "online" })
-    .then(console.log)
     .catch(console.error);
 });
 
