@@ -12,3 +12,4 @@ account.js
 .env
 votes.js
 quota.js
+token.js

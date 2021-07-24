@@ -8,7 +8,6 @@ require('dotenv').config();
 
 // Grab info from .env
 const RPC_NET = process.env.RPC_NET;
-const SBP_NAME = process.env.SBP_NAME || 'ViNo_Community_Node';
 
 const httpProvider = new HTTP_RPC(RPC_NET);
 let viteClient = new ViteAPI(httpProvider, () => {

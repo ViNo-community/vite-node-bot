@@ -76,7 +76,12 @@ export interface AddressVoteMap {
 	[key: string]: string;
 }
 
-// Convert RAW units to VITE (18 decimal points)
+// Convert raw units to VITE (18 decimal points)
 export const rawToVite = function(raw) {
     return raw / 1e18;
+}
+
+// Convert raw units to token 
+export const rawToToken = function(raw, decimals) {
+	return raw / Math.pow(10, decimals);
 }

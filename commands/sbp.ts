@@ -62,7 +62,7 @@ const showSBPInformation = async (message, SBP: string) => {
         let exDate = epochToDate(SBPInfo.expirationTime);
         let revDate = SBPInfo.revokeTime == "0" ? "0" : epochToDate(SBPInfo.revokeTime);
         chatMessage = "**Name:** " + SBPInfo.name +
-            "\n**Block Producing Address** " + SBPInfo.blockProducingAddress +
+            "\n**Block Producing Address:** " + SBPInfo.blockProducingAddress +
             "\n**Stake Address:** " + SBPInfo.stakeAddress +
             "\n**Stake Amount:** " +  rawToVite(SBPInfo.stakeAmount).toFixed(2) +
             "\n**Expiration Height:** " + SBPInfo.expirationHeight +
