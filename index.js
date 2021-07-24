@@ -1,7 +1,6 @@
 const fs = require('fs');                   // Loads the Filesystem library
 const Discord = require('discord.js');      // Loads the discord API library
 const Config = require('./config.json');    // Loads the configuration values
-const { prefix, token } = require('./config.json');
 
 const client = new Discord.Client(); // Initiates the client
 client.botConfig = Config; // Stores the config inside the client object so it's auto injected wherever we use the client
@@ -32,6 +31,7 @@ for (const file of commandFiles) {
 }
 // Dynamically run commands
 client.on('message', message => {
+	prefix = client.botConfig.prefix;
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
