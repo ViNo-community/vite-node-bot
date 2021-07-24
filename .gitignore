@@ -2,3 +2,7 @@ config.json
 logs*
 node_modules
 *.map
+# tsc output
+rewards.js
+commands/rewards.js
+viteTypes.js
