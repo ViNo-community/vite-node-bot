@@ -2,6 +2,15 @@ import { Hex, Uint8, Uint16, Int64, Uint64, TokenId, TokenInfo, Base64,
     BlockType, RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { Address, BigInt, AddressObj } from '@vite/vitejs/distSrc/accountBlock/type';
 
+export interface SBPInfo {
+	name: String;
+	blockProducingAddress: Address;
+	stakeAddress: Address;
+	stakeAmount: BigInt;
+	expirationHeight: Uint64;
+	expirationTime: Int64;
+	revokeTime: Int64;
+}
 
 export interface RewardInfo {
 	totalReward: BigInt;
