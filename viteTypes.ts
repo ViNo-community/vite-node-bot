@@ -60,8 +60,14 @@ export interface BalanceInfo {
 	transactionCount: Uint64;
 }
 
+export interface QuotaInfo {
+	currentQuota: Uint64;
+	maxQuota: Uint64;
+	stakeAmount: BigInt;
+}
+
 export interface SBPVoteInfo {
-	sbpName: string,
+	sbpName: string;
 	blockProducingAddress: Address,
 	votes: BigInt
 }
