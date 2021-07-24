@@ -1,8 +1,7 @@
 import { HTTP_RPC } from '@vite/vitejs-http';
 import { ViteAPI } from '@vite/vitejs';
 import { RPCResponse, TokenInfo } from '@vite/vitejs/distSrc/utils/type';
-import { AccountInfo, BalanceInfo, rawToVite } from '../viteTypes';
-import { epochToDate } from "../common";
+import { AccountInfo, BalanceInfo} from '../viteTypes';
 
 // Grab data from .env
 require('dotenv').config();

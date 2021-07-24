@@ -18,6 +18,4 @@ export const epochToDate = (epoch) => {
     let d  = new Date(0);
     d.setUTCSeconds(epoch);
     return d;
-}
-
-console.log("Current timestamp: ", getLatestCycleTimestampFromNow());
+};

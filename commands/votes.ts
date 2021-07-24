@@ -1,7 +1,7 @@
 import { HTTP_RPC } from '@vite/vitejs-http';
 import { ViteAPI } from '@vite/vitejs';
 import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
-import { SBPVoteInfo, RewardPendingInfo, rawToVite } from '../viteTypes'
+import { SBPVoteInfo, rawToVite } from '../viteTypes'
 
 // Grab data from .env
 require('dotenv').config();
