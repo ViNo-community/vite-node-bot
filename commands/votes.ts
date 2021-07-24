@@ -51,6 +51,7 @@ const showVoteList = async (message, SBP: string) => {
         throw res.error;
     });
     // Construct chat message
+    let found = false;
     let chatMessage = "";
     if(voteInfo == null) {
         chatMessage = "Could not retrieve voter information";
@@ -60,8 +61,9 @@ const showVoteList = async (message, SBP: string) => {
             if(SBP != "") {
                 // Return just that SBP
                 if(vote.sbpName == SBP) {
+                    found = true;
                     chatMessage = "**Name:** " + vote.sbpName +
-                    "\t**Votes:** " + rawToVite(vote.votes).toFixed(2);
+                    "\t**Votes:** " + rawToVite(vote.votes).toFixed(2)
                         // Send response to chat
                     message.channel.send(chatMessage);
                     chatMessage = "";
@@ -79,6 +81,9 @@ const showVoteList = async (message, SBP: string) => {
                 chatMessage = "";
             }
         });
+        if(SBP != "" && found == false) {
+            chatMessage = "Could not find voting information for SBP \"" + SBP + "\"";
+        }
         if(chatMessage.length > 0) message.channel.send(chatMessage);
     }
 
