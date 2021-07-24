@@ -53,6 +53,7 @@ const showVoteList = async (message, SBP: string) => {
     // Construct chat message
     let found = false;
     let chatMessage = "";
+    let rank = 1;
     if(voteInfo == null) {
         chatMessage = "Could not retrieve voter information";
     } else {
@@ -62,7 +63,7 @@ const showVoteList = async (message, SBP: string) => {
                 // Return just that SBP
                 if(vote.sbpName == SBP) {
                     found = true;
-                    chatMessage = "**Name:** " + vote.sbpName +
+                    chatMessage = "**" + rank + ") Name:** " + vote.sbpName +
                     "\t**Votes:** " + rawToVite(vote.votes).toFixed(2)
                         // Send response to chat
                     message.channel.send(chatMessage);
@@ -71,7 +72,7 @@ const showVoteList = async (message, SBP: string) => {
                 }
             } else {
                 // Return all info
-                chatMessage += "**Name:** " + vote.sbpName +
+                chatMessage += "**" + rank + ") Name:** " + vote.sbpName +
                     "\t**Votes:** " + rawToVite(vote.votes).toFixed(2) + "\n";
             }
             // Discord has a maximum message size
@@ -80,6 +81,7 @@ const showVoteList = async (message, SBP: string) => {
                 message.channel.send(chatMessage);
                 chatMessage = "";
             }
+            rank++;
         });
         if(SBP != "" && found == false) {
             chatMessage = "Could not find voting information for SBP \"" + SBP + "\"";
