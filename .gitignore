@@ -6,3 +6,5 @@ node_modules
 rewards.js
 commands/rewards.js
 viteTypes.js
+common.js
+sbp.js

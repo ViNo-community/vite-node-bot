@@ -1,7 +1,8 @@
 import { HTTP_RPC } from '@vite/vitejs-http';
 import { ViteAPI } from '@vite/vitejs';
 import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
-import { SBPInfo, rawToVite } from '../viteTypes'
+import { SBPInfo, rawToVite } from '../viteTypes';
+import { epochToDate } from "../common";
 
 // Grab data from .env
 require('dotenv').config();
@@ -58,13 +59,15 @@ const showSBPInformation = async (message, SBP: string) => {
     if(SBPInfo == null) {
         chatMessage = "No information for SBP " + SBP;
     } else {
+        let exDate = epochToDate(SBPInfo.expirationTime);
+        let revDate = SBPInfo.revokeTime == "0" ? "0" : epochToDate(SBPInfo.revokeTime);
         chatMessage = "**Name:** " + SBPInfo.name +
             "\n**Block Producing Address** " + SBPInfo.blockProducingAddress +
             "\n**Stake Address:** " + SBPInfo.stakeAddress +
             "\n**Stake Amount:** " +  rawToVite(SBPInfo.stakeAmount).toFixed(2) +
             "\n**Expiration Height:** " + SBPInfo.expirationHeight +
-            "\n**Expiration Time:** " + SBPInfo.expirationTime +
-            "\n**Revoke Time:** " + SBPInfo.revokeTime;
+            "\n**Expiration Time:** " + exDate +
+            "\n**Revoke Time:** " + revDate;
 
     }
     // Send response to chat
