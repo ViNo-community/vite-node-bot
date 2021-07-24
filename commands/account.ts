@@ -56,20 +56,29 @@ const showAccountInformation = async (message, address: string) => {
         throw res.error;
     });
 
-    let chatMessage = "";
-    if(accountInfo == null) {
-        chatMessage = "No information for account " + address;
-    } else {
-        chatMessage = "**Address:** " + accountInfo.address +
-            "\n**Block Count:** " + accountInfo.blockCount + "\n";
-        balanceInfoMap = accountInfo.balanceInfoMap;
-        for(const tokenID in balanceInfoMap) {
-            let balanceInfo : BalanceInfo = balanceInfoMap[tokenID];
-            let tokenInfo : TokenInfo = balanceInfo.tokenInfo;
-            chatMessage += "**" + tokenInfo.tokenName + ":** " + balanceInfo.balance + "\n";
+    try {
+        let chatMessage = "";
+        if(accountInfo == null) {
+            chatMessage = "No information for account " + address;
+        } else {
+            chatMessage = "**Address:** " + accountInfo.address +
+                "\n**Block Count:** " + accountInfo.blockCount + "\n";
+            balanceInfoMap = accountInfo.balanceInfoMap;
+            for(const tokenID in balanceInfoMap) {
+                let balanceInfo : BalanceInfo = balanceInfoMap[tokenID];
+                let tokenInfo : TokenInfo = balanceInfo.tokenInfo;
+                let decimals = parseInt(tokenInfo.decimals);
+                let balance = parseFloat(balanceInfo.balance);
+                let readableBalance = balance/ Math.pow(10, decimals);
+                chatMessage += "**" + tokenInfo.tokenSymbol + ":** " + readableBalance + "\n";
+            }
         }
+        // Send response to chat
+        message.channel.send(chatMessage);
+    } catch(err) {
+        console.error("Error displaying account info for " + address + " : " + err);
+        console.error(err.stack);
     }
-    // Send response to chat
-    message.channel.send(chatMessage);
+
 
 }

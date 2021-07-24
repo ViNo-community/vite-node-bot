@@ -6,7 +6,6 @@ module.exports = {
 	name: 'set_prefix',
 	description: 'Set the bot prefix',
 	execute(message, args) {
-        
         prefix = message.client.botConfig.prefix;
         if(!args.length) {
             // No new prefix. Output usage
