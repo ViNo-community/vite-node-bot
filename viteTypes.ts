@@ -61,7 +61,7 @@ export interface BalanceInfo {
 }
 
 export interface SBPVoteInfo {
-	SBPName: string,
+	sbpName: string,
 	blockProducingAddress: Address,
 	votes: BigInt
 }

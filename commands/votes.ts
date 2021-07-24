@@ -9,6 +9,7 @@ require('dotenv').config();
 // Grab files from .env
 const RPC_NET = process.env.RPC_NET;
 const SBP_NAME = process.env.SBP_NAME || 'ViNo_Community_Node';
+const CHUNK_SIZE = 500;
 // Set up HTTP RPC client and ViteClient
 const httpProvider = new HTTP_RPC(RPC_NET);
 let viteClient = new ViteAPI(httpProvider, () => {
@@ -22,8 +23,7 @@ module.exports = {
         // User can pass in optional SBP Name
         let SBPName = "";
         if(!args.length) {
-            // Use SBP in .env
-            SBPName = SBP_NAME;
+            SBPName = "";
         } else {
             // Use SBP argument
             SBPName = args[0];
@@ -50,23 +50,36 @@ const showVoteList = async (message, SBP: string) => {
         console.log(`Could not retrieve rewards pending info for ${SBP}}`, res);
         throw res.error;
     });
-
-    console.log("Looking for " + SBP);
+    // Construct chat message
     let chatMessage = "";
     if(voteInfo == null) {
         chatMessage = "Could not retrieve voter information";
     } else {
         voteInfo.forEach(function (vote) {
-            console.log(vote);
             // If vote equals our SBP
-            if(vote.SBPName == SBP) {
-                chatMessage = "**Name:** " + SBP +
-                "\n**Voters:** " + vote.votes;
-                    // Send response to chat
+            if(SBP != "") {
+                // Return just that SBP
+                if(vote.sbpName == SBP) {
+                    chatMessage = "**Name:** " + vote.sbpName +
+                    "\t**Votes:** " + rawToVite(vote.votes).toFixed(2);
+                        // Send response to chat
+                    message.channel.send(chatMessage);
+                    chatMessage = "";
+                    return;
+                }
+            } else {
+                // Return all info
+                chatMessage += "**Name:** " + vote.sbpName +
+                    "\t**Votes:** " + rawToVite(vote.votes).toFixed(2) + "\n";
+            }
+            // Discord has a maximum message size
+            // If message is >= CHUNK_SIZE then send what we have then clear the message
+            if(chatMessage.length >= CHUNK_SIZE) {
                 message.channel.send(chatMessage);
-                return;
+                chatMessage = "";
             }
         });
+        if(chatMessage.length > 0) message.channel.send(chatMessage);
     }
 
 

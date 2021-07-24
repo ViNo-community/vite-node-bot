@@ -10,3 +10,4 @@ common.js
 sbp.js
 account.js
 .env
+votes.js
