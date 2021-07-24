@@ -60,6 +60,12 @@ export interface BalanceInfo {
 	transactionCount: Uint64;
 }
 
+export interface SBPVoteInfo {
+	SBPName: string,
+	blockProducingAddress: Address,
+	votes: BigInt
+}
+
 export interface AddressVoteMap {
 	[key: string]: string;
 }
