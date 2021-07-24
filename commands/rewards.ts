@@ -9,6 +9,11 @@ require('dotenv').config();
 // Grab files from .env
 const RPC_NET = process.env.RPC_NET;
 const SBP_NAME = process.env.SBP_NAME || 'ViNo_Community_Node';
+// Set up HTTP RPC client and ViteClient
+const httpProvider = new HTTP_RPC(RPC_NET);
+let viteClient = new ViteAPI(httpProvider, () => {
+    console.log('Vite client successfully connected: ');
+});
 
 module.exports = {
 	name: 'rewards',
@@ -23,24 +28,16 @@ module.exports = {
             // Use SBP argument
             SBPName = args[0];
         }
-        console.log("1 RPC NET : " + RPC_NET);
-        console.log("1 SBP NAME: " + SBP_NAME);
-        console.log("Looking up rewards pending info for SBP: " + SBPName);
         // Get reward info for SBP
         showRewardsPending(message, SBPName)
         .catch(error => {
             console.error("Error while grabbing SBP rewards summary :" + error.message);
         });
-
-
 	},
 };
 
 const getRewardsPendingBySBP = async (SBP: string) => {
-    const httpProvider = new HTTP_RPC(RPC_NET);
-    let viteClient = new ViteAPI(httpProvider, () => {
-        console.log('Vite client successfully connected: ');
-    });
+
     const rewardsPending: RewardPendingInfo = await viteClient.request('contract_getSBPRewardPendingWithdrawal', SBP);
     return rewardsPending;
 };
