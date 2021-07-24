@@ -26,6 +26,7 @@ module.exports = {
                 });
                 // Reload config
                 console.log("Setting new prefix to " + newPrefix);
+
                 // Output change
 		        message.channel.send("Set new command prefix to \"" + newPrefix + "\"");
             } catch(e) {
@@ -33,6 +34,9 @@ module.exports = {
                 console.error(e.stack);
                 message.channel.send("Could not set new command prefix: " + e);
             }
+
+            //message.client.destroy();
+            //message.client.login();
 
         }
 	},
