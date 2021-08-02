@@ -66,6 +66,14 @@ export interface QuotaInfo {
 	stakeAmount: BigInt;
 }
 
+export interface ContractInfo {
+	code: string;
+	GID: string;
+	responseLatency: Uint8;
+	randomDegree: Uint8;
+	quotaMultiplier: Uint8;
+}
+
 export interface SBPVoteInfo {
 	sbpName: string;
 	blockProducingAddress: Address,
