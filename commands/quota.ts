@@ -50,7 +50,7 @@ const showQuotaInformation = async (message, account: string) => {
 
     // Get quote info for specified account
     quotaInfo = await getQuotaInformation(account).catch((res: RPCResponse) => {
-        console.log(`Could not retrieve quota info for ${account}}`, res);
+        console.log(`Could not retrieve quota info for ${account} `, res);
         throw res.error;
     });
 
@@ -59,9 +59,9 @@ const showQuotaInformation = async (message, account: string) => {
         chatMessage = "No quota information available for " + account;
     } else {
         chatMessage = "**Address:** " + account +
-            "\n**Current Quota** " + quotaInfo.currentQuota +
-            "\n**Max Quota:** " + quotaInfo.maxQuota +
-            "\n**Stake Amount:** " +  rawToVite(quotaInfo.stakeAmount).toFixed(2);
+            "\n**Current Quota** " + parseInt(quotaInfo.currentQuota).toLocaleString(undefined, {minimumFractionDigits: 2}) +
+            "\n**Max Quota:** " + parseInt(quotaInfo.maxQuota).toLocaleString(undefined, {minimumFractionDigits: 2}) +
+            "\n**Stake Amount:** " +  rawToVite(quotaInfo.stakeAmount).toLocaleString(undefined, {minimumFractionDigits: 2});
     }
     // Send response to chat
     message.channel.send(chatMessage);

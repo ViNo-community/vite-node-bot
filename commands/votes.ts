@@ -47,7 +47,7 @@ const showVoteList = async (message, SBP: string) => {
 
     // Get rewards pending info for specified SBP
     voteInfo = await getVoteList().catch((res: RPCResponse) => {
-        console.log(`Could not retrieve rewards pending info for ${SBP}}`, res);
+        console.log(`Could not retrieve rewards pending info for ${SBP} `, res);
         throw res.error;
     });
     // Construct chat message
@@ -64,7 +64,7 @@ const showVoteList = async (message, SBP: string) => {
                 if(vote.sbpName == SBP) {
                     found = true;
                     chatMessage = "**" + rank + ") Name:** " + vote.sbpName +
-                    "\t**Votes:** " + rawToVite(vote.votes).toFixed(2)
+                    "\t**Votes:** " + rawToVite(vote.votes).toLocaleString(undefined, {minimumFractionDigits: 2})
                         // Send response to chat
                     message.channel.send(chatMessage);
                     chatMessage = "";
@@ -73,7 +73,7 @@ const showVoteList = async (message, SBP: string) => {
             } else {
                 // Return all info
                 chatMessage += "**" + rank + ") Name:** " + vote.sbpName +
-                    "\t**Votes:** " + rawToVite(vote.votes).toFixed(2) + "\n";
+                    "\t**Votes:** " + rawToVite(vote.votes).toLocaleString(undefined, {minimumFractionDigits: 2}) + "\n";
             }
             // Discord has a maximum message size
             // If message is >= CHUNK_SIZE then send what we have then clear the message

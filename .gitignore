@@ -15,3 +15,4 @@ quota.js
 token.js
 contract.js
 nohup.out
+*.code-workspace

@@ -51,7 +51,7 @@ const showSBPInformation = async (message, SBP: string) => {
 
     // Get rewards pending info for specified SBP
     SBPInfo = await getSBPInformation(SBP).catch((res: RPCResponse) => {
-        console.log(`Could not retrieve info for ${SBP}}`, res);
+        console.log(`Could not retrieve info for ${SBP} `, res);
         throw res.error;
     });
 
@@ -64,7 +64,7 @@ const showSBPInformation = async (message, SBP: string) => {
         chatMessage = "**Name:** " + SBPInfo.name +
             "\n**Block Producing Address:** " + SBPInfo.blockProducingAddress +
             "\n**Stake Address:** " + SBPInfo.stakeAddress +
-            "\n**Stake Amount:** " +  rawToVite(SBPInfo.stakeAmount).toFixed(2) +
+            "\n**Stake Amount:** " +  rawToVite(SBPInfo.stakeAmount).toLocaleString(undefined, {minimumFractionDigits: 2}) +
             "\n**Expiration Height:** " + SBPInfo.expirationHeight +
             "\n**Expiration Time:** " + exDate +
             "\n**Revoke Time:** " + revDate;

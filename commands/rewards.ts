@@ -48,7 +48,7 @@ const showRewardsPending = async (message, SBP: string) => {
 
     // Get rewards pending info for specified SBP
     rewards = await getRewardsPendingBySBP(SBP).catch((res: RPCResponse) => {
-        console.log(`Could not retrieve rewards pending info for ${SBP}}`, res);
+        console.log(`Could not retrieve rewards pending info for ${SBP} `, res);
         throw res.error;
     });
 
@@ -57,9 +57,12 @@ const showRewardsPending = async (message, SBP: string) => {
         chatMessage = "No information for SBP " + SBP;
     } else {
         chatMessage = "**Name:** " + SBP +
-            "\n**Block Producing Reward:** " + rawToVite(rewards.blockProducingReward).toFixed(2) +
-            "\n**Voting Reward:** " + rawToVite(rewards.votingReward).toFixed(2) +
-            "\n**Total Reward:** " + rawToVite(rewards.totalReward).toFixed(2) +
+            "\n**Block Producing Reward:** " + 
+            rawToVite(rewards.blockProducingReward).toLocaleString(undefined, {minimumFractionDigits: 2}) +
+            "\n**Voting Reward:** " + 
+            rawToVite(rewards.votingReward).toLocaleString(undefined, {minimumFractionDigits: 2}) +
+            "\n**Total Reward:** " + 
+            rawToVite(rewards.totalReward).toLocaleString(undefined, {minimumFractionDigits: 2}) +
             "\n**Withdrawn:** " + rewards.allRewardWithdrawed;
 
     }

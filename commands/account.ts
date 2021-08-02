@@ -51,7 +51,7 @@ const showAccountInformation = async (message, address: string) => {
 
     // Get rewards pending info for specified SBP
     accountInfo = await getAccountInformation(address).catch((res: RPCResponse) => {
-        console.log(`Could not account retrieve info for ${address}}`, res);
+        console.log(`Could not account retrieve info for ${address} `, res);
         throw res.error;
     });
 
@@ -69,7 +69,8 @@ const showAccountInformation = async (message, address: string) => {
                 let decimals = parseInt(tokenInfo.decimals);
                 let balance = parseFloat(balanceInfo.balance);
                 let readableBalance = balance/ Math.pow(10, decimals);
-                chatMessage += "**" + tokenInfo.tokenSymbol + ":** " + readableBalance + "\n";
+                chatMessage += "**" + tokenInfo.tokenSymbol + ":** " + 
+                    readableBalance.toLocaleString(undefined, {minimumFractionDigits: 2}) + "\n";
             }
         }
         // Send response to chat
