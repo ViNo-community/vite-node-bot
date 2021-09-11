@@ -4,7 +4,7 @@ node_modules
 *.map
 # tsc output
 rewards.js
-commands/rewards.js
+commands/*.js
 viteTypes.js
 common.js
 sbp.js
