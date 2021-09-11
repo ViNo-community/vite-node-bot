@@ -2,17 +2,8 @@ config.json
 logs*
 node_modules
 *.map
-# tsc output
-rewards.js
 commands/*.js
-viteTypes.js
-common.js
-sbp.js
-account.js
+*.js
 .env
-votes.js
-quota.js
-token.js
-contract.js
 nohup.out
 *.code-workspace
