@@ -1,12 +1,9 @@
-
-const oldConfig = require('../config.json');   // Loads bot config file
-const fs = require('fs');                   // Loads the Filesystem library
-
 module.exports = {
 	name: 'mode',
 	description: 'Set which network to connect to',
 	execute(message, args) {
-
+        const fs = require('fs');                   // Loads the Filesystem library
+        const oldConfig = require('../config.json');   // Loads bot config file
         if(!args.length) {
             const mode  = message.client.botConfig.mode;
             // No new prefix. Output usage
