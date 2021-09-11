@@ -2,17 +2,7 @@ import { HTTP_RPC } from '@vite/vitejs-http';
 import { ViteAPI } from '@vite/vitejs';
 import { RPCResponse, TokenInfo } from '@vite/vitejs/distSrc/utils/type';
 import { ContractInfo, rawToToken } from '../viteTypes';
-
-// Grab data from .env
-require('dotenv').config();
-
-// Grab info from .env
-const RPC_NET = process.env.RPC_NET;
-
-const httpProvider = new HTTP_RPC(RPC_NET);
-let viteClient = new ViteAPI(httpProvider, () => {
-    console.log('Vite client successfully connected: ');
-});
+import { viteClient } from '../index';
 
 module.exports = {
 	name: 'contract',

@@ -3,16 +3,7 @@ import { ViteAPI } from '@vite/vitejs';
 import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { QuotaInfo, rawToVite } from '../viteTypes';
 import { quotaToUT } from '../common'
-// Grab data from .env
-require('dotenv').config();
-
-// Grab info from .env
-const RPC_NET = process.env.RPC_NET;
-
-const httpProvider = new HTTP_RPC(RPC_NET);
-let viteClient = new ViteAPI(httpProvider, () => {
-    console.log('Vite client successfully connected: ');
-});
+import { viteClient } from '../index';
 
 module.exports = {
 	name: 'quota',

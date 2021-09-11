@@ -5,7 +5,7 @@ module.exports = {
         const fs = require('fs');                   // Loads the Filesystem library
         const oldConfig = require('../config.json');   // Loads bot config file
         if(!args.length) {
-            const mode  = message.client.botConfig.mode;
+            const mode  = message.client.botConfig.network;
             // No new prefix. Output usage
             message.channel.send("Currently in " + mode);
             return;
@@ -14,7 +14,7 @@ module.exports = {
         // Read in new mode
         const newMode = args[0];
         if(! (newMode == "TESTNET" || newMode == "MAINNET")) {
-            message.channel.send("Invalid mode");
+            message.channel.send("Invalid network");
             message.channel.send("Usage: " + oldConfig.prefix + "mode [TESTNET | MAINNET]");
             return;
         }

@@ -2,24 +2,11 @@ import { HTTP_RPC } from '@vite/vitejs-http';
 import { ViteAPI } from '@vite/vitejs';
 import { RPCResponse, TokenInfo } from '@vite/vitejs/distSrc/utils/type';
 import { AccountInfo, BalanceInfo} from '../viteTypes';
+import { viteClient } from '../index';
 
 // Grab data from .env
 require('dotenv').config();
 
-// Grab files from .env
-var config = require("../config.json");
-var RPC_NET;
-if(config.mode == "MAINNET") {
-    RPC_NET = process.env.MAINNET;
-} else if(config.mode == "TESTNET") {
-    RPC_NET = process.env.TESTNET;
-}
-const SBP_NAME = process.env.SBP_NAME || 'ViNo_Community_Node';
-
-const httpProvider = new HTTP_RPC(RPC_NET);
-let viteClient = new ViteAPI(httpProvider, () => {
-    console.log('Vite client successfully connected: ');
-});
 
 module.exports = {
 	name: 'balance',

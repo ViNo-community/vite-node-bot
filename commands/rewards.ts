@@ -2,18 +2,14 @@ import { HTTP_RPC } from '@vite/vitejs-http';
 import { ViteAPI } from '@vite/vitejs';
 import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { RewardPendingInfo, rawToVite } from '../viteTypes'
+import { viteClient } from '../index';
 
 // Grab data from .env
 require('dotenv').config();
 
 // Grab files from .env
-const RPC_NET = process.env.RPC_NET;
 const SBP_NAME = process.env.SBP_NAME || 'ViNo_Community_Node';
-// Set up HTTP RPC client and ViteClient
-const httpProvider = new HTTP_RPC(RPC_NET);
-let viteClient = new ViteAPI(httpProvider, () => {
-    console.log('Vite client successfully connected: ');
-});
+
 
 module.exports = {
 	name: 'rewards',
