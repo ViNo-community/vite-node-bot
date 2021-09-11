@@ -1,6 +1,6 @@
 import { Hex, Uint8, Uint16, Int64, Uint64, TokenId, TokenInfo, Base64, 
     BlockType, RPCResponse } from '@vite/vitejs/distSrc/utils/type';
-import { Address, BigInt, AddressObj } from '@vite/vitejs/distSrc/accountBlock/type';
+import { Address, BigInt, AccountBlockBlock, AddressObj } from '@vite/vitejs/distSrc/accountBlock/type';
 
 export interface SBPInfo {
 	name: String;
