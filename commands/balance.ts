@@ -7,7 +7,13 @@ import { AccountInfo, BalanceInfo} from '../viteTypes';
 require('dotenv').config();
 
 // Grab files from .env
-const RPC_NET = process.env.RPC_NET;
+var config = require("../config.json");
+var RPC_NET;
+if(config.mode == "MAINNET") {
+    RPC_NET = process.env.MAINNET;
+} else if(config.mode == "TESTNET") {
+    RPC_NET = process.env.TESTNET;
+}
 const SBP_NAME = process.env.SBP_NAME || 'ViNo_Community_Node';
 
 const httpProvider = new HTTP_RPC(RPC_NET);
@@ -16,14 +22,14 @@ let viteClient = new ViteAPI(httpProvider, () => {
 });
 
 module.exports = {
-	name: 'account',
-	description: 'Display account information for specified address',
+	name: 'balance',
+	description: 'Display account balances for specified address',
 	execute(message, args) {    
         let prefix = message.client.botConfig.prefix; 
         let address = "";
         // User passes in address
         if(!args.length) {
-            message.channel.send("Usage: " + prefix + "account <address>");
+            message.channel.send("Usage: " + prefix + "balance <address>");
             return;
         } else {
             address = args[0];
@@ -32,7 +38,7 @@ module.exports = {
         // Get account info for address
         showAccountInformation(message, address)
         .catch(error => {
-            console.error("Error while grabbing account summary :" + error.message);
+            console.error("Error while grabbing account summary")
         });
 
 
