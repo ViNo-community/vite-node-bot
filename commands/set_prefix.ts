@@ -1,21 +1,19 @@
-
-const oldConfig = require('../config.json');   // Loads bot config file
-const fs = require('fs');                   // Loads the Filesystem library
-
 module.exports = {
 	name: 'set_prefix',
 	description: 'Set the bot prefix',
 	execute(message, args) {
-        prefix = message.client.botConfig.prefix;
+        const fs = require('fs');                   // Loads the Filesystem library
+        const oldConfig = require('../config.json');   // Loads bot config file
+        var prefix = message.client.botConfig.prefix;
         if(!args.length) {
             // No new prefix. Output usage
             message.channel.send("Usage: " + prefix + "set_prefix <new_prefix>");
             return;
         } else {
             // Read in new prefix
-            newPrefix = args[0];
+            var newPrefix = args[0];
             // Create new config
-            newConfig = {
+            var newConfig = {
                 token: oldConfig.token,
                 prefix: newPrefix,
             };
@@ -37,7 +35,7 @@ module.exports = {
             console.log("Setting new prefix to " + newPrefix);
             // Reload config.json here
             delete require.cache[require.resolve('../config.json')]   // Delete cache
-            config = require("../config.json");
+            var config = require("../config.json");
             // Reload bot
             message.channel.send("Set new command prefix to \"" + newPrefix + "\"")
             .then(msg => message.client.destroy())
