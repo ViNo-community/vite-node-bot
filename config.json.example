@@ -1,4 +1,5 @@
 {
 	"prefix": "v!",
-	"token": "YOUR TOKEN GOES HERE"
+	"token": "YOUR TOKEN GOES HERE",
+	"network": "MAINNET"
 }
