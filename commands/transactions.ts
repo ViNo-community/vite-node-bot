@@ -1,8 +1,8 @@
 
-import { RPCResponse, TokenInfo } from '@vite/vitejs/distSrc/utils/type';
-import { AccountInfo, BalanceInfo} from '../viteTypes';
+import { RPCResponse} from '@vite/vitejs/distSrc/utils/type';
 import { viteClient } from '../index';
 import { AccountBlockBlock } from '@vite/vitejs/distSrc/accountBlock/type';
+import { printAccountBlock } from '../common';
 
 // Grab data from .env
 require('dotenv').config();
@@ -25,6 +25,7 @@ module.exports = {
         showTxInformation(message, txHash)
         .catch(error => {
             console.error("Error while grabbing transaction data")
+            message.channel.send("Error looking up info for transaction: " + txHash);
         });
 
 
@@ -51,22 +52,7 @@ const showTxInformation = async (message, txHash: string) => {
         if(accountBlock == null) {
             chatMessage = "No information for transaction " + txHash;
         } else {
-            chatMessage = 
-                "**Block Height:** " + accountBlock.height + 
-                "\n**Block Type:** " + accountBlock.blockType +
-                "\n**Address:** " + accountBlock.address +
-                "\n**To Address:** " + accountBlock.toAddress +
-                "\n**Token ID:** " + accountBlock.tokenId +
-                "\n**Amount:** " + accountBlock.amount +
-                "\n**Data:** " + accountBlock.data +
-                "\n**Fee:** " + accountBlock.fee +
-                "\n**Difficulty:** " + accountBlock.difficulty +
-                "\n**Nonce:** " + accountBlock.nonce +
-                "\n**Hash:** " + accountBlock.hash + 
-                "\n**Previous Hash:** " + accountBlock.previousHash + 
-                "\n**Public Key:** " + accountBlock.publicKey +
-                "\n**Send Block Hash:** " + accountBlock.sendBlockHash +
-                "\n**Signature:** " + accountBlock.signature;
+            chatMessage = printAccountBlock(accountBlock);
         }
         // Send response to chat
         message.channel.send(chatMessage);

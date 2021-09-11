@@ -2,6 +2,7 @@
 import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { AccountBlockBlock} from '@vite/vitejs/distSrc/accountBlock/type';
 import { viteClient } from '../index';
+import { printAccountBlock } from '../common';
 
 module.exports = {
 	name: 'latest',
@@ -36,7 +37,6 @@ const showAccountInformation = async (message, address: string) => {
 
     let accountBlock : AccountBlockBlock;
   
- 
     accountBlock = await getAccountInformation(address).catch((res: RPCResponse) => {
         console.log(`Could not account retrieve info for ${address} `, res);
         throw res.error;
@@ -47,11 +47,7 @@ const showAccountInformation = async (message, address: string) => {
         if(accountBlock == null) {
             chatMessage = "No information for account " + address;
         } else {
-            chatMessage = "**Address:** " + accountBlock.address +
-                "\n**Block Height:** " + accountBlock.height + 
-                "\n**Hash:** " + accountBlock.hash + 
-                "\n**Previous Hash:** " + accountBlock.previousHash + 
-                "\n**Public Key:** " + accountBlock.publicKey 
+            chatMessage =  printAccountBlock(accountBlock);
         }
         // Send response to chat
         message.channel.send(chatMessage);
