@@ -19,3 +19,7 @@ export const epochToDate = (epoch) => {
     d.setUTCSeconds(epoch);
     return d;
 };
+
+export const quotaToUT = (quota) => {
+    return quota / 21000
+};

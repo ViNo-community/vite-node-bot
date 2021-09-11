@@ -2,7 +2,7 @@ import { HTTP_RPC } from '@vite/vitejs-http';
 import { ViteAPI } from '@vite/vitejs';
 import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { QuotaInfo, rawToVite } from '../viteTypes';
-
+import { quotaToUT } from '../common'
 // Grab data from .env
 require('dotenv').config();
 
@@ -59,8 +59,8 @@ const showQuotaInformation = async (message, account: string) => {
         chatMessage = "No quota information available for " + account;
     } else {
         chatMessage = "**Address:** " + account +
-            "\n**Current Quota** " + parseInt(quotaInfo.currentQuota).toLocaleString(undefined, {minimumFractionDigits: 2}) +
-            "\n**Max Quota:** " + parseInt(quotaInfo.maxQuota).toLocaleString(undefined, {minimumFractionDigits: 2}) +
+            "\n**Current Quota** " + quotaToUT(parseInt(quotaInfo.currentQuota)).toLocaleString(undefined, {minimumFractionDigits: 2}) + " UT "+
+            "\n**Max Quota:** " + quotaToUT(parseInt(quotaInfo.maxQuota)).toLocaleString(undefined, {minimumFractionDigits: 2}) + " UT " +
             "\n**Stake Amount:** " +  rawToVite(quotaInfo.stakeAmount).toLocaleString(undefined, {minimumFractionDigits: 2});
     }
     // Send response to chat
