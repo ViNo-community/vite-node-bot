@@ -52,7 +52,7 @@ const showAccountInformation = async (message, address: string) => {
             chatMessage = "No information for account " + address;
         } else {
             chatMessage = "**Address:** " + accountInfo.address +
-                "\n**Block Count:** " + accountInfo.blockCount + "\n";
+                "\n**Block Height:** " + accountInfo.blockCount + "\n";
             balanceInfoMap = accountInfo.balanceInfoMap;
             for(const tokenID in balanceInfoMap) {
                 let balanceInfo : BalanceInfo = balanceInfoMap[tokenID];
