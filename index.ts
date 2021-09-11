@@ -8,18 +8,26 @@ const Config = require('./config.json');    // Loads the configuration values
 // Grab data from .env
 require('dotenv').config();
 
-// Grab files from .env
-const RPC_NET = process.env.RPC_NET;
-
 const client = new Discord.Client(); // Initiates the client
 client.botConfig = Config; // Stores the config inside the client object so it's auto injected wherever we use the client
 client.botConfig.rootDir = __dirname; // Stores the running directory in the config so we don't have to traverse up directories.
 
 const cooldowns = new Discord.Collection(); // Creates an empty list for storing timeouts so people can't spam with commands
 
+var RPC_NET = process.env.TESTNET;  // Default to TESTNET
+// Decide the RPC_NET value depending on what network bot is configued for
+if(client.botConfig.network == 'MAINNET') {
+    console.log("Loading MAINNET");
+    RPC_NET = process.env.MAINNET;
+} else if(client.botConfig.network == 'TESTNET') {
+    console.log("Loading TESTNET");
+    RPC_NET = process.env.TESTNET;
+} else {
+    console.log("Invalid network specified. Please check config.json.");
+}
 // Set up HTTP RPC client and ViteClient
 export const httpProvider = new HTTP_RPC(RPC_NET);
-export const viteClient = new ViteAPI(httpProvider, () => {
+export var viteClient = new ViteAPI(httpProvider, () => {
     console.log('Vite client successfully connected: ');
 });
 

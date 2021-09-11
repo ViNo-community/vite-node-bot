@@ -1,3 +1,10 @@
+import { HTTP_RPC } from '@vite/vitejs-http';
+import { ViteAPI } from '@vite/vitejs';
+import { viteClient } from '../index';
+
+// Grab data from .env
+require('dotenv').config();
+
 module.exports = {
 	name: 'mode',
 	description: 'Set which network to connect to',
@@ -5,7 +12,7 @@ module.exports = {
         const fs = require('fs');                   // Loads the Filesystem library
         const oldConfig = require('../config.json');   // Loads bot config file
         if(!args.length) {
-            const mode  = message.client.botConfig.network;
+            const mode  = oldConfig.network;
             // No new prefix. Output usage
             message.channel.send("Currently in " + mode);
             return;
@@ -23,7 +30,7 @@ module.exports = {
         var newConfig = {
             token: oldConfig.token,
             prefix: oldConfig.prefix,
-            mode: newMode
+            network: newMode
         };
 
         try {
@@ -44,6 +51,21 @@ module.exports = {
             // Reload config.json here
             delete require.cache[require.resolve('../config.json')]   // Delete cache
             var config = require("../config.json");
+            var RPC_NET = process.env.TESTNET;  // Default to TESTNET
+            if(newMode == 'MAINNET') {
+                console.log("Loading MAINNET");
+                RPC_NET = process.env.MAINNET;
+            } else if(newMode == 'TESTNET') {
+                console.log("Loading TESTNET");
+                RPC_NET = process.env.TESTNET;
+            } else {
+                console.log("Invalid network specified. Please check config.json.");
+            }
+            const httpProvider = new HTTP_RPC(RPC_NET);
+            viteClient.setProvider(httpProvider, () => {
+                console.log('Vite client successfully reconnected to ' + newMode);
+            }, true);
+
             // Reload bot
             message.channel.send("Switching to " + newMode)
             .then(msg => message.client.destroy())
