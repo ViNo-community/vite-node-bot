@@ -1,7 +1,4 @@
-import { HTTP_RPC } from '@vite/vitejs-http';
-import { ViteAPI } from '@vite/vitejs';
 import { RPCResponse, TokenInfo } from '@vite/vitejs/distSrc/utils/type';
-import { rawToToken } from '../viteTypes';
 import { viteClient } from '../index';
 
 // Grab data from .env

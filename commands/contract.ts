@@ -1,7 +1,6 @@
-import { HTTP_RPC } from '@vite/vitejs-http';
-import { ViteAPI } from '@vite/vitejs';
-import { RPCResponse, TokenInfo } from '@vite/vitejs/distSrc/utils/type';
-import { ContractInfo, rawToToken } from '../viteTypes';
+
+import { RPCResponse} from '@vite/vitejs/distSrc/utils/type';
+import { ContractInfo } from '../viteTypes';
 import { viteClient } from '../index';
 
 module.exports = {

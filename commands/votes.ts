@@ -1,4 +1,3 @@
-
 import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { SBPVoteInfo, rawToVite } from '../viteTypes'
 import { viteClient } from '../index';

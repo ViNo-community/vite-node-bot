@@ -1,5 +1,3 @@
-import { HTTP_RPC } from '@vite/vitejs-http';
-import { ViteAPI } from '@vite/vitejs';
 import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { QuotaInfo, rawToVite } from '../viteTypes';
 import { quotaToUT } from '../common'
