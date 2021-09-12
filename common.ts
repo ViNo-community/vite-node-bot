@@ -1,4 +1,5 @@
-import { AccountBlockBlock } from '@vite/vitejs/distSrc/utils/type';
+import { Int32 } from '@vite/vitejs/distSrc/accountBlock/type';
+import { AccountBlockBlock, BlockType } from '@vite/vitejs/distSrc/utils/type';
 import {DateTime} from 'luxon';
 
 export const getLatestCycleTimestampFromNow = () => {
@@ -27,7 +28,7 @@ export const quotaToUT = (quota) => {
 
 export const printAccountBlock = (accountBlock : AccountBlockBlock) => {
     return "**Block Height:** " + accountBlock.height + 
-        "\n**Block Type:** " + accountBlock.blockType +
+        "\n**Block Type:** " + printBlockType(accountBlock.blockType) +
         "\n**Address:** " + accountBlock.address +
         "\n**To Address:** " + accountBlock.toAddress +
         "\n**Token ID:** " + accountBlock.tokenId +
@@ -41,4 +42,43 @@ export const printAccountBlock = (accountBlock : AccountBlockBlock) => {
         "\n**Public Key:** " + accountBlock.publicKey +
         "\n**Send Block Hash:** " + accountBlock.sendBlockHash +
         "\n**Signature:** " + accountBlock.signature;
+};
+
+// Convert block type into string 
+export const printBlockType = (blockType : BlockType) => {
+    switch(blockType) {
+        case 1: return "CreateContractRequest";
+        case 2: return "TransferRequest";
+        case 3: return "ReIssueRequest";
+        case 4: return "Response";
+        case 5: return "ResponseFail";
+        case 6: return "RefundByContractRequest";
+        case 7: return "GenesisResponse";
+        default: return "UnknownBlockType";
+    }
+};
+
+// Returns true if block height is valid. False if invalid
+export const isValidBlockHeight = (blockHeight : Int32) => {
+    // Convert into number
+    let blockHeightValue : number = parseInt(blockHeight);
+    // Cannot parse integer value
+    if(blockHeightValue == NaN) return false;
+    // Block height must be greater than 0
+    if(blockHeightValue <= 0) return false;
+    // Else return true
+    return true;
+};
+
+
+// Returns true if address is valid. False if invalid
+export const isValidAddress = (address : string) => {
+    // Check if empty string
+    if(address == "") return false;
+    // Check if correct length
+    if(address.length != 55) return false;
+    // Check if starts with "vite_"
+    if(! address.startsWith("vite_")) return false;
+    // Else return true
+    return true;
 };
