@@ -46,14 +46,14 @@ const showAccountBlockAtHeight = async (message, address: string, blockHeight : 
     let accountBlock : AccountBlockBlock;
   
     accountBlock = await getAccountBlockAtHeight(address, blockHeight).catch((res: RPCResponse) => {
-        console.log(`Could not account retrieve info for ${address} `, res);
+        console.log(`Could not account retrieve info for ${address} at block height ${blockHeight}`, res);
         throw res.error;
     });
 
     try {
         let chatMessage = "";
         if(accountBlock == null) {
-            chatMessage = "No information for account " + address;
+            chatMessage = "No information for account " + address + " at block height " + blockHeight;
         } else {
             chatMessage =  printAccountBlock(accountBlock);
         }

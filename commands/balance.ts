@@ -1,4 +1,5 @@
 import { RPCResponse, TokenInfo } from '@vite/vitejs/distSrc/utils/type';
+import * as vite from "@vite/vitejs"
 import { AccountInfo, BalanceInfo} from '../viteTypes';
 import { viteClient } from '../index';
 
@@ -9,20 +10,21 @@ module.exports = {
         let prefix = message.client.botConfig.prefix; 
         let address = "";
         // User passes in address
-        if(!args.length) {
+        if(args.length != 1) {
             message.channel.send("Usage: " + prefix + "balance <address>");
             return;
-        } else {
-            address = args[0];
+        } 
+        address = args[0];
+        if(vite.wallet.isValidAddress(address) == vite.wallet.AddressType.Illegal) {
+            message.channel.send("Invalid address");
+            return;
         }
-        console.log("Looking up info for address: " + address);
+        console.log("Looking up balance info for address: " + address);
         // Get account info for address
         showAccountInformation(message, address)
         .catch(error => {
-            console.error("Error while grabbing account summary")
+            console.error("Error while grabbing balances for " + address + " :" + error.message);
         });
-
-
 	},
 };
 
