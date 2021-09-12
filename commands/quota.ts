@@ -2,9 +2,9 @@ import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { QuotaInfo, rawToVite } from '../viteTypes';
 import { quotaToUT } from '../common'
 import { viteClient } from '../index';
-//import { getLogger } from 'logger';
+import { getLogger } from '../logger';
 
-//const logger = getLogger();
+const logger = getLogger();
 
 module.exports = {
 	name: 'quota',
@@ -14,7 +14,7 @@ module.exports = {
         let prefix = message.client.botConfig.prefix; 
         let address = "";
         // User passes in address
-        if(!args.length) {
+        if(args.length != 1) {
             message.channel.send("Usage: " + prefix + "quota <address>");
             return;
         } else {
@@ -25,11 +25,9 @@ module.exports = {
         showQuotaInformation(message, address)
         .catch(error => {
             let errorMsg = "Error while grabbing quota information for " + address + " : " + error.message;
-            //logger.error(errorMsg);
+            logger.error(errorMsg);
             console.error(errorMsg);
         });
-
-
 	},
 };
 
@@ -44,7 +42,9 @@ const showQuotaInformation = async (message, account: string) => {
 
     // Get quote info for specified account
     quotaInfo = await getQuotaInformation(account).catch((res: RPCResponse) => {
-        console.log(`Could not retrieve quota info for ${account} `, res);
+        let errorMsg = "Could not retrieve quota info for " + account + " : " + res.error;
+        logger.error(errorMsg);
+        console.log(errorMsg);
         throw res.error;
     });
 
@@ -58,7 +58,7 @@ const showQuotaInformation = async (message, account: string) => {
             "\n**Stake Amount:** " +  rawToVite(quotaInfo.stakeAmount).toLocaleString(undefined, {minimumFractionDigits: 2});
     }
     // Send response to chat
-    //logger.info(chatMessage);
+    logger.info(chatMessage);
     message.channel.send(chatMessage);
 
 }

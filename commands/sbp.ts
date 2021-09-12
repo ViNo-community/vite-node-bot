@@ -2,9 +2,9 @@ import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { SBPInfo, rawToVite } from '../viteTypes';
 import { epochToDate } from "../common";
 import { viteClient } from '../index';
-//import { getLogger } from 'logger';
+import { getLogger } from '../logger';
 
-//const logger = getLogger();
+const logger = getLogger();
 
 // Grab info from .env
 const SBP_NAME = process.env.SBP_NAME || 'ViNo_Community_Node';
@@ -15,7 +15,7 @@ module.exports = {
 	execute(message, args) {     
         // User can pass in optional SBP Name
         let SBPName = "";
-        if(!args.length) {
+        if(args.length != 1) {
             // Use SBP in .env
             SBPName = SBP_NAME;
         } else {
@@ -26,9 +26,10 @@ module.exports = {
         // Get reward info for SBP
         showSBPInformation(message, SBPName)
         .catch(error => {
-            console.error("Error while grabbing SBP rewards summary :" + error.message);
+            let errorMsg = "Error while grabbing SBP summary for \"" + SBPName + "\" : " + error.message;
+            logger.error(errorMsg);
+            console.error(errorMsg);
         });
-
 
 	},
 };
@@ -44,7 +45,9 @@ const showSBPInformation = async (message, SBP: string) => {
 
     // Get rewards pending info for specified SBP
     SBPInfo = await getSBPInformation(SBP).catch((res: RPCResponse) => {
-        console.log(`Could not retrieve info for ${SBP} `, res);
+        let errorMsg = "Could not retrieve SBP info for \"" + SBP + "\" : " + res.error;
+        logger.error(errorMsg);
+        console.log(errorMsg);
         throw res.error;
     });
 
@@ -64,7 +67,7 @@ const showSBPInformation = async (message, SBP: string) => {
 
     }
     // Send response to chat
-    //logger.info(chatMessage);
+    logger.info(chatMessage);
     message.channel.send(chatMessage);
 
 }

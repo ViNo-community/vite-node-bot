@@ -2,9 +2,9 @@ import { RPCResponse} from '@vite/vitejs/distSrc/utils/type';
 import { viteClient } from '../index';
 import { AccountBlockBlock } from '@vite/vitejs/distSrc/accountBlock/type';
 import { printAccountBlock } from '../common';
-//import { getLogger } from 'logger';
+import { getLogger } from '../logger';
 
-//const logger = getLogger();
+const logger = getLogger();
 
 module.exports = {
 	name: 'transaction',
@@ -13,7 +13,7 @@ module.exports = {
         let prefix = message.client.botConfig.prefix; 
         let txHash = "";
         // User passes in address
-        if(!args.length) {
+        if(args.length != 1) {
             message.channel.send("Usage: " + prefix + "transaction <hash>");
             return;
         } else {
@@ -42,7 +42,9 @@ const showTxInformation = async (message, txHash: string) => {
 
     // Get rewards pending info for specified SBP
     accountBlock = await getTxInformation(txHash).catch((res: RPCResponse) => {
-        console.log(`Could not account transaction info for ${txHash} `, res);
+        let errorMsg = "Could not account transaction info for \"" + txHash + "\" : " + res.error;
+        logger.error(errorMsg);
+        console.log(errorMsg);
         throw res.error;
     });
 
@@ -54,7 +56,7 @@ const showTxInformation = async (message, txHash: string) => {
             chatMessage = printAccountBlock(accountBlock);
         }
         // Send response to chat
-      //  logger.info(chatMessage);
+        logger.info(chatMessage);
         message.channel.send(chatMessage);
     } catch(err) {
         console.error("Error displaying transaction info for " + txHash + " : " + err);

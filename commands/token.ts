@@ -1,6 +1,8 @@
 import { RPCResponse, TokenInfo } from '@vite/vitejs/distSrc/utils/type';
 import { viteClient } from '../index';
+import { getLogger } from '../logger';
 
+const logger = getLogger();
 
 module.exports = {
 	name: 'token',
@@ -10,17 +12,18 @@ module.exports = {
         let prefix = message.client.botConfig.prefix; 
         let tokenID = "";
         // User passes in address
-        if(!args.length) {
+        if(args.length != 1) {
             message.channel.send("Usage: " + prefix + "token <tokenID>");
             return;
         } else {
             tokenID = args[0];
         }
-        console.log("Looking up token info for " + tokenID);
         // Get token info for tokenID
         showTokenInformation(message, tokenID)
         .catch(error => {
-            console.error("Error while grabbing token information: " + error.message);
+            let errorMsg = "Error while grabbing token information for \"" + tokenID + "\" :" + error.message;
+            logger.error(errorMsg);
+            console.error(errorMsg);
         });
 	},
 };
@@ -37,7 +40,9 @@ const showTokenInformation = async (message, tokenID: string) => {
 
     // Get token info for specified tokenID
     tokenInfo = await getTokenInformation(tokenID).catch((res: RPCResponse) => {
-        console.log(`Could not retrieve token info for ${tokenID}}`, res);
+        let errorMsg = "Could not retrieve token info for \"" + tokenID + "\" : " + res.error;
+        logger.error(errorMsg);
+        console.log(errorMsg);
         throw res.error;
     });
 
@@ -56,6 +61,6 @@ const showTokenInformation = async (message, tokenID: string) => {
             "\n**Index:** " + tokenInfo.index;
     }
     // Send response to chat
+    logger.info(chatMessage);
     message.channel.send(chatMessage);
-
 }

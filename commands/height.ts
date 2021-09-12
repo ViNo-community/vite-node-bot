@@ -37,7 +37,9 @@ module.exports = {
         // Get account info for address
         showAccountBlockAtHeight(message, address, blockHeight)
         .catch(error => {
-            console.error("Error while grabbing account summary :" + error.message);
+            let errorMsg = "Error while grabbing " + address + " block height " + blockHeight + " : " + error.message;
+            logger.error(errorMsg);
+            console.error(errorMsg);
         });
 	},
 };
@@ -52,7 +54,9 @@ const showAccountBlockAtHeight = async (message, address: string, blockHeight : 
     let accountBlock : AccountBlockBlock;
   
     accountBlock = await getAccountBlockAtHeight(address, blockHeight).catch((res: RPCResponse) => {
-        console.log(`Could not account retrieve info for ${address} at block height ${blockHeight}`, res);
+        let errorMsg = "Error while grabbing " + address + " block height " + blockHeight + " : " + res.error;
+        logger.error(errorMsg);
+        console.log(errorMsg);
         throw res.error;
     });
 
@@ -64,6 +68,7 @@ const showAccountBlockAtHeight = async (message, address: string, blockHeight : 
             chatMessage =  printAccountBlock(accountBlock);
         }
         // Send response to chat
+        logger.info(chatMessage);
         message.channel.send(chatMessage);
     } catch(err) {
         console.error("Error displaying account info for " + address + " : " + err);

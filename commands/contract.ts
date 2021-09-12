@@ -14,7 +14,7 @@ module.exports = {
         let prefix = message.client.botConfig.prefix; 
         let address = "";
         // User passes in address
-        if(!args.length) {
+        if(args.length != 1) {
             message.channel.send("Usage: " + prefix + "contract <address>");
             return;
         } else {
@@ -23,7 +23,9 @@ module.exports = {
         // Get contract info for address
         showContractInformation(message, address)
         .catch(error => {
-            console.error("Error while grabbing smart contract information: " + error.message);
+            let errorMsg = "Error grabbing smart contract information at " + address + " : " + error.message;
+            logger.error(errorMsg);
+            console.error(errorMsg);
         });
 
 
@@ -41,7 +43,9 @@ const showContractInformation = async (message, address: string) => {
 
     // Get smart contract info on specified address
     contractInfo = await getContractInformation(address).catch((res: RPCResponse) => {
-        console.log(`Could not retrieve smart contract info for ${address}}`, res);
+        let errorMsg = "Error grabbing smart contract information at " + address + " : " + res.error;
+        logger.error(errorMsg);
+        console.error(errorMsg);
         throw res.error;
     });
 
@@ -57,6 +61,7 @@ const showContractInformation = async (message, address: string) => {
             "\n**Quota Multiplier:** " + contractInfo.quotaMultiplier
     }
     // Send response to chat
+    logger.info(chatMessage);
     message.channel.send(chatMessage);
 
 }

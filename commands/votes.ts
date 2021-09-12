@@ -1,9 +1,9 @@
 import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { SBPVoteInfo, rawToVite } from '../viteTypes'
 import { viteClient } from '../index';
-//import { getLogger } from 'logger';
+import { getLogger } from '../logger';
 
-//const logger = getLogger();
+const logger = getLogger();
 
 const CHUNK_SIZE = 500;
 
@@ -22,7 +22,9 @@ module.exports = {
         // Get reward info for SBP
         showVoteList(message, SBPName)
         .catch(error => {
-            console.error("Error while grabbing SBP rewards summary :" + error.message);
+            let errorMsg = "Error grabbing vote info SBP:\"" + SBPName + "\" : " + error.message;
+            logger.error(errorMsg);
+            console.error(errorMsg);
         });
 	},
 };
@@ -38,7 +40,9 @@ const showVoteList = async (message, SBP: string) => {
 
     // Get rewards pending info for specified SBP
     voteInfo = await getVoteList().catch((res: RPCResponse) => {
-        console.log(`Could not retrieve rewards pending info for ${SBP} `, res);
+        let errorMsg = "Could not retrieve vote info SBP:\"" + SBP + "\" : " + res.error;
+        logger.error(errorMsg);
+        console.log(errorMsg);
         throw res.error;
     });
     // Construct chat message
@@ -78,10 +82,9 @@ const showVoteList = async (message, SBP: string) => {
             chatMessage = "Could not find voting information for SBP \"" + SBP + "\"";
         }
         if(chatMessage.length > 0) {
-           // logger.info(chatMessage);
+            logger.info(chatMessage);
             message.channel.send(chatMessage);
         }
     }
-
 
 }

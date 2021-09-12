@@ -3,9 +3,9 @@ import * as vite from "@vite/vitejs"
 import { AccountBlockBlock} from '@vite/vitejs/distSrc/accountBlock/type';
 import { viteClient } from '../index';
 import { printAccountBlock } from '../common';
-//import { getLogger } from 'logger';
+import { getLogger } from '../logger';
 
-//const logger = getLogger();
+const logger = getLogger();
 
 module.exports = {
 	name: 'newest',
@@ -28,7 +28,7 @@ module.exports = {
         showAccountInformation(message, address)
         .catch(error => {
             let errorMsg = "Error while grabbing newest account block for " + address + " :" + error.message;
-            //logger.error(errorMsg);
+            logger.error(errorMsg);
             console.error(errorMsg);
         });
 
@@ -46,7 +46,9 @@ const showAccountInformation = async (message, address: string) => {
     let accountBlock : AccountBlockBlock;
   
     accountBlock = await getAccountInformation(address).catch((res: RPCResponse) => {
-        console.log(`Could not account retrieve info for ${address} `, res);
+        let errorMsg = "Could not grab newest block for " + address + " : " + res.error;
+        logger.error(errorMsg);
+        console.log(errorMsg);
         throw res.error;
     });
 
@@ -58,7 +60,7 @@ const showAccountInformation = async (message, address: string) => {
             chatMessage =  printAccountBlock(accountBlock);
         }
         // Send response to chat
-        //logger.info(chatMessage);
+        logger.info(chatMessage);
         message.channel.send(chatMessage);
     } catch(err) {
         console.error("Error displaying account info for " + address + " : " + err);
