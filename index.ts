@@ -49,7 +49,7 @@ for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	// set a new item in the Collection
 	// with the key as the command name and the value as the exported module
-    console.log("Adding new command " + command.name);
+    console.log("Adding new command " + command.name + " from file \"" + file + "\"");
 	client.commands.set(command.name, command);
 }
 // Dynamically run commands
@@ -62,7 +62,7 @@ client.on('message', message => {
 
 	if (!client.commands.has(command)) {
 		console.error("Unknown command: " + command);
-		message.reply('I do not know what ' + command + ' means');
+		message.channel.send('I do not know what ' + command + ' means.');
 		return;
 	} 
 
@@ -70,7 +70,7 @@ client.on('message', message => {
 		client.commands.get(command).execute(message, args);
 	} catch (error) {
 		console.error(error);
-		message.reply('There was an error trying to execute ' + command.name);
+		message.channel.send('There was an error trying to execute ' + command.name);
 	}
 });
 
