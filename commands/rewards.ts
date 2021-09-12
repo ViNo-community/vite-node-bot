@@ -2,12 +2,8 @@ import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { RewardPendingInfo, rawToVite } from '../viteTypes'
 import { viteClient } from '../index';
 
-// Grab data from .env
-require('dotenv').config();
-
 // Grab files from .env
 const SBP_NAME = process.env.SBP_NAME || 'ViNo_Community_Node';
-
 
 module.exports = {
 	name: 'rewards',

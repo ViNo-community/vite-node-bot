@@ -1,9 +1,6 @@
 import { HTTP_RPC } from '@vite/vitejs-http';
 import { viteClient } from '../index';
 
-// Grab data from .env
-require('dotenv').config();
-
 module.exports = {
 	name: 'mode',
 	description: 'Set which network to connect to',

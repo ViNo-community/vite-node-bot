@@ -4,9 +4,6 @@ import { viteClient } from '../index';
 import { AccountBlockBlock } from '@vite/vitejs/distSrc/accountBlock/type';
 import { printAccountBlock } from '../common';
 
-// Grab data from .env
-require('dotenv').config();
-
 module.exports = {
 	name: 'transaction',
 	description: 'Display transaction information by hash',

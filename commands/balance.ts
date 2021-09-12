@@ -1,10 +1,6 @@
-
 import { RPCResponse, TokenInfo } from '@vite/vitejs/distSrc/utils/type';
 import { AccountInfo, BalanceInfo} from '../viteTypes';
 import { viteClient } from '../index';
-
-// Grab data from .env
-require('dotenv').config();
 
 module.exports = {
 	name: 'balance',

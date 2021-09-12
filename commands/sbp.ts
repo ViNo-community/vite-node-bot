@@ -3,9 +3,6 @@ import { SBPInfo, rawToVite } from '../viteTypes';
 import { epochToDate } from "../common";
 import { viteClient } from '../index';
 
-// Grab data from .env
-require('dotenv').config();
-
 // Grab info from .env
 const SBP_NAME = process.env.SBP_NAME || 'ViNo_Community_Node';
 

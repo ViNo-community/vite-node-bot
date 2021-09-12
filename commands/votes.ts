@@ -2,9 +2,6 @@ import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { SBPVoteInfo, rawToVite } from '../viteTypes'
 import { viteClient } from '../index';
 
-// Grab data from .env
-require('dotenv').config();
-
 const CHUNK_SIZE = 500;
 
 module.exports = {

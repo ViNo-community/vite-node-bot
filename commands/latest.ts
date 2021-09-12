@@ -1,4 +1,3 @@
-
 import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { AccountBlockBlock} from '@vite/vitejs/distSrc/accountBlock/type';
 import { viteClient } from '../index';
@@ -11,8 +10,8 @@ module.exports = {
         let prefix = message.client.botConfig.prefix; 
         let address = "";
         // User passes in address
-        if(!args.length) {
-            message.channel.send("Usage: " + prefix + "account <address>");
+        if(args.length != 1) {
+            message.channel.send("Usage: " + prefix + "latest <address>");
             return;
         } else {
             address = args[0];
