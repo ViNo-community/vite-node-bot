@@ -42,7 +42,7 @@ const showQuotaInformation = async (message, account: string) => {
 
     // Get quote info for specified account
     quotaInfo = await getQuotaInformation(account).catch((res: RPCResponse) => {
-        let errorMsg = "Could not retrieve quota info for " + account + " : " + res.error;
+        let errorMsg = "Could not retrieve quota info for " + account + " : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
         throw res.error;

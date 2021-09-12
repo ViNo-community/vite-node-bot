@@ -42,7 +42,7 @@ const showTxInformation = async (message, txHash: string) => {
 
     // Get rewards pending info for specified SBP
     accountBlock = await getTxInformation(txHash).catch((res: RPCResponse) => {
-        let errorMsg = "Could not account transaction info for \"" + txHash + "\" : " + res.error;
+        let errorMsg = "Could not account transaction info for \"" + txHash + "\" : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
         throw res.error;

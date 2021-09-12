@@ -24,6 +24,7 @@ module.exports = {
             let errorMsg = "Error while grabbing token information for \"" + tokenID + "\" :" + error.message;
             logger.error(errorMsg);
             console.error(errorMsg);
+            message.channel.send(errorMsg);
         });
 	},
 };
@@ -40,7 +41,7 @@ const showTokenInformation = async (message, tokenID: string) => {
 
     // Get token info for specified tokenID
     tokenInfo = await getTokenInformation(tokenID).catch((res: RPCResponse) => {
-        let errorMsg = "Could not retrieve token info for \"" + tokenID + "\" : " + res.error;
+        let errorMsg = "Could not retrieve token info for \"" + tokenID + "\" : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
         throw res.error;

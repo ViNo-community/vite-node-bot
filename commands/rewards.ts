@@ -42,7 +42,7 @@ const showRewardsPending = async (message, SBP: string) => {
 
     // Get rewards pending info for specified SBP
     rewards = await getRewardsPendingBySBP(SBP).catch((res: RPCResponse) => {
-        let errorMsg = "Could not retrieve rewards pending info for \"" + SBP + "\" : " + res.error;
+        let errorMsg = "Could not retrieve rewards pending info for \"" + SBP + "\" : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
         throw res.error;

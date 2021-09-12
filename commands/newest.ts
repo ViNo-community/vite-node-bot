@@ -46,7 +46,7 @@ const showAccountInformation = async (message, address: string) => {
     let accountBlock : AccountBlockBlock;
   
     accountBlock = await getAccountInformation(address).catch((res: RPCResponse) => {
-        let errorMsg = "Could not grab newest block for " + address + " : " + res.error;
+        let errorMsg = "Could not grab newest block for " + address + " : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
         throw res.error;

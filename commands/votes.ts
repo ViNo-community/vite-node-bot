@@ -40,7 +40,7 @@ const showVoteList = async (message, SBP: string) => {
 
     // Get rewards pending info for specified SBP
     voteInfo = await getVoteList().catch((res: RPCResponse) => {
-        let errorMsg = "Could not retrieve vote info SBP:\"" + SBP + "\" : " + res.error;
+        let errorMsg = "Could not retrieve vote info SBP:\"" + SBP + "\" : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
         throw res.error;

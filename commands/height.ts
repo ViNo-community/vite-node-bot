@@ -54,7 +54,7 @@ const showAccountBlockAtHeight = async (message, address: string, blockHeight : 
     let accountBlock : AccountBlockBlock;
   
     accountBlock = await getAccountBlockAtHeight(address, blockHeight).catch((res: RPCResponse) => {
-        let errorMsg = "Error while grabbing " + address + " block height " + blockHeight + " : " + res.error;
+        let errorMsg = "Error while grabbing " + address + " block height " + blockHeight + " : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
         throw res.error;

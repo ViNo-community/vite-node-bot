@@ -43,7 +43,7 @@ const showContractInformation = async (message, address: string) => {
 
     // Get smart contract info on specified address
     contractInfo = await getContractInformation(address).catch((res: RPCResponse) => {
-        let errorMsg = "Error grabbing smart contract information at " + address + " : " + res.error;
+        let errorMsg = "Error grabbing smart contract information at " + address + " : " + res.error.message;
         logger.error(errorMsg);
         console.error(errorMsg);
         throw res.error;
