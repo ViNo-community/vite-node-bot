@@ -1,26 +1,30 @@
 import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
+import * as vite from "@vite/vitejs"
 import { AccountBlockBlock} from '@vite/vitejs/distSrc/accountBlock/type';
 import { viteClient } from '../index';
 import { printAccountBlock } from '../common';
 
 module.exports = {
-	name: 'latest',
-	description: 'Display latest account block info for specified address',
+	name: 'newest',
+	description: 'Display newest account block info for specified address',
 	execute(message, args) {    
         let prefix = message.client.botConfig.prefix; 
         let address = "";
         // User passes in address
         if(args.length != 1) {
-            message.channel.send("Usage: " + prefix + "latest <address>");
+            message.channel.send("Usage: " + prefix + "newest <address>");
             return;
-        } else {
-            address = args[0];
+        } 
+        address = args[0];
+        if(vite.wallet.isValidAddress(address) == vite.wallet.AddressType.Illegal) {
+            message.channel.send("Invalid address");
+            return;
         }
-        console.log("Looking up info for address: " + address);
+        console.log("Looking up newest account block for address: " + address);
         // Get account info for address
         showAccountInformation(message, address)
         .catch(error => {
-            console.error("Error while grabbing account summary :" + error.message);
+            console.error("Error while grabbing newest account block for " + address + " :" + error.message);
         });
 
 
