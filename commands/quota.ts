@@ -2,6 +2,9 @@ import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { QuotaInfo, rawToVite } from '../viteTypes';
 import { quotaToUT } from '../common'
 import { viteClient } from '../index';
+//import { getLogger } from 'logger';
+
+//const logger = getLogger();
 
 module.exports = {
 	name: 'quota',
@@ -21,7 +24,9 @@ module.exports = {
         // Get quota info for account
         showQuotaInformation(message, address)
         .catch(error => {
-            console.error("Error while grabbing SBP rewards summary :" + error.message);
+            let errorMsg = "Error while grabbing quota information for " + address + " : " + error.message;
+            //logger.error(errorMsg);
+            console.error(errorMsg);
         });
 
 
@@ -53,6 +58,7 @@ const showQuotaInformation = async (message, account: string) => {
             "\n**Stake Amount:** " +  rawToVite(quotaInfo.stakeAmount).toLocaleString(undefined, {minimumFractionDigits: 2});
     }
     // Send response to chat
+    //logger.info(chatMessage);
     message.channel.send(chatMessage);
 
 }

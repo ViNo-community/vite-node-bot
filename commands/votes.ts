@@ -1,6 +1,9 @@
 import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { SBPVoteInfo, rawToVite } from '../viteTypes'
 import { viteClient } from '../index';
+//import { getLogger } from 'logger';
+
+//const logger = getLogger();
 
 const CHUNK_SIZE = 500;
 
@@ -10,7 +13,7 @@ module.exports = {
 	execute(message, args) {     
         // User can pass in optional SBP Name
         let SBPName = "";
-        if(!args.length) {
+        if(args.length != 1) {
             SBPName = "";
         } else {
             // Use SBP argument
@@ -74,7 +77,10 @@ const showVoteList = async (message, SBP: string) => {
         if(SBP != "" && found == false) {
             chatMessage = "Could not find voting information for SBP \"" + SBP + "\"";
         }
-        if(chatMessage.length > 0) message.channel.send(chatMessage);
+        if(chatMessage.length > 0) {
+           // logger.info(chatMessage);
+            message.channel.send(chatMessage);
+        }
     }
 
 

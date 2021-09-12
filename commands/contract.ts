@@ -2,6 +2,9 @@
 import { RPCResponse} from '@vite/vitejs/distSrc/utils/type';
 import { ContractInfo } from '../viteTypes';
 import { viteClient } from '../index';
+import { getLogger } from '../logger';
+
+const logger = getLogger();
 
 module.exports = {
 	name: 'contract',

@@ -2,6 +2,9 @@ import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { SBPInfo, rawToVite } from '../viteTypes';
 import { epochToDate } from "../common";
 import { viteClient } from '../index';
+//import { getLogger } from 'logger';
+
+//const logger = getLogger();
 
 // Grab info from .env
 const SBP_NAME = process.env.SBP_NAME || 'ViNo_Community_Node';
@@ -61,6 +64,7 @@ const showSBPInformation = async (message, SBP: string) => {
 
     }
     // Send response to chat
+    //logger.info(chatMessage);
     message.channel.send(chatMessage);
 
 }

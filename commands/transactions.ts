@@ -1,8 +1,10 @@
-
 import { RPCResponse} from '@vite/vitejs/distSrc/utils/type';
 import { viteClient } from '../index';
 import { AccountBlockBlock } from '@vite/vitejs/distSrc/accountBlock/type';
 import { printAccountBlock } from '../common';
+//import { getLogger } from 'logger';
+
+//const logger = getLogger();
 
 module.exports = {
 	name: 'transaction',
@@ -52,6 +54,7 @@ const showTxInformation = async (message, txHash: string) => {
             chatMessage = printAccountBlock(accountBlock);
         }
         // Send response to chat
+      //  logger.info(chatMessage);
         message.channel.send(chatMessage);
     } catch(err) {
         console.error("Error displaying transaction info for " + txHash + " : " + err);

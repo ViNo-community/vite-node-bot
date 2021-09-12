@@ -2,6 +2,9 @@ import { RPCResponse, TokenInfo } from '@vite/vitejs/distSrc/utils/type';
 import * as vite from "@vite/vitejs"
 import { AccountInfo, BalanceInfo} from '../viteTypes';
 import { viteClient } from '../index';
+import { getLogger } from '../logger';
+
+const logger = getLogger();
 
 module.exports = {
 	name: 'balance',
@@ -16,14 +19,18 @@ module.exports = {
         } 
         address = args[0];
         if(vite.wallet.isValidAddress(address) == vite.wallet.AddressType.Illegal) {
-            message.channel.send("Invalid address");
+            let errorMsg : string = "Invalid address \"" + address + "\"";
+            message.channel.send(errorMsg);
+            logger.error(errorMsg);
             return;
         }
         console.log("Looking up balance info for address: " + address);
         // Get account info for address
         showAccountInformation(message, address)
         .catch(error => {
-            console.error("Error while grabbing balances for " + address + " :" + error.message);
+            let errorMsg : string = "Error while grabbing balances for " + address + " :" + error.message;
+            console.error(errorMsg);
+            logger.error(errorMsg);
         });
 	},
 };
@@ -38,9 +45,11 @@ const showAccountInformation = async (message, address: string) => {
     let accountInfo: AccountInfo;
     let balanceInfoMap : ReadonlyMap<String, BalanceInfo>;
 
-    // Get rewards pending info for specified SBP
+    // Get account info for address
     accountInfo = await getAccountInformation(address).catch((res: RPCResponse) => {
-        console.log(`Could not account retrieve info for ${address} `, res);
+        let errorMsg = "Could not retrieve account balances for " + address;
+        logger.error(errorMsg);
+        console.log(errorMsg, res);
         throw res.error;
     });
 
@@ -62,11 +71,11 @@ const showAccountInformation = async (message, address: string) => {
             }
         }
         // Send response to chat
+        logger.info(chatMessage);
         message.channel.send(chatMessage);
     } catch(err) {
         console.error("Error displaying balance info for " + address + " : " + err);
         console.error(err.stack);
     }
-
 
 }

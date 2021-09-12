@@ -1,6 +1,9 @@
 import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { RewardPendingInfo, rawToVite } from '../viteTypes'
 import { viteClient } from '../index';
+//import { getLogger } from 'logger';
+
+//const logger = getLogger();
 
 // Grab files from .env
 const SBP_NAME = process.env.SBP_NAME || 'ViNo_Community_Node';
@@ -57,6 +60,7 @@ const showRewardsPending = async (message, SBP: string) => {
 
     }
     // Send response to chat
+    //logger.info(chatMessage);
     message.channel.send(chatMessage);
 
 }

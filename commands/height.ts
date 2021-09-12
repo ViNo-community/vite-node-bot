@@ -3,6 +3,9 @@ import * as vite from "@vite/vitejs"
 import { AccountBlockBlock} from '@vite/vitejs/distSrc/accountBlock/type';
 import { viteClient } from '../index';
 import { isValidBlockHeight, printAccountBlock } from '../common';
+import { getLogger } from '../logger';
+
+const logger = getLogger();
 
 module.exports = {
 	name: 'height',
@@ -11,6 +14,7 @@ module.exports = {
         let prefix = message.client.botConfig.prefix; 
         let address = "";
         let blockHeight = "";
+        const logger = getLogger();
         // Grab address and block height from user input
         if(args.length != 2) {
             message.channel.send("Usage: " + prefix + "height <address> <block height>");
@@ -18,7 +22,9 @@ module.exports = {
         } else {
             address = args[0];
             if(vite.wallet.isValidAddress(address) == vite.wallet.AddressType.Illegal) {
-                message.channel.send("Invalid address");
+                let errorMsg : string = "Invalid address \"" + address + "\"";
+                message.channel.send(errorMsg);
+                logger.error(errorMsg);
                 return;
             }
             blockHeight = args[1];

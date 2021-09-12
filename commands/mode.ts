@@ -1,5 +1,8 @@
 import { HTTP_RPC } from '@vite/vitejs-http';
+//import { getLogger } from 'logger';
 import { viteClient } from '../index';
+
+//const logger = getLogger();
 
 module.exports = {
 	name: 'mode',
@@ -35,7 +38,9 @@ module.exports = {
                 if (err) throw err;
             });
         } catch(e) {
-            console.error("Error writing new config.json: " + e);
+            let errorMsg = "Error writing new config.json: " + e;
+            //logger.error(errorMsg);
+            console.error(errorMsg);
             console.error(e.stack);
             message.channel.send("Could not set new command prefix: " + e);
         }
@@ -59,7 +64,9 @@ module.exports = {
             }
             const httpProvider = new HTTP_RPC(RPC_NET);
             viteClient.setProvider(httpProvider, () => {
-                console.log('Vite client successfully reconnected to ' + newMode);
+                let infoMsg = "Vite client successfully reconnected to " + newMode;
+               // logger.info(infoMsg);
+                console.log(infoMsg);
             }, true);
 
             // Reload bot
