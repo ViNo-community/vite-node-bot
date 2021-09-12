@@ -63,7 +63,7 @@ export const isValidBlockHeight = (blockHeight : Int32) => {
     // Convert into number
     let blockHeightValue : number = parseInt(blockHeight);
     // Cannot parse integer value
-    if(blockHeightValue == NaN) return false;
+    if(isNaN(blockHeightValue)) return false;
     // Block height must be greater than 0
     if(blockHeightValue <= 0) return false;
     // Else return true
