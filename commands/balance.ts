@@ -49,8 +49,7 @@ const showAccountInformation = async (message, address: string) => {
         if(accountInfo == null) {
             chatMessage = "No information for account " + address;
         } else {
-            chatMessage = "**Address:** " + accountInfo.address +
-                "\n**Block Height:** " + accountInfo.blockCount + "\n";
+            chatMessage = "**Address:** " + accountInfo.address + "\n"
             balanceInfoMap = accountInfo.balanceInfoMap;
             for(const tokenID in balanceInfoMap) {
                 let balanceInfo : BalanceInfo = balanceInfoMap[tokenID];
@@ -65,7 +64,7 @@ const showAccountInformation = async (message, address: string) => {
         // Send response to chat
         message.channel.send(chatMessage);
     } catch(err) {
-        console.error("Error displaying account info for " + address + " : " + err);
+        console.error("Error displaying balance info for " + address + " : " + err);
         console.error(err.stack);
     }
 
