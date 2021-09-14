@@ -30,6 +30,7 @@ module.exports = {
         showAccountInformation(message, address)
         .catch(error => {
             let errorMsg : string = "Error while grabbing balances for " + address + " :" + error.message;
+            message.channel.send(errorMsg);
             console.error(errorMsg);
             logger.error(errorMsg);
         });

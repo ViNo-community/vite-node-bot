@@ -1,4 +1,5 @@
 import { RPCResponse, TokenInfo } from '@vite/vitejs/distSrc/utils/type';
+import * as vite from "@vite/vitejs";
 import { convertRaw } from '../common';
 import { viteClient } from '../index';
 import { getLogger } from '../logger';
@@ -18,6 +19,11 @@ module.exports = {
             return;
         } else {
             tokenID = args[0];
+        }
+        // Validate token ID
+        if(!vite.utils.isValidTokenId(tokenID)) {
+            message.channel.send("Invaid token ID \"" + tokenID + "\"");
+            return;
         }
         // Get token info for tokenID
         showTokenInformation(message, tokenID)

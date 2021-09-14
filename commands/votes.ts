@@ -2,6 +2,7 @@ import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { SBPVoteInfo, rawToVite } from '../viteTypes'
 import { viteClient } from '../index';
 import { getLogger } from '../logger';
+import * as vite from "@vite/vitejs";
 
 const logger = getLogger();
 
@@ -18,11 +19,17 @@ module.exports = {
         } else {
             // Use SBP argument
             SBPName = args[0];
+            // Validate SBP
+            if(!vite.utils.isValidSBPName(SBPName)) {
+                message.channel.send("Invaid SBP name \"" + SBPName + "\"");
+                return;
+            }
         }
         // Get reward info for SBP
         showVoteList(message, SBPName)
         .catch(error => {
             let errorMsg = "Error grabbing vote info SBP:\"" + SBPName + "\" : " + error.message;
+            message.channel.send(errorMsg);
             logger.error(errorMsg);
             console.error(errorMsg);
         });

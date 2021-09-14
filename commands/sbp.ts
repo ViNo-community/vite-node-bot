@@ -1,4 +1,5 @@
 import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
+import * as vite from "@vite/vitejs";
 import { SBPInfo, rawToVite } from '../viteTypes';
 import { epochToDate } from "../common";
 import { viteClient } from '../index';
@@ -21,12 +22,18 @@ module.exports = {
         } else {
             // Use SBP argument
             SBPName = args[0];
+            // Validate SBP
+            if(!vite.utils.isValidSBPName(SBPName)) {
+                message.channel.send("Invaid SBP name \"" + SBPName + "\"");
+                return;
+            }
         }
         console.log("Looking up info for SBP: " + SBPName);
         // Get reward info for SBP
         showSBPInformation(message, SBPName)
         .catch(error => {
             let errorMsg = "Error while grabbing SBP summary for \"" + SBPName + "\" : " + error.message;
+            message.channel.send(errorMsg);
             logger.error(errorMsg);
             console.error(errorMsg);
         });

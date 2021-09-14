@@ -38,6 +38,7 @@ module.exports = {
         showAccountBlockAtHeight(message, address, blockHeight)
         .catch(error => {
             let errorMsg = "Error while grabbing " + address + " block height " + blockHeight + " : " + error.message;
+            message.channel.send(errorMsg);
             logger.error(errorMsg);
             console.error(errorMsg);
         });

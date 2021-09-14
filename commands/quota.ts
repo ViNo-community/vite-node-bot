@@ -25,6 +25,7 @@ module.exports = {
         showQuotaInformation(message, address)
         .catch(error => {
             let errorMsg = "Error while grabbing quota information for " + address + " : " + error.message;
+            message.channel.send(errorMsg);
             logger.error(errorMsg);
             console.error(errorMsg);
         });
