@@ -14,7 +14,7 @@ module.exports = {
             return;
         } else {
             let url = "https://discord.com/api/oauth2/authorize?client_id=" + CLIENT_ID + "&permissions=" + PERMISSIONS + "&scope=bot";
-            message.channel.send("Open a browser and go to " + url);
+            message.author.send("Open a browser and go to " + url);
         }
 	},
 };
