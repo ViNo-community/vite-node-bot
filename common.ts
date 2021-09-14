@@ -22,6 +22,14 @@ export const epochToDate = (epoch) => {
     return d;
 };
 
+export const convertRaw = (amount : number, decimals : number) => {
+    if(amount == 0 || decimals == 0) {
+        return 0;
+    } else {
+        return amount / Math.pow(10, decimals);
+    }
+};
+
 export const quotaToUT = (quota) => {
     return quota / 21000
 };

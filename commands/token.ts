@@ -1,4 +1,5 @@
 import { RPCResponse, TokenInfo } from '@vite/vitejs/distSrc/utils/type';
+import { convertRaw } from '../common';
 import { viteClient } from '../index';
 import { getLogger } from '../logger';
 
@@ -51,13 +52,20 @@ const showTokenInformation = async (message, tokenID: string) => {
     if(tokenInfo == null) {
         chatMessage = "No token information available for " + tokenID;
     } else {
+
+        let decimals : number = parseInt(tokenInfo.decimals);
+        let totalSupply = convertRaw(parseInt(tokenInfo.totalSupply),decimals);
+        let maxSupply = convertRaw(parseInt(tokenInfo.maxSupply),decimals);
+        let totalSupplyStr = totalSupply.toLocaleString(undefined, {minimumFractionDigits: 2});
+        let maxSupplyStr = maxSupply.toLocaleString(undefined, {minimumFractionDigits: 2});
         chatMessage = "**Token Name:** " + tokenInfo.tokenName +
             "\n**Token Symbol:** " + tokenInfo.tokenSymbol +
             "\n**Token ID:** " + tokenInfo.tokenId +
             "\n**Decimals:** " + tokenInfo.decimals +
             "\n**Owner:** " + tokenInfo.owner +
             "\n**Is ReIssuable:** " + tokenInfo.isReIssuable +
-            "\n**Max Supply:** " + tokenInfo.maxSupply +
+            "\n**Total Supply:** " + totalSupplyStr +
+            "\n**Max Supply:** " + maxSupplyStr +
             "\n**Owner Burn Only:** " + tokenInfo.isOwnerBurnOnly + 
             "\n**Index:** " + tokenInfo.index;
     }

@@ -3,6 +3,7 @@ import * as vite from "@vite/vitejs"
 import { AccountInfo, BalanceInfo} from '../viteTypes';
 import { viteClient } from '../index';
 import { getLogger } from '../logger';
+import { convertRaw } from '../common';
 
 const logger = getLogger();
 
@@ -65,7 +66,7 @@ const showAccountInformation = async (message, address: string) => {
                 let tokenInfo : TokenInfo = balanceInfo.tokenInfo;
                 let decimals = parseInt(tokenInfo.decimals);
                 let balance = parseFloat(balanceInfo.balance);
-                let readableBalance = balance/ Math.pow(10, decimals);
+                let readableBalance = convertRaw(balance, decimals);
                 chatMessage += "**" + tokenInfo.tokenSymbol + ":** " + 
                     readableBalance.toLocaleString(undefined, {minimumFractionDigits: 2}) + "\n";
             }
