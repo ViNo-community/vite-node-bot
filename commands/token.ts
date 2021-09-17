@@ -28,7 +28,7 @@ module.exports = {
         // Get token info for tokenID
         showTokenInformation(message, tokenID)
         .catch(error => {
-            let errorMsg = "Error while grabbing token information for \"" + tokenID + "\" :" + error.message;
+            let errorMsg = "Error while grabbing token information for \"" + tokenID + "\" :" + error;
             logger.error(errorMsg);
             console.error(errorMsg);
             message.channel.send(errorMsg);

@@ -27,7 +27,7 @@ module.exports = {
         // Get account info for address
         showAccountInformation(message, address)
         .catch(error => {
-            let errorMsg = "Error while grabbing newest account block for " + address + " :" + error.message;
+            let errorMsg = "Error while grabbing newest account block for " + address + " :" + error;
             message.channel.send(errorMsg);
             logger.error(errorMsg);
             console.error(errorMsg);

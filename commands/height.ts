@@ -37,7 +37,7 @@ module.exports = {
         // Get account info for address
         showAccountBlockAtHeight(message, address, blockHeight)
         .catch(error => {
-            let errorMsg = "Error while grabbing " + address + " block height " + blockHeight + " : " + error.message;
+            let errorMsg = "Error while grabbing " + address + " block height " + blockHeight + " : " + error;
             message.channel.send(errorMsg);
             logger.error(errorMsg);
             console.error(errorMsg);

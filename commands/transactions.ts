@@ -23,7 +23,7 @@ module.exports = {
         // Get account info for address
         showTxInformation(message, txHash)
         .catch(error => {
-            console.error("Error while grabbing transaction data")
+            console.error("Error while grabbing transaction data: " + error);
             message.channel.send("Error looking up info for transaction: " + txHash);
         });
 

@@ -28,7 +28,7 @@ module.exports = {
         // Get reward info for SBP
         showVoteList(message, SBPName)
         .catch(error => {
-            let errorMsg = "Error grabbing vote info SBP:\"" + SBPName + "\" : " + error.message;
+            let errorMsg = "Error grabbing vote info SBP:\"" + SBPName + "\" : " + error;
             message.channel.send(errorMsg);
             logger.error(errorMsg);
             console.error(errorMsg);

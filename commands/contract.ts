@@ -23,7 +23,7 @@ module.exports = {
         // Get contract info for address
         showContractInformation(message, address)
         .catch(error => {
-            let errorMsg = "Error grabbing smart contract information at " + address + " : " + error.message;
+            let errorMsg = "Error grabbing smart contract information at " + address + " : " + error;
             message.channel.send(errorMsg);
             logger.error(errorMsg);
             console.error(errorMsg);

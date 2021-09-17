@@ -29,7 +29,7 @@ module.exports = {
         // Get account info for address
         showAccountInformation(message, address)
         .catch(error => {
-            let errorMsg : string = "Error while grabbing balances for " + address + " :" + error.message;
+            let errorMsg : string = "Error while grabbing balances for " + address + " :" + error;
             message.channel.send(errorMsg);
             console.error(errorMsg);
             logger.error(errorMsg);

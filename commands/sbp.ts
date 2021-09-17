@@ -32,7 +32,7 @@ module.exports = {
         // Get reward info for SBP
         showSBPInformation(message, SBPName)
         .catch(error => {
-            let errorMsg = "Error while grabbing SBP summary for \"" + SBPName + "\" : " + error.message;
+            let errorMsg = "Error while grabbing SBP summary for \"" + SBPName + "\" : " + error;
             message.channel.send(errorMsg);
             logger.error(errorMsg);
             console.error(errorMsg);
