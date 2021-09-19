@@ -2,10 +2,11 @@
   "name": "vite_node_bot",
   "version": "1.0.0",
   "description": "Vite Node Discord bot",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "tsc && node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:prod": "tsc && pm2 start dist/index.js",
+    "start:dev": "tsc && node dist/index.js"
   },
   "repository": {
     "type": "git",

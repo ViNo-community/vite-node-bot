@@ -5,9 +5,9 @@
         "target": "es5",
         "moduleResolution": "node",
         "sourceMap": true,
-        "outDir": ".",
-        "rootDir": ".",
-        "baseUrl": ".",
+        "outDir": "dist",
+        "rootDir": "src",
+        "baseUrl": "./src",
         "skipLibCheck": true,
         "removeComments": false,
         "lib": ["es2015"]
