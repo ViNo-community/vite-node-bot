@@ -9,7 +9,7 @@ module.exports = {
 	description: 'Set which network to connect to',
 	execute(message, args) {
         const fs = require('fs');                   // Loads the Filesystem library
-        const oldConfig = require('../config.json');   // Loads bot config file
+        const oldConfig = require('../../config.json');   // Loads bot config file
         if(!args.length) {
             const mode  = oldConfig.network;
             // No new prefix. Output usage
@@ -51,8 +51,8 @@ module.exports = {
             // Reload config
             console.log("Setting new mode to " + newMode);
             // Reload config.json here
-            delete require.cache[require.resolve('../config.json')]   // Delete cache
-            var config = require("../config.json");
+            delete require.cache[require.resolve('../../config.json')]   // Delete cache
+            var config = require("../../config.json");
             var RPC_NET = process.env.TESTNET;  // Default to TESTNET
             if(newMode == 'MAINNET') {
                 console.log("Loading MAINNET");
