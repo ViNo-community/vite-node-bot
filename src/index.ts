@@ -3,7 +3,7 @@ import { ViteAPI } from '@vite/vitejs';
 
 const fs = require('fs');                   // Loads the Filesystem library
 const Discord = require('discord.js');      // Loads the discord API library
-const Config = require('./config.json');    // Loads the configuration values
+const Config = require('../config.json');    // Loads the configuration values
 
 // Grab data from .env
 require('dotenv').config();
@@ -44,7 +44,7 @@ client.on('ready', () => {
 
 // Dynamically load commands from commands directory
 client.commands = new Discord.Collection();
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('./dist/commands').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
 	// set a new item in the Collection

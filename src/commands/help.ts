@@ -10,7 +10,7 @@ module.exports = {
     execute(message, args) {
         if (!args.length) {
 
-            prefix = message.client.botConfig.prefix;
+            let prefix = message.client.botConfig.prefix;
 
             const Discord = require('discord.js');
             const embed = new Discord.MessageEmbed();
