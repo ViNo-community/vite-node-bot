@@ -80,6 +80,9 @@ const showUnreceivedBlocks = async (message, address: string, index : number, pa
         if(accountBlocks == null) {
             chatMessage = "No information for unreceived transactions for account " + address + " at index " + index;
         } else {
+            if(accountBlocks.length == 0) {
+                message.channel.send("No transactions found");
+            }
             // Loop thru account blocks
             for (let i =0;i < accountBlocks.length; i++) {
                 chatMessage = "**Unreceived Transaction #" + (i + 1) + "**\n";
