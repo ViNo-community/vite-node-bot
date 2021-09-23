@@ -84,12 +84,13 @@ const showUnreceivedBlocks = async (message, address: string, index : number, pa
                 message.channel.send("No transactions found");
             }
             // Loop thru account blocks
-            for (let i =0;i < accountBlocks.length; i++) {
-                chatMessage = "**Unreceived Transaction #" + (i + 1) + "**\n";
-                chatMessage +=  printAccountBlock(accountBlocks[i]);
-                // Send response to chat
-                logger.info(chatMessage);
-                message.channel.send(chatMessage);
+            for (let i =0; i < accountBlocks.length; i++) {
+                printAccountBlock(accountBlocks[i]).then(res => {
+                    // Send response to chat
+                    logger.info(res);
+                    chatMessage = "**Unreceived Transaction #" + (i + 1) + "**\n" + res;
+                    message.channel.send(chatMessage);
+                });
             }
         }
     } catch(err) {
