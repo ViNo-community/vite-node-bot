@@ -1,6 +1,10 @@
 import { Int32 } from '@vite/vitejs/distSrc/accountBlock/type';
-import { AccountBlockBlock, BlockType } from '@vite/vitejs/distSrc/utils/type';
+import { AccountBlockBlock, BlockType, TokenInfo } from '@vite/vitejs/distSrc/utils/type';
+import { getLogger } from './logger';
 import {DateTime} from 'luxon';
+import { getTokenInformation } from './vite_functions';
+
+const logger = getLogger();
 
 export const getLatestCycleTimestampFromNow = () => {
     const nowUtc = DateTime.utc();
@@ -34,13 +38,27 @@ export const quotaToUT = (quota) => {
     return quota / 21000
 };
 
-export const printAccountBlock = (accountBlock : AccountBlockBlock) => {
+export const printAccountBlock = async (accountBlock : AccountBlockBlock) => {
+    let tokenInfo : TokenInfo = await getTokenInformation(accountBlock.tokenId);
+    let tokenString = "";
+    let amountString = "";
+    if(tokenInfo == null) {
+        const errorMsg = "getTokenInfo for " + accountBlock.tokenId + " returned null";
+        logger.error(errorMsg);
+        console.error(errorMsg)
+    } else {
+        let amount = parseInt(accountBlock.amount);
+        let decimals = parseInt(tokenInfo.decimals);
+        let viteAmount = convertRaw(amount,decimals);
+        tokenString = "\t[  " + tokenInfo.tokenSymbol + "  ]";
+        amountString = "\t[   " + viteAmount.toFixed(2) + "   ]";
+    }
     return "**Block Height:** " + accountBlock.height + 
         "\n**Block Type:** " + printBlockType(accountBlock.blockType) +
         "\n**Address:** " + accountBlock.address +
         "\n**To Address:** " + accountBlock.toAddress +
-        "\n**Token ID:** " + accountBlock.tokenId +
-        "\n**Amount:** " + accountBlock.amount +
+        "\n**Token ID:** " + accountBlock.tokenId + tokenString +
+        "\n**Amount:** " + accountBlock.amount + amountString +
         "\n**Data:** " + accountBlock.data +
         "\n**Fee:** " + accountBlock.fee +
         "\n**Difficulty:** " + accountBlock.difficulty +

@@ -53,7 +53,11 @@ const showTxInformation = async (message, txHash: string) => {
         if(accountBlock == null) {
             chatMessage = "No information for transaction " + txHash;
         } else {
-            chatMessage = printAccountBlock(accountBlock);
+            printAccountBlock(accountBlock).then(res => {
+                // Send response to chat
+                logger.info(res);
+                message.channel.send(res);
+            });
         }
         // Send response to chat
         logger.info(chatMessage);

@@ -58,7 +58,11 @@ const showAccountInformation = async (message, address: string) => {
         if(accountBlock == null) {
             chatMessage = "No information for account " + address;
         } else {
-            chatMessage =  printAccountBlock(accountBlock);
+            printAccountBlock(accountBlock).then(res => {
+                // Send response to chat
+                logger.info(res);
+                message.channel.send(res);
+            });
         }
         // Send response to chat
         logger.info(chatMessage);

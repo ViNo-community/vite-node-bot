@@ -66,7 +66,12 @@ const showAccountBlockAtHeight = async (message, address: string, blockHeight : 
         if(accountBlock == null) {
             chatMessage = "No information for account " + address + " at block height " + blockHeight;
         } else {
-            chatMessage =  printAccountBlock(accountBlock);
+            //chatMessage =  printAccountBlock(accountBlock);
+            printAccountBlock(accountBlock).then(res => {
+                // Send response to chat
+                logger.info(res);
+                message.channel.send(res);
+            });
         }
         // Send response to chat
         logger.info(chatMessage);
