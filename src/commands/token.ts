@@ -3,6 +3,7 @@ import * as vite from "@vite/vitejs";
 import { convertRaw } from '../common';
 import { viteClient } from '../index';
 import { getLogger } from '../logger';
+import { getTokenInformation } from '../vite_functions';
 
 const logger = getLogger();
 
@@ -34,12 +35,6 @@ module.exports = {
             message.channel.send(errorMsg);
         });
 	},
-};
-
-
-const getTokenInformation = async (tokenID: string) => {
-    const tokenInfo: TokenInfo = await viteClient.request('contract_getTokenInfoById', tokenID);
-    return tokenInfo;
 };
 
 const showTokenInformation = async (message, tokenID: string) => {
