@@ -48,14 +48,29 @@ const showNodeInformation = async (message) => {
     if(nodeInfo == null) {
         chatMessage = "No information for node";
     } else {
+        // Log and display node information
         chatMessage = "**Name:** " + nodeInfo.name +
             "\n**ID:** " + nodeInfo.id +
             "\n**Net ID** " + nodeInfo.netId +
             "\n**Peer Count:** " + nodeInfo.peerCount 
-            "\n**Peer Info:** " + nodeInfo.peers;
+        // Send response to chat
+        logger.info(chatMessage);
+        message.channel.send(chatMessage);
+        // Log and display peer information
+        let i : number = 1;
+        nodeInfo.peers.forEach(function(peer){
+            chatMessage = "**Peer #" + i++ + "**" +
+                "\n**Name:** " +  peer.name +
+                "\n**Height:** " + peer.height +
+                "\n**Address** " + peer.address +
+                "\n**Time Created:** " + peer.createAt; 
+             // Send response to chat
+            logger.info(chatMessage);
+            message.channel.send(chatMessage);
+        });
     }
-    // Send response to chat
-    logger.info(chatMessage);
-    message.channel.send(chatMessage);
+
+
+
 
 }
