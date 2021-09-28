@@ -5,6 +5,7 @@ import {DateTime} from 'luxon';
 import { getTokenInformation } from './vite_functions';
 
 const logger = getLogger();
+const VITE_DECIMALS = 18;
 
 export const getLatestCycleTimestampFromNow = () => {
     const nowUtc = DateTime.utc();
@@ -32,6 +33,10 @@ export const convertRaw = (amount : number, decimals : number) => {
     } else {
         return amount / Math.pow(10, decimals);
     }
+};
+
+export const convertRawToVite = (amount : number) => {
+    return convertRaw(amount, VITE_DECIMALS);
 };
 
 export const quotaToUT = (quota) => {

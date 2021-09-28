@@ -3,6 +3,7 @@ import * as vite from "@vite/vitejs"
 import { StakeListInfo } from '../viteTypes';
 import { viteClient } from '../index';
 import { getLogger } from '../logger';
+import { convertRawToVite, epochToDate } from '../common';
 
 const logger = getLogger();
 
@@ -80,7 +81,8 @@ const showStakeList = async (message, address: string, index : number, pageSize 
             chatMessage = "No information for stake list for account " + address + " at index " + index;
         } else {
             // Log and display node information
-            chatMessage = "**Total Stake Amount:** " + stakeList.totalStakeAmount +
+            let amountTotalInVite = convertRawToVite(parseInt(stakeList.totalStakeAmount));
+            chatMessage = "**Total Stake Amount:** " + amountTotalInVite.toLocaleString(undefined, {minimumFractionDigits: 2})  +
                 "\n**Total Staking Records:** " + stakeList.totalStakeCount;
             // Send response to chat
             logger.info(chatMessage);
@@ -88,11 +90,13 @@ const showStakeList = async (message, address: string, index : number, pageSize 
             // Log and display peer information
             let i : number = 1;
             stakeList.stakeList.forEach(function(stake){
+                let amountInVite = convertRawToVite(parseInt(stake.stakeAmount));
+                let expireDate = epochToDate(stake.expirationTime);
                 chatMessage = "**Stake Record #" + i++ + "**" +
                     "\n**Address:** " +  stake.stakeAddress +
-                    "\n**Amount:** " + stake.stakeAmount +
+                    "\n**Amount:** " + amountInVite.toLocaleString(undefined, {minimumFractionDigits: 2})  +
                     "\n**Expiration Height:** " + stake.expirationHeight +
-                    "\n**Expiration Time:** " + stake.expirationTime +
+                    "\n**Expiration Time:** " + expireDate +
                     "\n**Beneficiary:** " + stake.beneficiary +
                     "\n**Delegated:** " + stake.isDelegated +
                     "\n**Delegated Address:** " + stake.delegatedAddress +
