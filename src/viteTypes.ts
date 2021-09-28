@@ -3,19 +3,19 @@ import { Hex, Uint8, Uint16, Int64, Uint64, TokenId, TokenInfo, Base64,
 import { Address, BigInt, AccountBlockBlock, AddressObj } from '@vite/vitejs/distSrc/accountBlock/type';
 
 export interface SBPInfo {
-	name: String;
-	blockProducingAddress: Address;
-	stakeAddress: Address;
-	stakeAmount: BigInt;
-	expirationHeight: Uint64;
-	expirationTime: Int64;
-	revokeTime: Int64;
+	name: String;						// Name of SBP
+	blockProducingAddress: Address;		// Block creation address
+	stakeAddress: Address;				// Registration address
+	stakeAmount: BigInt;				// Amount staked
+	expirationHeight: Uint64;			// Target unlocking height. Can be cancelled after locking period expires.
+	expirationTime: Int64;				// Estimated target unlocking time
+	revokeTime: Int64;					// Time of cancellation, or 0 for non-cancelled SBP node
 }
 
 export interface NodeInfo {
-	id : String;
-	name : String;
-	netId: BigInt;
+	id : String;				// Node ID
+	name : String;				// Node name
+	netId: BigInt;				// ID of Vite network connected
 	peerCount: BigInt;			// Number of peers connected
 	peers : PeerInfo[];			// Info about peers
 }
@@ -28,18 +28,18 @@ export interface PeerInfo {
 }
 
 export interface RewardInfo {
-	totalReward: BigInt;
-	blockProducingReward: BigInt;
-	votingReward: BigInt;
+	totalReward: BigInt;					// The total rewards that have not been retrieved
+	blockProducingReward: BigInt;			// Un-retrieved block creation rewards
+	votingReward: BigInt;					// Un-retrieved candidate additional rewards(voting rewards)
 	producedBlocks: BigInt;
 	targetBlocks: BigInt;
 }
 
 export interface RewardPendingInfo {
-	totalReward: BigInt;
-	blockProducingReward: BigInt;
-	votingReward: BigInt;
-    allRewardWithdrawed: boolean;
+	totalReward: BigInt;					// The total rewards that have not been retrieved
+	blockProducingReward: BigInt;			// Un-retrieved block creation rewards
+	votingReward: BigInt;					// Un-retrieved candidate additional rewards(voting rewards)
+    allRewardWithdrawed: boolean;			// If true, the SBP node has been cancelled and all rewards have been withdrawn
 }
 
 export interface RewardByDayInfo {
@@ -47,6 +47,23 @@ export interface RewardByDayInfo {
 	startTime: Int64;
 	endTime: Int64;
 	cycle: Uint64;
+}
+
+export interface StakeListInfo {
+	totalStakeAmount : BigInt;				// Total staking amount of account
+	totalStakeCount: Int64;					// Total number of staking records
+	stakeList: Array<StakeInfo>;			// Stake info list
+}
+
+export interface StakeInfo {
+	stakeAddress : Address;					// Address of staking account
+	stakeAmount : BigInt;					// Amount staked
+	expirationHeight : Uint64;				// Target unlocking height
+	beneficiary : Address;					// Address of staking beneficiary
+	expirationTime : Int64;					// Estimated target unlocking time
+	isDelegated : boolean;					// Is a delegated staking record?
+	delegatedAddress : Address;				// Adddress of delegate account, or 0 if non-delegated
+	bid : Uint8;							// Business ID, or 0 if non-delegated
 }
 
 export interface Receiver {
