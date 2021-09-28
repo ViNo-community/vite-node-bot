@@ -12,6 +12,21 @@ export interface SBPInfo {
 	revokeTime: Int64;
 }
 
+export interface NodeInfo {
+	id : String;
+	name : String;
+	netId: BigInt;
+	peerCount: BigInt;			// Number of peers connected
+	peers : PeerInfo[];			// Info about peers
+}
+
+export interface PeerInfo {
+	name : String;
+	height : Int64;				// Snapshot chain height
+	address : String;			// Peer's IP address
+	createAt: String;			// Time when this peer was connected
+}
+
 export interface RewardInfo {
 	totalReward: BigInt;
 	blockProducingReward: BigInt;
