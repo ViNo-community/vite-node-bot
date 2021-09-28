@@ -79,6 +79,4 @@ const showAccountBlockAtHeight = async (message, address: string, blockHeight : 
         console.error("Error displaying account info for " + address + " : " + err);
         console.error(err.stack);
     }
-
-
 }

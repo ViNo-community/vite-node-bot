@@ -1,7 +1,6 @@
 import { RPCResponse, TokenInfo } from '@vite/vitejs/distSrc/utils/type';
 import * as vite from "@vite/vitejs";
 import { convertRaw } from '../common';
-import { viteClient } from '../index';
 import { getLogger } from '../logger';
 import { getTokenInformation } from '../vite_functions';
 

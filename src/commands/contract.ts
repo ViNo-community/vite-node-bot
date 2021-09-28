@@ -30,8 +30,6 @@ module.exports = {
             logger.error(errorMsg);
             console.error(errorMsg);
         });
-
-
 	},
 };
 
@@ -80,8 +78,6 @@ const showContractInformation = async (message, address: string) => {
         logger.info(chunk);
         message.channel.send(chunk);
     }
-
-
 }
 
 // Split str up into size sized chunks

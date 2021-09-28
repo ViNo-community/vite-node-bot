@@ -71,6 +71,4 @@ const showAccountInformation = async (message, address: string) => {
         console.error("Error displaying account info for " + address + " : " + err);
         console.error(err.stack);
     }
-
-
 }

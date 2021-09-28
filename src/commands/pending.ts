@@ -1,4 +1,4 @@
-import { Int32, RPCResponse } from '@vite/vitejs/distSrc/utils/type';
+import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import * as vite from "@vite/vitejs"
 import { AccountBlockBlock} from '@vite/vitejs/distSrc/accountBlock/type';
 import { viteClient } from '../index';
@@ -97,6 +97,4 @@ const showUnreceivedBlocks = async (message, address: string, index : number, pa
         console.error("Error displaying account info for " + address + " : " + err);
         console.error(err.stack);
     }
-
-
 }

@@ -1,14 +1,9 @@
 import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
-import * as vite from "@vite/vitejs";
-import { NodeInfo, rawToVite } from '../viteTypes';
-import { epochToDate } from "../common";
+import { NodeInfo } from '../viteTypes';
 import { viteClient } from '../index';
 import { getLogger } from '../logger';
 
 const logger = getLogger();
-
-// Grab info from .env
-const SBP_NAME = process.env.SBP_NAME || 'ViNo_Community_Node';
 
 module.exports = {
 	name: 'node',
@@ -69,8 +64,4 @@ const showNodeInformation = async (message) => {
             message.channel.send(chatMessage);
         });
     }
-
-
-
-
 }

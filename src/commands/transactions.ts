@@ -27,7 +27,6 @@ module.exports = {
             message.channel.send("Error looking up info for transaction: " + txHash);
         });
 
-
 	},
 };
 
