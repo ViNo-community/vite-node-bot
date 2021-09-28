@@ -35,6 +35,7 @@ module.exports = {
                 var newConfig = {
                     token: oldConfig.token,
                     prefix: newPrefix,
+                    network: oldConfig.network
                 };
                 // Write new config 
                 try {
