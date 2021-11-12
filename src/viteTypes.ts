@@ -49,6 +49,11 @@ export interface RewardByDayInfo {
 	cycle: Uint64;
 }
 
+export interface TokenListInfo {
+	totalCount : Int64,						// The total number of tokens
+	tokenInfoList: Array<TokenInfo>;		// List of tokens
+}
+
 export interface StakeListInfo {
 	totalStakeAmount : BigInt;				// Total staking amount of account
 	totalStakeCount: Int64;					// Total number of staking records
