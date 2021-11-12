@@ -1,5 +1,9 @@
 import { HTTP_RPC } from '@vite/vitejs-http';
+import { WS_RPC } from '@vite/vitejs-ws';
 import { ViteAPI } from '@vite/vitejs';
+import { exitOnError } from 'winston';
+
+const url = require('url').Url;
 
 const fs = require('fs');                   // Loads the Filesystem library
 const Discord = require('discord.js');      // Loads the discord API library
@@ -14,20 +18,33 @@ client.botConfig.rootDir = __dirname; // Stores the running directory in the con
 
 const cooldowns = new Discord.Collection(); // Creates an empty list for storing timeouts so people can't spam with commands
 
-var RPC_NET = process.env.TESTNET;  // Default to TESTNET
+// Figure out which node to connect to
+var vite_node;  
 // Decide the RPC_NET value depending on what network bot is configued for
 if(client.botConfig.network == 'MAINNET') {
-    console.log("Loading MAINNET");
-    RPC_NET = process.env.MAINNET;
+	vite_node = process.env.MAINNET;
 } else if(client.botConfig.network == 'TESTNET') {
-    console.log("Loading TESTNET");
-    RPC_NET = process.env.TESTNET;
+	vite_node = process.env.TESTNET
 } else {
     console.log("Invalid network specified. Please check config.json.");
+	process.exit(0);
 }
-// Set up HTTP RPC client and ViteClient
-export const httpProvider = new HTTP_RPC(RPC_NET);
-export var viteClient = new ViteAPI(httpProvider, () => {
+
+// Determine whether to set up HTTP or WS
+var provider;
+if(vite_node.startsWith("http")) {
+	console.log("Loading " + client.botConfig.network + "  with http node " + vite_node);
+	provider = new HTTP_RPC(vite_node);
+} else if(vite_node.startsWith("ws")) {
+	console.log("Loading " + client.botConfig.network + "  with ws node " + vite_node);
+	provider = new WS_RPC(vite_node);
+} else {
+	console.log("Invalid protocol for node: " + vite_node + ". Please add https:// or wss://");
+	process.exit(0);
+}
+
+// Set up ViteAPI
+export var viteClient = new ViteAPI(provider, () => {
     console.log('Vite client successfully connected: ');
 });
 
