@@ -62,7 +62,7 @@ client.on('message', message => {
 
 	if (!client.commands.has(command)) {
 		console.error("Unknown command: " + command);
-		message.channel.send('I do not know what ' + command + ' means.');
+		message.channel.send('Unknown command');
 		return;
 	} 
 
@@ -70,7 +70,7 @@ client.on('message', message => {
 		client.commands.get(command).execute(message, args);
 	} catch (error) {
 		console.error(error);
-		message.channel.send('There was an error trying to execute ' + command.name);
+		message.channel.send('Error during execution of command');
 	}
 });
 
