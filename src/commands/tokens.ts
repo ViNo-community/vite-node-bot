@@ -92,7 +92,7 @@ const searchTokens = async (message, search_string : string) => {
             }
             // If no matches found
             if(i == 0) {
-                search_string.replace("@","\@");
+                search_string = search_string.replace(/@/g, "_");
                 chatMessage = "No matches found for search string: " + search_string;
                 message.channel.send(chatMessage);
                 console.log(chatMessage);
