@@ -1,7 +1,6 @@
-import { RPCResponse, TokenInfo } from '@vite/vitejs/distSrc/utils/type';
+import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { convertRaw } from '../common';
 import { getLogger } from '../logger';
-import { getTokenInformation } from '../vite_functions';
 import { TokenListInfo } from '../viteTypes';
 import { viteClient } from '../index';
 
@@ -9,43 +8,23 @@ const logger = getLogger();
 
 module.exports = {
 	name: 'tokens',
-	description: 'Display tokens list',
+	description: 'Searches for a token among token list',
 	execute(message, args) {     
         let prefix = message.client.botConfig.prefix; 
-        let index = 0;
-        let pageSize = 0;
-        // Grab address and block height from user input
-        if(args.length != 2) {
-            message.channel.send("Usage: " + prefix + "tokens <starting index> <number to show>");
+        let search_string = "";
+        // Grab search string
+        if(args.length != 1) {
+            message.channel.send("Usage: " + prefix + "tokens <search string>");
             return;
         } else {
-            index = parseInt(args[0]);
-            if(index < 0) {
-                message.channel.send("Invalid index. Must be greater than 0")
-                return;
-            }
-            if(isNaN(index)) {
-                message.channel.send("Invalid index. Must be integer")
-                return;
-            }
-            pageSize = parseInt(args[1])
-            if(pageSize < 0) {
-                message.channel.send("Invalid page size. Must be greater than 0")
-                return;
-            } else if(pageSize > 5) {
-                message.channel.send("Maximum of 5 at a time.")
-                return;
-            }
-            if(isNaN(pageSize)) {
-                message.channel.send("Invalid page size. Must be integer")
-                return;
-            }
+            // Make uppercase
+            search_string = args[0].toUpperCase();
         }
-        console.log("Looking up tokens list start at index "  + index + " page size " + pageSize);
-        // Get tokens list
-        showTokens(message, index, pageSize)
+        console.log("Searching tokens list for " + search_string);
+        // Search tokens list
+        searchTokens(message, search_string)
         .catch(error => {
-            let errorMsg = "Error while grabbing tokens list starting at index  " + index + " page size " + pageSize + " : " + error;
+            let errorMsg = "Error while searching tokens list for  " + search_string + " : " + error;
             message.channel.send(errorMsg);
             logger.error(errorMsg);
             console.error(errorMsg);
@@ -59,12 +38,12 @@ const getTokens = async (index: number, pageSize : number) => {
     return tokensList;
 };
 
-const showTokens = async (message, index : number, pageSize : number) => {
+const searchTokens = async (message, search_string : string) => {
 
     let tokensList : TokenListInfo;
-  
-    tokensList = await getTokens(index, pageSize).catch((res: RPCResponse) => {
-        let errorMsg = "Error while grabbing tokens list for index " + index + " page size " + pageSize + " : " + res.error.message;
+    let pageSize = 200;
+    tokensList = await getTokens(0, pageSize).catch((res: RPCResponse) => {
+        let errorMsg = "Error while grabbing tokens list for index 0 page size " + pageSize + " : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
         throw res.error;
@@ -73,37 +52,54 @@ const showTokens = async (message, index : number, pageSize : number) => {
     try {
         let chatMessage = "";
         if(tokensList == null) {
-            chatMessage = "No information for tokens list for index " + index + " page size " + pageSize;
+            chatMessage = "No tokens found for index 0 page size " + pageSize;
         } else {
-            // Log and display total token count
-            chatMessage = "**Total Token Count:** " + tokensList.totalCount + "\n";
-            // Send response to chat
-            logger.info(chatMessage);
-            message.channel.send(chatMessage);
-            // Show each token summary
-            let i : number = (index + 1);
-            tokensList.tokenInfoList.forEach(function(tokenInfo) {
-                let decimals : number = parseInt(tokenInfo.decimals);
-                let totalSupply = convertRaw(parseInt(tokenInfo.totalSupply),decimals);
-                let maxSupply = convertRaw(parseInt(tokenInfo.maxSupply),decimals);
-                let totalSupplyStr = totalSupply.toLocaleString(undefined, {minimumFractionDigits: 2});
-                let maxSupplyStr = maxSupply.toLocaleString(undefined, {minimumFractionDigits: 2});
-                chatMessage = "**Token #" + i++ + "**" +
-                    "\n**Token Name:** " + tokenInfo.tokenName +
-                    "\n**Token Symbol:** " + tokenInfo.tokenSymbol +
-                    "\n**Token ID:** " + tokenInfo.tokenId +
-                    "\n**Decimals:** " + tokenInfo.decimals +
-                    "\n**Owner:** " + tokenInfo.owner +
-                    "\n**Is ReIssuable:** " + tokenInfo.isReIssuable +
-                    "\n**Total Supply:** " + totalSupplyStr +
-                    "\n**Max Supply:** " + maxSupplyStr +
-                    "\n**Owner Burn Only:** " + tokenInfo.isOwnerBurnOnly + 
-                    "\n**Index:** " + tokenInfo.index;
+            // Keep track of how many matches
+            let i = 0;
+            // Go thru whole token list
+            //tokensList.tokenInfoList.forEach(function(tokenInfo) {
+            for (let tokenInfo of tokensList.tokenInfoList) {
+                // If token name or id contains search_string show it
+                if(tokenInfo.tokenName.toUpperCase().includes(search_string) ||
+                   tokenInfo.tokenId.toLowerCase().includes(search_string)) {
+                        i++;
+                        if(i >= 5) {
+                            // Alert that there are too many matches to list 
+                            message.channel.send("\nThere are too many matches to list...");
+                            console.log("Too many matches to list for search string " + search_string);
+                            // Then break 
+                            break;
+                        }
+                        // Show match
+                        let decimals : number = parseInt(tokenInfo.decimals);
+                        let totalSupply = convertRaw(parseInt(tokenInfo.totalSupply),decimals);
+                        let maxSupply = convertRaw(parseInt(tokenInfo.maxSupply),decimals);
+                        let totalSupplyStr = totalSupply.toLocaleString(undefined, {minimumFractionDigits: 2});
+                        let maxSupplyStr = maxSupply.toLocaleString(undefined, {minimumFractionDigits: 2});
+                        chatMessage = "**Match #" + i + "**" +
+                            "\n**Token Name:** " + tokenInfo.tokenName +
+                            "\n**Token Symbol:** " + tokenInfo.tokenSymbol +
+                            "\n**Token ID:** " + tokenInfo.tokenId +
+                            "\n**Decimals:** " + tokenInfo.decimals +
+                            "\n**Owner:** " + tokenInfo.owner +
+                            "\n**Is ReIssuable:** " + tokenInfo.isReIssuable +
+                            "\n**Total Supply:** " + totalSupplyStr +
+                            "\n**Max Supply:** " + maxSupplyStr +
+                            "\n**Owner Burn Only:** " + tokenInfo.isOwnerBurnOnly + 
+                            "\n**Index:** " + tokenInfo.index;
+                        message.channel.send(chatMessage);
+                   }
+            }
+            // If no matches found
+            if(i == 0) {
+                search_string.replace("@","\@");
+                chatMessage = "No matches found for search string: " + search_string;
                 message.channel.send(chatMessage);
-            });
+                console.log(chatMessage);
+            }
         }
     } catch(err) {
-        console.error("Error while grabbing tokens list for index " + index + " page size " + pageSize + " : " + err);
+        console.error("Error while searching for token " + search_string + " : " + err);
         console.error(err.stack);
     }
 }
