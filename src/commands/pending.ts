@@ -32,7 +32,7 @@ module.exports = {
             if(index < 0) {
                 message.channel.send("Invalid index. Must be greater than 0")
                 return;
-            }
+            } 
             if(isNaN(index)) {
                 message.channel.send("Invalid index. Must be integer")
                 return;
@@ -40,6 +40,9 @@ module.exports = {
             pageSize = parseInt(args[2])
             if(pageSize < 0) {
                 message.channel.send("Invalid page size. Must be greater than 0")
+                return;
+            } else if(pageSize > 5) {
+                message.channel.send("Maximum of 5 at a time.")
                 return;
             }
             if(isNaN(pageSize)) {

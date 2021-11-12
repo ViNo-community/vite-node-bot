@@ -32,6 +32,9 @@ module.exports = {
             if(pageSize < 0) {
                 message.channel.send("Invalid page size. Must be greater than 0")
                 return;
+            } else if(pageSize > 5) {
+                message.channel.send("Maximum of 5 at a time.")
+                return;
             }
             if(isNaN(pageSize)) {
                 message.channel.send("Invalid page size. Must be integer")
