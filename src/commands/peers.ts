@@ -6,10 +6,9 @@ import { getLogger } from '../logger';
 const logger = getLogger();
 
 module.exports = {
-	name: 'node',
-	description: 'Display information about current node',
+	name: 'peers',
+	description: 'Display list of peers for our node',
 	execute(message, args) {     
-        console.log("Looking up info for node")
         // Get node info
         showNodeInformation(message)
         .catch(error => {
@@ -43,13 +42,16 @@ const showNodeInformation = async (message) => {
     if(nodeInfo == null) {
         chatMessage = "No information for node";
     } else {
-        // Log and display node information
-        chatMessage = "**Name:** " + nodeInfo.name +
-            "\n**ID:** " + nodeInfo.id +
-            "\n**Net ID** " + nodeInfo.netId +
-            "\n**Peer Count:** " + nodeInfo.peerCount 
-        // Send response to chat
-        logger.info(chatMessage);
-        message.channel.send(chatMessage);
+        // Log and display peer information
+        let i : number = 1;
+        nodeInfo.peers.forEach(function(peer){
+            chatMessage = "**Peer #" + i++ + "**" +
+                "\n**Name:** " +  peer.name +
+                "\n**Height:** " + peer.height +
+                "\n**Address** " + peer.address +
+                "\n**Time Created:** " + peer.createAt; 
+             // Send response to chat
+            message.channel.send(chatMessage);
+        });
     }
 }
