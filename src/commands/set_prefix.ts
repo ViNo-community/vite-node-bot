@@ -31,6 +31,8 @@ module.exports = {
             } else {
                 // Read in new prefix
                 var newPrefix = args[0];
+                // Strip annoying @s
+		        newPrefix = newPrefix.replace(/@/g, "_");
                 // Create new config
                 var newConfig = {
                     token: oldConfig.token,

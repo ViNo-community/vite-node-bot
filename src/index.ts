@@ -75,11 +75,13 @@ client.on('message', message => {
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
-	const command = args.shift().toLowerCase();
+	var command = args.shift().toLowerCase();
 
 	if (!client.commands.has(command)) {
 		console.error("Unknown command: " + command);
-		message.channel.send('Unknown command');
+		// Strip annoying @s
+		command = command.replace(/@/g, "_");
+		message.channel.send('I do not know what ' + command + ' means.');
 		return;
 	} 
 
