@@ -18,7 +18,7 @@ module.exports = {
         const logger = getLogger();
         // Grab address and block height from user input
         if(args.length != 3) {
-            message.channel.send("Usage: " + prefix + "stake <address> <index> <pageSize>");
+            message.channel.send("Usage: " + prefix + "stake <address> <starting index> <number to show>");
             return;
         } else {
             address = args[0];
@@ -88,7 +88,7 @@ const showStakeList = async (message, address: string, index : number, pageSize 
             logger.info(chatMessage);
             message.channel.send(chatMessage);
             // Log and display peer information
-            let i : number = 1;
+            let i : number = (index + 1);
             stakeList.stakeList.forEach(function(stake){
                 let amountInVite = convertRawToVite(parseInt(stake.stakeAmount));
                 let expireDate = epochToDate(stake.expirationTime);
@@ -102,7 +102,6 @@ const showStakeList = async (message, address: string, index : number, pageSize 
                     "\n**Delegated Address:** " + stake.delegatedAddress +
                     "\n**Business ID:** " + stake.bid;
                 // Send response to chat
-                logger.info(chatMessage);
                 message.channel.send(chatMessage);
             });
         }

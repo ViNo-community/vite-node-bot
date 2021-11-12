@@ -18,7 +18,7 @@ module.exports = {
         const logger = getLogger();
         // Grab address and block height from user input
         if(args.length != 3) {
-            message.channel.send("Usage: " + prefix + "pending <address> <index> <pageSize>");
+            message.channel.send("Usage: " + prefix + "pending <address> <starting index> <number to show>");
             return;
         } else {
             address = args[0];

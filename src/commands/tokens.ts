@@ -16,7 +16,7 @@ module.exports = {
         let pageSize = 0;
         // Grab address and block height from user input
         if(args.length != 2) {
-            message.channel.send("Usage: " + prefix + "tokens <index> <pageSize>");
+            message.channel.send("Usage: " + prefix + "tokens <starting index> <number to show>");
             return;
         } else {
             index = parseInt(args[0]);
