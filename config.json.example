@@ -1,5 +1,7 @@
 {
 	"prefix": "v!",
 	"token": "YOUR TOKEN GOES HERE",
-	"network": "MAINNET"
+	"network": "MAINNET",
+	"client_id":  "PUT CLIENT ID FROM DISCORD HERE",
+  "permissions": "PUT PERMISSIONS INTEGER HERE"
 }
