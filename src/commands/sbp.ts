@@ -5,10 +5,12 @@ import { epochToDate } from "../common";
 import { viteClient } from '../index';
 import { getLogger } from '../logger';
 
+const Config = require('../../config.json');   // Grab client_id and permissions from config.json
+
 const logger = getLogger();
 
-// Grab info from .env
-const SBP_NAME = process.env.SBP_NAME || 'ViNo_Community_Node';
+// Get SBP from config.json or default to ViNo
+const SBP_NAME = Config.SBP || 'ViNo_Community_Node';
 
 module.exports = {
 	name: 'sbp',
