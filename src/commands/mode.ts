@@ -1,4 +1,5 @@
 import { HTTP_RPC } from '@vite/vitejs-http';
+import { WS_RPC } from '@vite/vitejs-ws';
 import { getLogger } from '../logger';
 import { viteClient } from '../index';
 
@@ -30,7 +31,12 @@ module.exports = {
         var newConfig = {
             token: oldConfig.token,
             prefix: oldConfig.prefix,
-            network: newMode
+            mainNode: oldConfig.mainNode,
+            testNode: oldConfig.testNode,
+            network: newMode,
+            SBP: oldConfig.SBP,
+            clinetID: oldConfig.clientID,
+            permissions: oldConfig.permissions
         };
 
         try {
@@ -47,25 +53,40 @@ module.exports = {
             message.channel.send("Could not set new command prefix: " + e);
         }
 
-
         try {
             // Reload config
             console.log("Setting new mode to " + newMode);
             // Reload config.json here
             delete require.cache[require.resolve('../../config.json')]   // Delete cache
             var config = require("../../config.json");
-            var RPC_NET = process.env.TESTNET;  // Default to TESTNET
-            if(newMode == 'MAINNET') {
-                console.log("Loading MAINNET");
-                RPC_NET = process.env.MAINNET;
-            } else if(newMode == 'TESTNET') {
-                console.log("Loading TESTNET");
-                RPC_NET = process.env.TESTNET;
+            var viteNode : string = "";
+
+            // Check if MAINNET or TESTNET
+            if(newMode == "MAINNET") {
+                viteNode = config.mainNode;
+            } else if(newMode == "TESTNET") {
+                viteNode = config.testNode;
             } else {
-                console.log("Invalid network specified. Please check config.json.");
+                console.log("Invalid network specified: " + newMode + ". Please set network in config.json to either MAINNET or TESTNET");
+                return;
             }
-            const httpProvider = new HTTP_RPC(RPC_NET);
-            viteClient.setProvider(httpProvider, () => {
+            console.log("Changing mode to " + newMode + ". Using " + viteNode);
+
+            // Determine whether to set up HTTP or WS
+            var provider;
+            if(viteNode.startsWith("http")) {
+                console.log("Loading " + newMode + "  with http node " + viteNode);
+                provider = new HTTP_RPC(viteNode);
+            } else if(viteNode.startsWith("ws")) {
+                console.log("Loading " + newMode + "  with ws node " + viteNode);
+                provider = new WS_RPC(viteNode);
+            } else {
+                console.log("Invalid protocol for node: " + viteNode + ". Please add https:// or wss://");
+                return;
+            }
+
+            // Re-establish connection for viteClient
+            viteClient.setProvider(provider, () => {
                 let infoMsg = "Vite client successfully reconnected to " + newMode;
                 logger.info(infoMsg);
                 console.log(infoMsg);
