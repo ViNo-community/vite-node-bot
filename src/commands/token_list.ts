@@ -8,6 +8,7 @@ const logger = getLogger();
 
 module.exports = {
 	name: 'token_list',
+    aliases: ["list_tokens"],
 	description: 'Display tokens list',
 	execute(message, args) {     
         let prefix = message.client.botConfig.prefix; 

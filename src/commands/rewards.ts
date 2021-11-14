@@ -11,6 +11,7 @@ const SBP_NAME = process.env.SBP_NAME || 'ViNo_Community_Node';
 
 module.exports = {
 	name: 'rewards',
+    aliases: ["r"],
 	description: 'Display information about unclaimed rewards',
 	execute(message, args) {     
         // User can pass in optional SBP Name

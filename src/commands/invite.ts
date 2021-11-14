@@ -5,6 +5,7 @@ const permissions = Config.permissions;
 
 module.exports = {
 	name: 'invite',
+    aliases: ["i","inv"],
 	description: 'Generate invite URL for Discord',
 	execute(message, args) {
         console.log("Client ID: " + client_id);

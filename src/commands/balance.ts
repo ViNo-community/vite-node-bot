@@ -9,6 +9,7 @@ const logger = getLogger();
 
 module.exports = {
 	name: 'balance',
+    aliases: ["bal","b"],
 	description: 'Display account balances for specified address',
 	execute(message, args) {    
         let prefix = message.client.botConfig.prefix; 

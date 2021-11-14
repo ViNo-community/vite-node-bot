@@ -8,6 +8,7 @@ const logger = getLogger();
 
 module.exports = {
 	name: 'transaction',
+    aliases: ["tx","trans"],
 	description: 'Display transaction information by hash',
 	execute(message, args) {    
         let prefix = message.client.botConfig.prefix; 

@@ -7,6 +7,7 @@ const logger = getLogger();
 
 module.exports = {
 	name: 'node',
+    aliases: ["n"],
 	description: 'Display information about current node',
 	execute(message, args) {     
         console.log("Looking up info for node")

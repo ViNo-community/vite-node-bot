@@ -9,6 +9,7 @@ const logger = getLogger();
 
 module.exports = {
 	name: 'pending',
+    aliases: ["pend","list_pending"],
 	description: 'Display pending transactions for specified account and block height',
 	execute(message, args) {    
         let prefix = message.client.botConfig.prefix; 

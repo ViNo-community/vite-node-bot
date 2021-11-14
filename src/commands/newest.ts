@@ -9,6 +9,7 @@ const logger = getLogger();
 
 module.exports = {
 	name: 'newest',
+    aliases: ["new","latest"],
 	description: 'Display newest account block info for specified address',
 	execute(message, args) {    
         let prefix = message.client.botConfig.prefix; 

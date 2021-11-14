@@ -8,6 +8,7 @@ const logger = getLogger();
 
 module.exports = {
 	name: 'quota',
+    aliases: ["q"],
 	description: 'Display quota information for specified account',
 	execute(message, args) {     
         // User can pass in optional SBP Name

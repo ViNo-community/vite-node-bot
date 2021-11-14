@@ -9,6 +9,7 @@ const logger = getLogger();
 
 module.exports = {
 	name: 'height',
+    aliases: ["h"],
 	description: 'Display account block for specified account and block height',
 	execute(message, args) {    
         let prefix = message.client.botConfig.prefix; 

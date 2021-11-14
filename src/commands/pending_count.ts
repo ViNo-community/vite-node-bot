@@ -8,6 +8,7 @@ const logger = getLogger();
 
 module.exports = {
 	name: 'pending_count',
+    aliases: ["pcnt"],
 	description: 'Display number pending transactions for specified account',
 	execute(message, args) {    
         let prefix = message.client.botConfig.prefix; 

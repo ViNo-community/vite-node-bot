@@ -8,6 +8,7 @@ const logger = getLogger();
 
 module.exports = {
 	name: 'tokens',
+    aliases: ["search_tokens"],
 	description: 'Searches for a token among token list',
 	execute(message, args) {     
         let prefix = message.client.botConfig.prefix; 
