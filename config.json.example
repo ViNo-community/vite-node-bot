@@ -1,7 +1,11 @@
 {
-	"prefix": "v!",
-	"token": "YOUR TOKEN GOES HERE",
-	"network": "MAINNET",
-	"client_id":  "PUT CLIENT ID FROM DISCORD HERE",
-  "permissions": "PUT PERMISSIONS INTEGER HERE"
+  "token": "PUT DISCORD TOKEN HERE",
+  "prefix": "v!",
+  "mainNode": "https://node.vite.net/gvite",
+  "testNode": "https://buidl.vite.net/gvite:48132",
+  "network": "MAINNET",
+  "SBP": "PUT DEFAULT SBP HERE",
+	"clinetID": "PUT DISCORD CLIENT ID HERE",
+  "permissions": "PUT DISCORD PERMISSIONS INTEGER HERE"
+
 }
