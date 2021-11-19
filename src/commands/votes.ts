@@ -63,12 +63,12 @@ const showVoteList = async (message, SBP: string) => {
         voteInfo.forEach(function (vote) {
             // If vote equals our SBP
             if(SBP != "") {
-                // Return just that SBP
-                if(vote.sbpName == SBP) {
+                // Match search string
+                if(vote.sbpName.toUpperCase().includes(SBP.toUpperCase())) {
                     found = true;
                     chatMessage = "**" + rank + ") Name:** " + vote.sbpName +
-                    "\t**Votes:** " + rawToVite(vote.votes).toLocaleString(undefined, {minimumFractionDigits: 2})
-                        // Send response to chat
+                        "\t**Votes:** " + rawToVite(vote.votes).toLocaleString(undefined, {minimumFractionDigits: 2})
+                    // Send response to chat
                     message.channel.send(chatMessage);
                     chatMessage = "";
                     return;
