@@ -9,6 +9,31 @@ module.exports = {
 	name: 'peers',
 	description: 'Display list of peers for our node',
 	execute(message, args) {     
+        
+        console.log(message.author.username + " called peers ");
+
+        // Only people with Core and Dev roles can set the bot prefix
+        const coreRole = message.guild.roles.cache.find(x => x.name === "Core");
+        const devRole = message.guild.roles.cache.find(x => x.name === "Dev");
+
+        // Check if roles are defined
+        if(typeof coreRole === 'undefined' && typeof devRole === 'undefined') {
+            let errorMsg : String = "Permission denied because Core and Dev roles are undefined";
+            console.error(errorMsg);
+            message.channel.send(errorMsg);
+            return;
+        }
+        // This command spams, so only Core and/or Dev can run it
+        if((typeof coreRole !== 'undefined' && ! message.member.roles.cache.has(coreRole.id))
+        && (typeof devRole !== 'undefined' && ! message.member.roles.cache.has(devRole.id))) {
+            let errorMsg : String = "Permission denied";
+            console.error(errorMsg);
+            message.channel.send(errorMsg);
+            return;
+        } 
+
+        // Past checks, now actually do the command
+        console.log(message.author.username + " has permission to list peers");
         // Get node info
         showNodeInformation(message)
         .catch(error => {
@@ -17,7 +42,7 @@ module.exports = {
             logger.error(errorMsg);
             console.error(errorMsg);
         });
-
+    
 	},
 };
 

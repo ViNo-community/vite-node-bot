@@ -2,8 +2,6 @@ import { HTTP_RPC } from '@vite/vitejs-http';
 import { WS_RPC } from '@vite/vitejs-ws';
 import { ViteAPI } from '@vite/vitejs';
 
-const url = require('url').Url;
-
 const fs = require('fs');                   // Loads the Filesystem library
 const Discord = require('discord.js');      // Loads the discord API library
 const Config = require('../config.json');    // Loads the configuration values
