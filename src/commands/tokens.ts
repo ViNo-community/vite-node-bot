@@ -18,7 +18,7 @@ module.exports = {
             message.channel.send("Usage: " + prefix + "tokens <search string>");
             return;
         } else {
-            // Make uppercase
+            // Make uppercase, make @ invisible
             search_string = args[0].toUpperCase().replace('@', '@​\u200b'); 
         }
         console.log("Searching tokens list for " + search_string);
@@ -47,7 +47,7 @@ const searchTokens = async (message, search_string : string) => {
         let errorMsg = "Error while grabbing tokens list for index 0 page size " + pageSize + " : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
-        throw res.error;
+        throw res.error.message;
     });
 
     try {
@@ -62,7 +62,7 @@ const searchTokens = async (message, search_string : string) => {
             for (let tokenInfo of tokensList.tokenInfoList) {
                 // If token name or id contains search_string show it
                 if(tokenInfo.tokenName.toUpperCase().includes(search_string) ||
-                   tokenInfo.tokenId.toLowerCase().includes(search_string)) {
+                   tokenInfo.tokenSymbol.toUpperCase().includes(search_string)) {
                         i++;
                         if(i >= 5) {
                             // Alert that there are too many matches to list 
@@ -93,7 +93,6 @@ const searchTokens = async (message, search_string : string) => {
             }
             // If no matches found
             if(i == 0) {
-                search_string = search_string.replace(/@/g, "_");
                 chatMessage = "No matches found for search string: " + search_string;
                 message.channel.send(chatMessage);
                 console.log(chatMessage);
