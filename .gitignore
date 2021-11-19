@@ -1,4 +1,5 @@
 config.json
+config.json.backup
 logs*
 node_modules
 *.map
