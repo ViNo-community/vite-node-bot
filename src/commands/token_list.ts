@@ -67,7 +67,7 @@ const showTokens = async (message, index : number, pageSize : number) => {
         let errorMsg = "Error while grabbing tokens list for index " + index + " page size " + pageSize + " : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
-        throw res.error;
+        throw res.error.message;
     });
 
     try {

@@ -54,7 +54,7 @@ const showQuotaInformation = async (message, account: string) => {
         let errorMsg = "Could not retrieve quota info for " + account + " : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
-        throw res.error;
+        throw res.error.message;
     });
 
     let chatMessage = "";

@@ -52,7 +52,7 @@ const showUnreceivedCount = async (message, address: string) => {
         let errorMsg = "Error while grabbing unreceived transcations  count for " + address + " : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
-        throw res.error;
+        throw res.error.message;
     });
 
     try {

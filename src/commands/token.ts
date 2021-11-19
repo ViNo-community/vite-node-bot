@@ -51,7 +51,7 @@ const showTokenInformation = async (message, tokenID: string) => {
         let errorMsg = "Could not retrieve token info for \"" + tokenID + "\" : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
-        throw res.error;
+        throw res.error.message;
     });
 
     let chatMessage = "";

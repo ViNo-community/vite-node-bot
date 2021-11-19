@@ -76,7 +76,7 @@ const showStakeList = async (message, address: string, index : number, pageSize 
         let errorMsg = "Error while grabbing stake list for " + address + " index " + index + " : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
-        throw res.error;
+        throw res.error.message;
     });
 
     try {

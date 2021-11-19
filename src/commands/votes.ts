@@ -51,7 +51,7 @@ const showVoteList = async (message, SBP: string) => {
         let errorMsg = "Could not retrieve vote info SBP:\"" + SBP + "\" : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
-        throw res.error;
+        throw res.error.message;
     });
     // Construct chat message
     let found = false;

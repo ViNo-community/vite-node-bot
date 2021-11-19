@@ -55,7 +55,7 @@ const showRewardsPending = async (message, SBP: string) => {
         let errorMsg = "Could not retrieve rewards pending info for \"" + SBP + "\" : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
-        throw res.error;
+        throw res.error.message;
     });
 
     let chatMessage = "";

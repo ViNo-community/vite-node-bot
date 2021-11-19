@@ -59,7 +59,7 @@ const showAccountBlockAtHeight = async (message, address: string, blockHeight : 
         let errorMsg = "Error while grabbing " + address + " block height " + blockHeight + " : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
-        throw res.error;
+        throw res.error.message;
     });
 
     try {

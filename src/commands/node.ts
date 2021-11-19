@@ -37,7 +37,7 @@ const showNodeInformation = async (message) => {
         let errorMsg = "Could not retrieve node info : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
-        throw res.error;
+        throw res.error.message;
     });
 
     let chatMessage = "";

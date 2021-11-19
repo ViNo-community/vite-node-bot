@@ -55,7 +55,7 @@ const showContractInformation = async (message, address: string) => {
         let errorMsg = "Error grabbing smart contract information at " + address + " : " + res.error.message;
         logger.error(errorMsg);
         console.error(errorMsg);
-        throw res.error;
+        throw res.error.message;
     });
 
     let chatMessage = "";

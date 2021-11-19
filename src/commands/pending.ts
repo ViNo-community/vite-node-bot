@@ -76,7 +76,7 @@ const showUnreceivedBlocks = async (message, address: string, index : number, pa
         let errorMsg = "Error while grabbing unreceived transcations for " + address + " index " + index + " : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
-        throw res.error;
+        throw res.error.message;
     });
 
     try {

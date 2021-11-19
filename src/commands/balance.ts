@@ -54,7 +54,7 @@ const showAccountInformation = async (message, address: string) => {
         let errorMsg = "Could not retrieve account balances for " + address;
         logger.error(errorMsg);
         console.log(errorMsg, res);
-        throw res.error;
+        throw res.error.message;
     });
 
     try {

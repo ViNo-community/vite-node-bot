@@ -51,7 +51,7 @@ const showAccountInformation = async (message, address: string) => {
         let errorMsg = "Could not grab newest block for " + address + " : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
-        throw res.error;
+        throw res.error.message;
     });
 
     try {

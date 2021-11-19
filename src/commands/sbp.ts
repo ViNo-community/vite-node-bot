@@ -57,7 +57,7 @@ const showSBPInformation = async (message, SBP: string) => {
         let errorMsg = "Could not retrieve SBP info for \"" + SBP + "\" : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
-        throw res.error;
+        throw res.error.message;
     });
 
     let chatMessage = "";
