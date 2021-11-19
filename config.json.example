@@ -5,7 +5,7 @@
   "testNode": "https://buidl.vite.net/gvite:48132",
   "network": "MAINNET",
   "SBP": "PUT DEFAULT SBP HERE",
-	"clinetID": "PUT DISCORD CLIENT ID HERE",
+	"clientID": "PUT DISCORD CLIENT ID HERE",
   "permissions": "PUT DISCORD PERMISSIONS INTEGER HERE"
 
 }
