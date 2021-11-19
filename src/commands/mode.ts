@@ -20,7 +20,7 @@ module.exports = {
         }
 
         // Read in new mode
-        const newMode = args[0];
+        const newMode = args[0].toUpperCase();
         if(! (newMode == "TESTNET" || newMode == "MAINNET")) {
             message.channel.send("Invalid network");
             message.channel.send("Usage: " + oldConfig.prefix + "mode [TESTNET | MAINNET]");
