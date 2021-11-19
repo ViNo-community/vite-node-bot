@@ -19,7 +19,7 @@ module.exports = {
             return;
         } else {
             // Make uppercase
-            search_string = args[0].toUpperCase();
+            search_string = args[0].toUpperCase().replace('@', '@​\u200b'); 
         }
         console.log("Searching tokens list for " + search_string);
         // Search tokens list

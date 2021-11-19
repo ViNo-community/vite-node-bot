@@ -20,8 +20,9 @@ module.exports = {
             return;
         } 
         address = args[0];
+        // Make sure is valid address
         if(vite.wallet.isValidAddress(address) == vite.wallet.AddressType.Illegal) {
-            let errorMsg : string = "Invalid address \"" + address + "\"";
+            let errorMsg : string = "Invalid address";
             message.channel.send(errorMsg);
             logger.error(errorMsg);
             return;

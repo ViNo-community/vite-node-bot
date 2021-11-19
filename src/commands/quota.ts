@@ -1,4 +1,5 @@
 import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
+import * as vite from "@vite/vitejs"
 import { QuotaInfo, rawToVite } from '../viteTypes';
 import { quotaToUT } from '../common'
 import { viteClient } from '../index';
@@ -20,6 +21,12 @@ module.exports = {
             return;
         } else {
             address = args[0];
+            if(vite.wallet.isValidAddress(address) == vite.wallet.AddressType.Illegal) {
+                let errorMsg : string = "Invalid address";
+                message.channel.send(errorMsg);
+                logger.error(errorMsg);
+                return;
+            }
         }
         console.log("Looking up quota for " + address);
         // Get quota info for account

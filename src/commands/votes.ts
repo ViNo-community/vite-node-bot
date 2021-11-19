@@ -19,7 +19,7 @@ module.exports = {
             SBPName = "";
         } else {
             // Use SBP argument
-            SBPName = args[0];
+            SBPName = args[0].replace('@', '@​\u200b'); 
             // Validate SBP
             if(!vite.utils.isValidSBPName(SBPName)) {
                 message.channel.send("Invaid SBP name \"" + SBPName + "\"");

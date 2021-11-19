@@ -20,6 +20,11 @@ module.exports = {
             return;
         } else {
             tokenID = args[0];
+            // Don't allow @ in them
+            if(tokenID.includes("@")) {
+                message.channel.send("Invalid tokenID.");
+                return;
+            }
         }
         // Validate token ID
         if(!vite.utils.isValidTokenId(tokenID)) {

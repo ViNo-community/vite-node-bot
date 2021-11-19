@@ -38,8 +38,11 @@ module.exports = {
         } else {
             // Read in new prefix
             var newPrefix = args[0];
-            // Strip annoying @s
-            newPrefix = newPrefix.replace(/@/g, "_");
+            // Don't allow @ in them
+            if(newPrefix.includes("@")) {
+                message.channel.send("Invalid prefix. @ not allowed in prefixes.");
+                return;
+            }
             // Create new config
             var newConfig = {
                 token: oldConfig.token,

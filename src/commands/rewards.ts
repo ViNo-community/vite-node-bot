@@ -26,7 +26,7 @@ module.exports = {
             SBPName = args[0];
             // Validate SBP
             if(!vite.utils.isValidSBPName(SBPName)) {
-                message.channel.send("Invaid SBP name \"" + SBPName + "\"");
+                message.channel.send("Invaid SBP name");
                 return;
             }
         }

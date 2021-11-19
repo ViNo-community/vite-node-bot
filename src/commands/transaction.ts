@@ -18,14 +18,15 @@ module.exports = {
             message.channel.send("Usage: " + prefix + "transaction <hash>");
             return;
         } else {
-            txHash = args[0];
+            txHash = args[0].replace('@', '@​\u200b'); 
         }
-        console.log("Looking up info for transaction: " + txHash);
+        console.log("Looking up info for transaction hash: " + txHash);
         // Get account info for address
         showTxInformation(message, txHash)
         .catch(error => {
-            console.error("Error while grabbing transaction data: " + error);
-            message.channel.send("Error looking up info for transaction: " + txHash);
+            let errorMsg = "Error grabbing data for transaction hash " + txHash + " : " + error;
+            console.error(errorMsg);
+            message.channel.send(errorMsg);
         });
 
 	},
@@ -42,10 +43,10 @@ const showTxInformation = async (message, txHash: string) => {
 
     // Get rewards pending info for specified SBP
     accountBlock = await getTxInformation(txHash).catch((res: RPCResponse) => {
-        let errorMsg = "Could not account transaction info for \"" + txHash + "\" : " + res.error.message;
+        let errorMsg = "Could not find transaction info for hash \"" + txHash + "\" : " + res.error.message;
         logger.error(errorMsg);
         console.log(errorMsg);
-        throw res.error;
+        throw res.error.message;
     });
 
     try {

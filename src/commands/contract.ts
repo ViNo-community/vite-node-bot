@@ -1,5 +1,6 @@
 
 import { RPCResponse} from '@vite/vitejs/distSrc/utils/type';
+import * as vite from "@vite/vitejs"
 import { ContractInfo } from '../viteTypes';
 import { viteClient } from '../index';
 import { getLogger } from '../logger';
@@ -22,6 +23,12 @@ module.exports = {
             return;
         } else {
             address = args[0];
+            if(vite.wallet.isValidAddress(address) == vite.wallet.AddressType.Illegal) {
+                let errorMsg : string = "Invalid address";
+                message.channel.send(errorMsg);
+                logger.error(errorMsg);
+                return;
+            }
         }
         // Get contract info for address
         showContractInformation(message, address)
