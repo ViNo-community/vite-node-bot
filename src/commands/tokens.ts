@@ -1,5 +1,5 @@
 import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
-import { convertRaw } from '../common';
+import { convertRaw, printTokenInformation } from '../common';
 import { getLogger } from '../logger';
 import { TokenListInfo } from '../viteTypes';
 import { viteClient } from '../index';
@@ -72,22 +72,12 @@ const searchTokens = async (message, search_string : string) => {
                             break;
                         }
                         // Show match
-                        let decimals : number = parseInt(tokenInfo.decimals);
-                        let totalSupply = convertRaw(parseInt(tokenInfo.totalSupply),decimals);
-                        let maxSupply = convertRaw(parseInt(tokenInfo.maxSupply),decimals);
-                        let totalSupplyStr = totalSupply.toLocaleString(undefined, {minimumFractionDigits: 2});
-                        let maxSupplyStr = maxSupply.toLocaleString(undefined, {minimumFractionDigits: 2});
-                        chatMessage = "**Match #" + i + "**" +
-                            "\n**Token Name:** " + tokenInfo.tokenName +
-                            "\n**Token Symbol:** " + tokenInfo.tokenSymbol +
-                            "\n**Token ID:** " + tokenInfo.tokenId +
-                            "\n**Decimals:** " + tokenInfo.decimals +
-                            "\n**Owner:** " + tokenInfo.owner +
-                            "\n**Is ReIssuable:** " + tokenInfo.isReIssuable +
-                            "\n**Total Supply:** " + totalSupplyStr +
-                            "\n**Max Supply:** " + maxSupplyStr +
-                            "\n**Owner Burn Only:** " + tokenInfo.isOwnerBurnOnly + 
-                            "\n**Index:** " + tokenInfo.index;
+                        chatMessage = await printTokenInformation(tokenInfo).catch((res: RPCResponse) => {
+                            let errorMsg = "Error while grabbing token information for " + search_string + " : " + res.error.message;
+                            logger.error(errorMsg);
+                            console.log(errorMsg);
+                            throw res.error.message;
+                        });
                         message.channel.send(chatMessage);
                    }
             }

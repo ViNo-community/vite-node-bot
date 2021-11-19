@@ -43,6 +43,26 @@ export const quotaToUT = (quota) => {
     return quota / 21000
 };
 
+export const printTokenInformation = async (tokenInfo: TokenInfo) => {
+    if(tokenInfo != null) {
+        let decimals : number = parseInt(tokenInfo.decimals);
+        let totalSupply = convertRaw(parseInt(tokenInfo.totalSupply),decimals);
+        let maxSupply = convertRaw(parseInt(tokenInfo.maxSupply),decimals);
+        let totalSupplyStr = totalSupply.toLocaleString(undefined, {minimumFractionDigits: 2});
+        let maxSupplyStr = maxSupply.toLocaleString(undefined, {minimumFractionDigits: 2});
+        return "**Token Name:** " + tokenInfo.tokenName +
+            "\n**Token Symbol:** " + tokenInfo.tokenSymbol +
+            "\n**Token ID:** " + tokenInfo.tokenId +
+            "\n**Decimals:** " + tokenInfo.decimals +
+            "\n**Owner:** " + tokenInfo.owner +
+            "\n**Is ReIssuable:** " + tokenInfo.isReIssuable +
+            "\n**Total Supply:** " + totalSupplyStr +
+            "\n**Max Supply:** " + maxSupplyStr +
+            "\n**Owner Burn Only:** " + tokenInfo.isOwnerBurnOnly + 
+            "\n**Index:** " + tokenInfo.index;
+    }
+};
+
 export const printAccountBlock = async (accountBlock : AccountBlockBlock) => {
     let tokenInfo : TokenInfo = await getTokenInformation(accountBlock.tokenId);
     let tokenString = "";
