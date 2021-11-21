@@ -18,11 +18,21 @@ export async function getTokenInformation(tokenID: string)  {
         throw error;
     }
 }
+// Get price by tokenID (i.e. VINU-001)
+export async function getTokenPriceByTokenID(tokenID: string) : Promise<number> {
+    return getTokenPrice("tokenSymbols",tokenID);
+}
 
-export async function getTokenPrice(tti: string)  {
+// Get price by tti (i.e. tti_541b25bd5e5db35166864096 )
+export async function getTokenPriceByTTI(tti: string) : Promise<number> {
+    return getTokenPrice("tokenIds",tti);
+}
+
+export async function getTokenPrice(paramName: string, token: string) : Promise<number> {
     // Form url to get price
-    const priceUrl = "https://api.vitex.net/api/v2/exchange-rate?tokenSymbols=" + tti;
-    fetch(priceUrl)
+    const priceUrl = "https://api.vitex.net/api/v2/exchange-rate?" + paramName + "=" + token;
+    console.log("Fetching price data from " + priceUrl);
+    return fetch(priceUrl)
         .then(response => {
             if (!response.ok) {
                 throw new Error("HTTP error " + response.status);
@@ -31,16 +41,15 @@ export async function getTokenPrice(tti: string)  {
         })
         .then(json => {
             if(json.code != 0) {
-                console.log("Fetch " + priceUrl + " Response Code : " + json.code + " MSG: " + json.msg);
-                return -1;
+                throw new Error("Invalid Code " + json.code + " Msg: " + json.msg);
             }
+            console.log("JSON returned: " + JSON.stringify(json));
             // Parse USD out of JSON
             if(json.data.length >= 1) {
                 let data = json.data[0];
                 return data.usdRate;
             } else {
-                console.log("Could not find price data for " + tti);
-                return -1;
+                throw new Error("Could not find price data for " + token);
             }
         }) 
         .catch(function (error) {
