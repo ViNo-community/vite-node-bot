@@ -2,7 +2,7 @@ import { RPCResponse } from '@vite/vitejs/distSrc/utils/type';
 import { AccountInfo} from '../viteTypes';
 import { viteClient } from '../index';
 import { getLogger } from '../logger';
-import { getTokenPriceByTTI } from '../vite_functions';
+import { getTokenName, getTokenPriceByTTI } from '../vite_functions';
 
 const logger = getLogger();
 
@@ -25,7 +25,6 @@ module.exports = {
         .catch(error => {
             let errorMsg = "Error while price information for " + tti + " : " + error;
             message.channel.send(errorMsg);
-            logger.error(errorMsg);
             console.error(errorMsg);
         });
 
@@ -33,17 +32,26 @@ module.exports = {
 };
 
 const showPriceInformation = async (message, tti: string) => {
-
   // Look up price for tokenID
-  let price  = await getTokenPriceByTTI(tti).catch((res: RPCResponse) => {
+  let price : number  = await getTokenPriceByTTI(tti).catch((res: RPCResponse) => {
     let errorMsg = "Could not get price for " + tti;
+    message.channel.send(errorMsg);
+    logger.error(errorMsg);
+    console.log(errorMsg, res);
+    throw res.error;
+  });
+  let tokenName : string  = await getTokenName(tti).catch((res: RPCResponse) => {
+    let errorMsg = "Could not get token name for " + tti;
+    message.channel.send(errorMsg);
     logger.error(errorMsg);
     console.log(errorMsg, res);
     throw res.error;
   });
   // Send to chat
   if(price !== undefined) {
-    let chatMsg : string = "Price of " + tti + " is $" + price.toLocaleString('en-GB', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    let chatMsg : string = "Price of " + tokenName + " [" + tti + "] is $" + price;
     message.channel.send(chatMsg);
+  } else {
+    message.channel.send("Could not find price of " + tti);
   }
 }

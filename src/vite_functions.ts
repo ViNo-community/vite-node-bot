@@ -18,6 +18,21 @@ export async function getTokenInformation(tokenID: string)  {
         throw error;
     }
 }
+
+// Get token name for given tti
+export async function getTokenName(tti: string)  {
+    try {
+        // Look up token info
+        const tokenInfo: TokenInfo = await viteClient.request('contract_getTokenInfoById',tti);
+        return tokenInfo.tokenName;
+    } catch(error) {
+        const errorMsg = "Error while calling contract_getTokenInfoById \"" + tti + "\" : " + error;
+        logger.error(errorMsg);
+        console.error(errorMsg);
+        throw error;
+    }
+}
+
 // Get price by tokenID (i.e. VINU-001)
 export async function getTokenPriceByTokenID(tokenID: string) : Promise<number> {
     return getTokenPrice("tokenSymbols",tokenID);
