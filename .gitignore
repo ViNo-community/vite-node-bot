@@ -9,3 +9,4 @@ commands/*.js
 nohup.out
 *.code-workspace
 dist
+temp/*.csv
