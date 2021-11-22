@@ -43,6 +43,7 @@ export const quotaToUT = (quota) => {
     return quota / 21000
 };
 
+
 export const printTokenInformation = async (tokenInfo: TokenInfo) => {
     if(tokenInfo != null) {
         let decimals : number = parseInt(tokenInfo.decimals);
@@ -50,8 +51,12 @@ export const printTokenInformation = async (tokenInfo: TokenInfo) => {
         let maxSupply = convertRaw(parseInt(tokenInfo.maxSupply),decimals);
         let totalSupplyStr = totalSupply.toLocaleString(undefined, {minimumFractionDigits: 2});
         let maxSupplyStr = maxSupply.toLocaleString(undefined, {minimumFractionDigits: 2});
-        return "**Token Name:** " + tokenInfo.tokenName +
-            "\n**Token Symbol:** " + tokenInfo.tokenSymbol +
+        let index : string = tokenInfo.index;
+        // I don't understand why but index.padStart(3, '0') did not work no matter what I did
+        // I gave up and made my own pad function... Sigh... 
+        let nameWithIndex : string = tokenInfo.tokenSymbol + "-" + pad(index, 3);
+        return "**Token Name:** " + nameWithIndex +
+            "\n**Token Symbol:** " + tokenInfo.tokenSymbol + 
             "\n**Token ID:** " + tokenInfo.tokenId +
             "\n**Decimals:** " + tokenInfo.decimals +
             "\n**Owner:** " + tokenInfo.owner +
@@ -62,6 +67,12 @@ export const printTokenInformation = async (tokenInfo: TokenInfo) => {
             "\n**Index:** " + tokenInfo.index;
     }
 };
+
+function pad(num:string, size:number): string {
+    let s = num + ""; 
+    while (s.length < size) s = "0" + s; 
+    return s;
+ }
 
 export const printAccountBlock = async (accountBlock : AccountBlockBlock) => {
     let tokenInfo : TokenInfo = await getTokenInformation(accountBlock.tokenId);

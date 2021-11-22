@@ -73,10 +73,10 @@ const searchTokens = async (message, search_string : string) => {
                         }
                         // Show match
                         chatMessage = await printTokenInformation(tokenInfo).catch((res: RPCResponse) => {
-                            let errorMsg = "Error while grabbing token information for " + search_string + " : " + res.error.message;
+                            let errorMsg = "Error while grabbing token information for " + search_string + " : " + res;
                             logger.error(errorMsg);
                             console.log(errorMsg);
-                            throw res.error.message;
+                            throw res;
                         });
                         message.channel.send(chatMessage);
                    }
@@ -90,6 +90,5 @@ const searchTokens = async (message, search_string : string) => {
         }
     } catch(err) {
         console.error("Error while searching for token " + search_string + " : " + err);
-        console.error(err.stack);
     }
 }
