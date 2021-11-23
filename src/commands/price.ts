@@ -23,7 +23,7 @@ module.exports = {
         // Show price info for tti
         showPriceInformation(message, tti)
         .catch(error => {
-            let errorMsg = "Error while price information for " + tti + " : " + error;
+            let errorMsg = "Error while grabbing price information for " + tti + " : " + error;
             message.channel.send(errorMsg);
             console.error(errorMsg);
         });
@@ -38,14 +38,14 @@ const showPriceInformation = async (message, tti: string) => {
     message.channel.send(errorMsg);
     logger.error(errorMsg);
     console.log(errorMsg, res);
-    throw res.error;
+    throw res;
   });
   let tokenName : string  = await getTokenName(tti).catch((res: RPCResponse) => {
     let errorMsg = "Could not get token name for " + tti;
     message.channel.send(errorMsg);
     logger.error(errorMsg);
     console.log(errorMsg, res);
-    throw res.error;
+    throw res;
   });
   // Send to chat
   if(price !== undefined) {
