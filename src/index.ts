@@ -91,7 +91,7 @@ client.on('message', message => {
 		// Command not found. Report an error and return
 		console.error("Unknown command: " + input);
 		// Strip out @ because Kaffin is a dumbass
-		input = input.replace(/@/g, "_");
+		input = input.replace(/@/g, '@\u200b');
 		message.channel.send('I do not know what ' + input + ' means.');
 		return;
 	} 
