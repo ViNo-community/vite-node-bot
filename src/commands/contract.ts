@@ -12,6 +12,7 @@ const CHUNK_SIZE = 500;
 module.exports = {
 	name: 'contract',
     aliases: ["c"],
+    cooldown: 2000,
 	description: 'Display smart contract information for specified address',
 	execute(message, args) {     
         // User can pass in optional SBP Name

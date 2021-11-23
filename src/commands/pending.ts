@@ -10,6 +10,7 @@ const logger = getLogger();
 module.exports = {
 	name: 'pending',
     aliases: ["pend","list_pending"],
+    cooldown: 25000,    // Cooldown of 25 s
 	description: 'Display pending transactions for specified account and block height',
 	execute(message, args) {    
         let prefix = message.client.botConfig.prefix; 

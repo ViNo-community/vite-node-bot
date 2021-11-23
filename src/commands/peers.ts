@@ -7,6 +7,7 @@ const logger = getLogger();
 
 module.exports = {
 	name: 'peers',
+    cooldown: 60000,     // Cooldown of 60s (1 min)
 	description: 'Display list of peers for our node',
 	execute(message, args) {     
         

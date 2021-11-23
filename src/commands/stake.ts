@@ -10,6 +10,7 @@ const logger = getLogger();
 module.exports = {
 	name: 'stake',
 	description: 'Display staking records for this account',
+    cooldown: 3000,     // 3s
 	execute(message, args) {    
         let prefix = message.client.botConfig.prefix; 
         let address = "";

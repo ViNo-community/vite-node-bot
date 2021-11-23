@@ -74,6 +74,10 @@ for (const file of commandFiles) {
 	};
 }
 
+// Maps command name => map of [ username => timestamp ]
+const cooldowns = new Map(); 	// Map command name => cooldown for anti-spam
+const DEFAULT_COOLDOWN : number = 1000; 	// Default cooldown period (1000 ms = 1s)
+
 // Dynamically run commands
 client.on('message', message => {
 	// Grab and watch for our prefix
@@ -91,9 +95,35 @@ client.on('message', message => {
 		message.channel.send('I do not know what ' + input + ' means.');
 		return;
 	} 
+	// Grab command by name
+	var command = client.commands.get(input) || client.aliases.get(input); 
+	// Check for cooldowns entry for this command, add it if doesn't exist yet
+	if(!cooldowns.has(command.name)) {
+		// Add to cooldowns map
+		console.log("Adding new cooldown mapping for " + command.name);
+		cooldowns.set(command.name, new Discord.Collection());
+	}
+	// Grab timestamps map for this command and compare against current time
+	const currentTime : number = Date.now();
+	const timestamps = cooldowns.get(command.name);
+	console.log("Current time: " + currentTime + " Timestamps for " + command.name + " : " + [...timestamps.entries()]);
+	const cooldownPeriod : number = (command.cooldown) || DEFAULT_COOLDOWN; // Get cooldown period (ms) for command, or 2000ms (2s) as default
+	console.log(command.name + " has a cooldown period of " + cooldownPeriod);
+	if(timestamps.has(message.author.id)) {
+		const expireTime = timestamps.get(message.author.id) + cooldownPeriod;
+		// Check if cooldown period has passed yet
+		if(currentTime < expireTime) {
+			// Tell user to wait a bit longer
+			const timeLeft = (expireTime - currentTime) / 1000; 
+			return message.reply(` please wait ${timeLeft.toFixed(2)} more seconds before using ${command.name}`);
+		}
+	}
+	// Set timestamps[user] = now
+	timestamps.set(message.author.id,currentTime);
+	// After cooldownPeriod has elasped, delete timestamp for user
+	setTimeout(() => timestamps.delete(message.author.id), cooldownPeriod);
 	// Grab command and execute it
 	try {
-		var command = client.commands.get(input) || client.aliases.get(input); 
 		command.execute(message, args);
 	} catch (error) {
 		console.error(error);

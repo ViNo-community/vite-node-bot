@@ -11,6 +11,7 @@ const CHUNK_SIZE = 500;
 module.exports = {
 	name: 'votes',
     aliases: ["v"],
+    cooldown: 5000,
 	description: 'Display number of voters',
 	execute(message, args) {     
         // User can pass in optional SBP Name

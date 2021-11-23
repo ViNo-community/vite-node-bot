@@ -12,7 +12,8 @@ const fs = require('fs');
 
 module.exports = {
 	name: 'holders',
-  aliases: ["hold"],
+    aliases: ["hold"],
+    cooldown: 25000,         // Can only call once every 25 seconds
 	description: 'Display holders data for specified tokenID',
 	execute(message, args) {    
         let prefix = message.client.botConfig.prefix; 
